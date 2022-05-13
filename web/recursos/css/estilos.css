@@ -1,0 +1,159 @@
+.letras{
+    font-size: 14px;
+}
+.sombra{
+    background: #d0d1d3;
+    color: red;
+}
+.user{
+    height:65px;
+    width:65px;
+    background:#d0d1d3;
+    -moz-border-radius:50px;
+    -webkit-border-radius:50px;
+    border-radius:50px;
+}
+.circulo-color{
+    height:65px;
+    width:65px;
+    -moz-border-radius:50px;
+    -webkit-border-radius:50px;
+    border-radius:50px;
+}
+.circulo-laboral{
+    height:65px;
+    width:65px;
+    -moz-border-radius:50px;
+    -webkit-border-radius:50px;
+    border-radius:50px;
+    border: 1px solid black;
+}
+.linea{
+    height: 10px;
+    background-color: #ff6600;
+}
+.linea2{
+    height: 5px;
+    background: #d0d1d3;
+}
+img{
+    height: 65px;
+}
+li.t:hover{
+    background: #d0d1d3;
+}
+    
+#wrap {
+    width: 1100px;
+    margin: 0 auto;
+    }
+    
+#external-events {
+    float: left;
+    width: 150px;
+    padding: 0 10px;
+    text-align: left;
+    }
+    
+#external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+    }
+    
+.external-event { /* try to mimick the look of a real event */
+    margin: 10px 0;
+    padding: 2px 4px;
+    background: #3366CC;
+    color: #fff;
+    font-size: .85em;
+    cursor: pointer;
+    }
+    
+#external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+    }
+    
+#external-events p input {
+    margin: 0;
+    vertical-align: middle;
+    }
+
+#calendar {
+/* 		float: right; */
+    margin: 0 auto;
+    width: 900px;
+    background-color: #FFFFFF;
+      border-radius: 6px;
+    box-shadow: 0 1px 2px #C3C3C3;
+    -webkit-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
+-moz-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
+box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
+    }
+.calendario{
+    padding: 10px;
+}
+.fubode-naranja{
+    background-color: #ff6600;
+    color: #ffffff; 
+}
+.fubode-azul{
+    background-color: #003677;
+    color: white;
+}
+.fubode-rojo{
+    background-color: #FE0000;
+    color: white;
+}
+.fubode-amarillo{
+    background-color: #FEFA00;
+    color: white;
+}
+.fubode-celeste{
+    background-color: #00D7FE;
+    color: white;
+}
+
+html,body { 
+	height: 100%; 
+}
+
+.global-container{
+	height:100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #f5f5f5;
+}
+
+form{
+	padding-top: 10px;
+	font-size: 14px;
+	margin-top: 30px;
+}
+
+.card-title{ font-weight:300; }
+
+.btn{
+	font-size: 14px;
+	margin-top:20px;
+}
+
+
+.login-form{ 
+	width:330px;
+	margin:20px;
+}
+
+.sign-up{
+	text-align:center;
+	padding:20px 0 0;
+}
+
+.alert{
+	margin-bottom:-30px;
+	font-size: 13px;
+	margin-top:20px;
+}
