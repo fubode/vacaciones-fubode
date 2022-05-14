@@ -19,10 +19,20 @@ public class DAOUSUARIO extends Conexion {
     }
 
     public List<Map<String, Object>> listaSolicitudesPendientes() {
+
         String sql = "select s.codigo_solicitud,s.fecha_solicitud, s.fecha_salida, s.turno_salida,s.fecha_retorno,s.turno_retorno, s.fecha_estado,s.dias,s.tipo,s.detalle_compensacion "
                 + "from solicitud_vacaciones s, funcionario f "
                 + "where s.codigo_funcionario=f.codigo_sai and s.codigo_funcionario = " + codigo_say + " and s.estado='PENDIENTE'";
-        return this.ejecutarConsulta(sql);
+        List<Map<String, Object>> solicitudes = this.ejecutarConsulta(sql);
+        for (int i = 0; i < solicitudes.size(); i++) {
+            Map<String, Object> solicitud = solicitudes.get(i);
+            solicitud.replace("fecha_solicitud", new Date(solicitud.get("fecha_solicitud").toString()).fechaImpresion());
+            solicitud.replace("fecha_salida", new Date(solicitud.get("fecha_salida").toString()).fechaImpresion());
+            solicitud.replace("fecha_retorno", new Date(solicitud.get("fecha_retorno").toString()).fechaImpresion());
+
+            solicitudes.set(i, solicitud);
+        }
+        return solicitudes;
     }
 
     public void anularSolicitud(String codigo) {
@@ -356,12 +366,17 @@ public class DAOUSUARIO extends Conexion {
                 + "s.estado='ACEPTADO' ";
         List<Map<String, Object>> solicitudes = this.ejecutarConsulta(sql);
         for (int i = 0; i < solicitudes.size(); i++) {
-            Map<String, Object> usu = solicitudes.get(i);
-            String codigo = usu.get("supervisor").toString();
+            Map<String, Object> solicitud = solicitudes.get(i);
+            String codigo = solicitud.get("supervisor").toString();
             if (!codigo.equals("0")) {
                 String nombre = nombreUsuario(codigo);
-                usu.replace("supervisor", nombre);
-                solicitudes.set(i, usu);
+                solicitud.replace("supervisor", nombre);
+                solicitud.replace("fecha_solicitud", new Date(solicitud.get("fecha_solicitud").toString()).fechaImpresion());
+                solicitud.replace("fecha_salida", new Date(solicitud.get("fecha_salida").toString()).fechaImpresion());
+                solicitud.replace("fecha_retorno", new Date(solicitud.get("fecha_retorno").toString()).fechaImpresion());
+                solicitud.replace("fecha_estado", new Date(solicitud.get("fecha_estado").toString()).fechaImpresion());
+                solicitudes.set(i, solicitud);
+                
             }
         }
         return solicitudes;
@@ -369,7 +384,7 @@ public class DAOUSUARIO extends Conexion {
 
     public List<Map<String, Object>> listaSolicitudesRechazadas() {
         String sql = "select s.codigo_solicitud,s.fecha_solicitud, s.fecha_salida, s.turno_salida,s.fecha_retorno,s.turno_retorno, s.fecha_estado,s.dias, "
-                + "f.apellido,f.nombre,ca.nombre_cargo,s.tipo,s.detalle_compensacion,s.supervisor "
+                + "f.apellido,f.nombre,ca.nombre_cargo,s.tipo,s.descripcion_estado,s.supervisor "
                 + "from solicitud_vacaciones s, funcionario f, cargo ca "
                 + "where s.codigo_funcionario=f.codigo_sai and "
                 + "f.codigo_sai = " + codigo_say + " and "
@@ -377,12 +392,16 @@ public class DAOUSUARIO extends Conexion {
                 + "s.estado='RECHAZADO' ";
         List<Map<String, Object>> solicitudes = this.ejecutarConsulta(sql);
         for (int i = 0; i < solicitudes.size(); i++) {
-            Map<String, Object> usu = solicitudes.get(i);
-            String codigo = usu.get("supervisor").toString();
+            Map<String, Object> solicitud = solicitudes.get(i);
+            String codigo = solicitud.get("supervisor").toString();
             if (!codigo.equals("0")) {
                 String nombre = nombreUsuario(codigo);
-                usu.replace("supervisor", nombre);
-                solicitudes.set(i, usu);
+                solicitud.replace("supervisor", nombre);
+                solicitud.replace("fecha_solicitud", new Date(solicitud.get("fecha_solicitud").toString()).fechaImpresion());
+                solicitud.replace("fecha_salida", new Date(solicitud.get("fecha_salida").toString()).fechaImpresion());
+                solicitud.replace("fecha_retorno", new Date(solicitud.get("fecha_retorno").toString()).fechaImpresion());
+                solicitud.replace("fecha_estado", new Date(solicitud.get("fecha_estado").toString()).fechaImpresion());
+                solicitudes.set(i, solicitud);
             }
         }
         return solicitudes;

@@ -9,7 +9,7 @@
         <link href="recursos/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/estilos.css" rel="stylesheet" type="text/css"/>        
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <title>SGV-FUBODE</title>
+        <title>SGV-FUBODE | FUNCIONARIO</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -42,7 +42,7 @@
                             <li class="t"><a href="srvUsuario?accion=actividades" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    USER
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <c:if test="${esSupervisor==true}">

@@ -163,10 +163,11 @@ public class Conexion {
         Date ingreso = new Date(usuario.get(0).get("fecha_ingreso").toString());
         json.put("nombre_cargo", usuario.get(0).get("nombre_cargo"));
         json.put("nombre_entidad", usuario.get(0).get("nombre_entidad"));
-        json.put("fecha_ingreso", usuario.get(0).get("fecha_ingreso"));
+        json.put("fecha_ingreso", usuario.get(0).get("fecha_ingreso").toString());
         json.put("antiguedad", ingreso.antiguedad());
         json.put("correo", usuario.get(0).get("correo"));
         json.put("usuarios", usuario);
+        json.put("nombre_corto", usuario.get(0).get("nombre").toString().substring(0, 1));
 
         int supervisor = Integer.parseInt(usuario.get(0).get("supervisor").toString());
         json.put("supervisor", supervisor);

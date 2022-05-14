@@ -12,7 +12,7 @@
         <link href="recursos/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <title>Nueva solicitud</title>
+        <title>SGV-FUBODE | SOLICITUD NUEVA</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -45,7 +45,7 @@
                             <li class="t"><a href="srvUsuario?accion=actividades" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <c:if test="${esSupervisor==true}">
@@ -57,6 +57,10 @@
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
                                         ${nombreFuncionario}
+                                    </a>
+                                    <a href="srvUsuario?accion=configuraciones">
+                                        <span class="fa fa-gear">
+                                            Configuraciones
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
@@ -187,7 +191,7 @@
     <div class="modal fade" id="modalCompensacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header fubode-naranja">
+                <div class="modal-header fubode-azul">
                     <h5 class="modal-title text-white text-center" id="exampleModalLongTitle">DETALLE DE COMPENSACION</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -207,7 +211,7 @@
     <div class="modal fade" id="modalAsuelto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header fubode-naranja">
+                <div class="modal-header fubode-azul">
                     <h5 class="modal-title text-white text-center" id="exampleModalLongTitle">DETALLE DE ASUELTO O COMPENSACION</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

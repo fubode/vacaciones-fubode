@@ -13,7 +13,7 @@
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <title>SGV-FUBODE</title>
+        <title>SGV-FUBODE | CALENDARIO</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -46,7 +46,7 @@
                             <li class="sombra"><a href="srvUsuario?accion=actividades" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <c:if test="${esSupervisor==true}">
@@ -58,6 +58,10 @@
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
                                         ${nombreFuncionario}
+                                    </a>
+                                    <a href="srvUsuario?accion=configuraciones">
+                                        <span class="fa fa-gear">
+                                            Configuraciones
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>

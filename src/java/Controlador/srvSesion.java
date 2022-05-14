@@ -1,18 +1,9 @@
 package Controlador;
 
-import Helper.Calendario;
-import Helper.Date;
 import Modelo.Conexion;
-import Modelo.DAOAdministrador;
-import Modelo.DAOSupervisor;
-import Modelo.DAOUSUARIO;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,11 +39,11 @@ public class srvSesion extends HttpServlet {
                         cambiar(request, response);
                         break;
                     default:
-                        response.sendRedirect("identificar.jsp");
+                        response.sendRedirect("index.xhtml");
                 }
             } else if (request.getParameter("cambiar") != null) {
             } else {
-                response.sendRedirect("identificar.jsp");
+                response.sendRedirect("index.xhtml");
             }
         } catch (Exception e) {
             System.out.println("Error Calendareio " + e.getMessage());
@@ -123,7 +114,7 @@ public class srvSesion extends HttpServlet {
         try {
             sesion = request.getSession();
             sesion.setAttribute("usuario", null);
-            response.sendRedirect("identificar.jsp");
+            response.sendRedirect("index.xhtml");
         } catch (Exception e) {
             try {
                 this.getServletConfig().getServletContext().getRequestDispatcher("/mensaje.jsp").forward(request, response);

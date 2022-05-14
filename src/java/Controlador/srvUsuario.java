@@ -2,7 +2,6 @@ package Controlador;
 
 import Helper.Calendario;
 import Helper.Date;
-import Modelo.DAOSupervisor;
 import Modelo.DAOUSUARIO;
 import Modelo.Usuario;
 import java.io.IOException;
@@ -231,14 +230,16 @@ public class srvUsuario extends HttpServlet {
 
     private void cargarDatosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOUSUARIO dao) throws ServletException, IOException, JSONException {
         JSONObject usuario = dao.cargarDatos();
+        Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));
         request.setAttribute("nombre_entidad", usuario.get("nombre_entidad"));
-        request.setAttribute("fecha_ingreso", usuario.get("fecha_ingreso"));
-        Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
+        request.setAttribute("fecha_ingreso",ingreso.fechaImpresion());
+        request.setAttribute("nombre_corto", usuario.get("nombre_corto"));
         request.setAttribute("antiguedad", ingreso.antiguedad());
         request.setAttribute("correo", usuario.get("correo"));
         request.setAttribute("usuarios", usuario);
+        request.setAttribute("nombre_corto", usuario.get("nombre_corto").toString());
         int supervisor = usuario.getInt("supervisor");
         request.setAttribute("supervisor", supervisor);
         if (supervisor != 0) {

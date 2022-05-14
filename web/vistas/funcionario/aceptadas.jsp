@@ -11,7 +11,7 @@
         <!-- style para table -->
         <link href="recursos/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
-        <title>Welcome to Spring Web MVC project</title>
+        <title>SGV-FUBODE | SOLICITUD ACEPTADAS</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -44,7 +44,7 @@
                             <li class="t"><a href="srvUsuario?accion=actividades" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <c:if test="${esSupervisor==true}">
@@ -56,6 +56,10 @@
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
                                         ${nombreFuncionario}
+                                    </a>
+                                    <a href="srvUsuario?accion=configuraciones">
+                                        <span class="fa fa-gear">
+                                            Configuraciones
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>

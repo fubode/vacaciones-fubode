@@ -102,10 +102,23 @@ public class Date extends GregorianCalendar{
         return mes+""+gestion;
     }
     public String fechaImpresion(){
+        String diaCadena = "";
+        String mesCadena = "";
         if(gestion==1500 && mes==1 && dia==1){
             return "NINGUNO";
         }else{
-            return  dia+"/"+mes+"/"+gestion;
+            if(dia<=9){
+                diaCadena = "0"+dia;
+            }else{
+                diaCadena = String.valueOf(dia);
+            }
+            if(mes<=9){
+                mesCadena = "0"+mes;
+            }else{
+                mesCadena = String.valueOf(mes);
+            }
+            
+            return  diaCadena+"/"+mesCadena+"/"+gestion;
         }
     }
 }

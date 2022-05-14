@@ -1,17 +1,8 @@
 package Controlador;
 
-import Helper.Calendario;
-import Helper.Date;
-import Modelo.DAOAdministrador;
-import Modelo.DAOSupervisor;
-import Modelo.DAOUSUARIO;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

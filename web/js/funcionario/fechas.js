@@ -20,11 +20,12 @@ $(document).ready(function () {
         var fecha_retorno = document.getElementById('fecha_retorno').value;
         var turno_retorno = document.getElementById('turno_retorno').value;
         var turno_salida = document.getElementById('turno_salida').value;
-        var fecha_actual = new Date().toDateString();
+        var fecha_actual = new Date().toISOString().split('T')[0];
         var actual = new Date(fecha_actual).getTime();
         var salida = new Date(fecha_salida).getTime();
         var retorno = new Date(fecha_retorno).getTime();
-        if (salida >= actual) {
+        
+        if (salida>=actual) {
             if (fecha_salida != '' && fecha_retorno != '') {
                 var diferencia = retorno - salida;
                 diferciaTotal = retorno - salida;
@@ -49,7 +50,6 @@ $(document).ready(function () {
                                 "&diferencia=" + diferencia +
                                 "&cod=" + null;
                     }
-                    console.log(url)
 
                     $.ajax({
                         url: url,
@@ -87,5 +87,23 @@ $(document).ready(function () {
             swal('La fecha de salida debe ser mayor a la fecha actual');
         }
 
+    }
+    
+    function salidaMenorActual(salida,retorno){
+        console.log(salida,retorno);
+        var salidaMenorActual = false;
+        var salidaCadena = String(salida);
+        var retornoCadena = String(retorno);
+        
+        salidaCadena = salidaCadena.substring(0,4);
+        retornoCadena = retornoCadena.substring(0,4);
+        
+        salida = Number(salidaCadena);
+        retorno = Number(retornoCadena);
+        if(salida>=retorno){
+            console.log(salida>=retorno);
+            salidaMenorActual = true;
+        }
+        return salidaMenorActual;
     }
 });
