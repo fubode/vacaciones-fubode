@@ -76,12 +76,12 @@ public class srvUsuario extends HttpServlet {
                         actualizar(request, response, dao);
                         break;
                     default:
-                        response.sendRedirect("identificar.jsp");
+                        response.sendRedirect("index.xhtml");
                         break;
                 }
             } else if (request.getParameter("cambiar") != null) {
             } else {
-                response.sendRedirect("identificar.jsp");
+                response.sendRedirect("index.xhtml");
             }
         } catch (Exception e) {
             try {

@@ -12,7 +12,7 @@
         <link href="recursos/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <title>SGV-FUBODE</title>
+        <title>SGV-FUBODE | FUNCIONARIOS</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -43,7 +43,7 @@
                             <li class="t"><a href="svrSupervisor?accion=rechazadas" class="nav-link">SOLICITUDES RECHAZADAS</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
@@ -53,6 +53,10 @@
                                     <div class="dropdown-divider"></div>
                                     <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
                                         ${nombreFuncionario}
+                                    </a>
+                                    <a href="srvUsuario?accion=configuraciones">
+                                        <span class="fa fa-gear">
+                                            Configuraciones
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
@@ -69,71 +73,73 @@
 
 
     <h1 class="text-center">FUNCIONARIOS</h1>    
-    
-    <table id="tablaFubode" class="table container table-hover table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>CODIGO SAI</th>
-                <th>APELLIDOS</th>
-                <th>NOMBRE</th>
-                <th>FECHA INGRESO</th>
-                <th>FECHA RETIRO</th>
-                <th>ANTIGUEDAD</th>
-                <th>ACUMULADOS</th>
-                <th>TOMADAS</th>
-                <th>SALDO</th>
-                <th>CARGOS</th>
-                <th>SUPERVISOR</th>
-                <th>ESTADO</th>
-                <th>ENTIDAD</th>                
-            </tr>
-        </thead>
-        <tbody>
-
-            <c:forEach var="dato" items="${lista}">
+    <div class="letras">
+        <table id="tablaFubode" class="table container table-hover table-striped table-bordered">
+            <thead>
                 <tr>
-                    <td>${dato.codigo_sai}</td>
-                    <td>${dato.apellido}</td>
-                    <td>${dato.nombre}</td>
-                    <td>${dato.fecha_ingreso}</td>
-                    <td>
-                        <c:choose>
-                            <c:when  test="${dato.fecha_salida=='1750-01-01'}">
-                                NINGUNO
-                            </c:when>                            
-                            <c:otherwise>
-                                ${dato.fecha_salida}
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td class="text-center">${dato.antiguedad}</td>
-                    <td class="text-center">${dato.cumplidas}</td>
-                    <td class="text-center">${dato.tomadas}</td>
-                    <c:choose>
-                        <c:when  test="${!dato.hayExcedentes}">
-                            <td class="m-4 text-success">${dato.saldo}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td class="m-4 text-danger">${dato.saldo}</td>
-                        </c:otherwise>
-                    </c:choose>
-                    <td>${dato.nombre_cargo}</td>
-                    <td>${dato.supervisor}</td>
-                    <td>
-                        <c:choose>
-                            <c:when  test="${dato.estado=='ACTIVO'}">
-                                <span class="badge badge-success m-2 p-2">${dato.estado}</span>                               
-                            </c:when>                            
-                            <c:otherwise>
-                                <span class="badge badge-danger m-2 p-2">${dato.estado}</span>                               
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>${dato.nombre_entidad}</td>                    
+                    <th>CODIGO SAI</th>
+                    <th>APELLIDOS</th>
+                    <th>NOMBRE</th>
+                    <th>FECHA INGRESO</th>
+                    <th>FECHA RETIRO</th>
+                    <th>ANTIGUEDAD</th>
+                    <th>ACUMULADOS</th>
+                    <th>TOMADAS</th>
+                    <th>SALDO</th>
+                    <th>CARGOS</th>
+                    <th>SUPERVISOR</th>
+                    <th>ESTADO</th>
+                    <th>ENTIDAD</th>                
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+
+                <c:forEach var="dato" items="${lista}">
+                    <tr>
+                        <td>${dato.codigo_sai}</td>
+                        <td>${dato.apellido}</td>
+                        <td>${dato.nombre}</td>
+                        <td>${dato.fecha_ingreso}</td>
+                        <td>
+                            <c:choose>
+                                <c:when  test="${dato.fecha_salida=='1750-01-01'}">
+                                    NINGUNO
+                                </c:when>                            
+                                <c:otherwise>
+                                    ${dato.fecha_salida}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td class="text-center">${dato.antiguedad}</td>
+                        <td class="text-center">${dato.cumplidas}</td>
+                        <td class="text-center">${dato.tomadas}</td>
+                        <c:choose>
+                            <c:when  test="${!dato.hayExcedentes}">
+                                <td class="m-4 text-success">${dato.saldo}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="m-4 text-danger">${dato.saldo}</td>
+                            </c:otherwise>
+                        </c:choose>
+                        <td>${dato.nombre_cargo}</td>
+                        <td>${dato.supervisor}</td>
+                        <td>
+                            <c:choose>
+                                <c:when  test="${dato.estado=='ACTIVO'}">
+                                    <span class="badge badge-success m-2 p-2">${dato.estado}</span>                               
+                                </c:when>                            
+                                <c:otherwise>
+                                    <span class="badge badge-danger m-2 p-2">${dato.estado}</span>                               
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>${dato.nombre_entidad}</td>                    
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table> 
+    </div>
+
 
 
     <!-- Modal funcionario nuevo -->

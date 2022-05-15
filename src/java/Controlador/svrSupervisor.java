@@ -1,14 +1,9 @@
 package Controlador;
 
-import Helper.Calendario;
 import Helper.Date;
 import Modelo.DAOSupervisor;
-import Modelo.DAOUSUARIO;
 import Modelo.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -56,12 +51,12 @@ public class svrSupervisor extends HttpServlet {
                             funcionarios(request, response,dao);   
                             break;
                         default:
-                            response.sendRedirect("identificar.jsp");
+                            response.sendRedirect("index.xhtml");
                             break;
                     }
                 } else if (request.getParameter("cambiar") != null) {
                 } else {
-                    response.sendRedirect("identificar.jsp");
+                    response.sendRedirect("index.xhtml");
                 }                
             }else{
                 this.getServletConfig().getServletContext().getRequestDispatcher("/mensaje.jsp").forward(request, response);
@@ -120,14 +115,15 @@ public class svrSupervisor extends HttpServlet {
    
     private void cargarDatosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOSupervisor dao) throws ServletException, IOException, JSONException {
         JSONObject usuario = dao.datosFuncionario();
+        Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));
         request.setAttribute("nombre_entidad", usuario.get("nombre_entidad"));
-        request.setAttribute("fecha_ingreso", usuario.get("fecha_ingreso"));
-        Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
+        request.setAttribute("fecha_ingreso",ingreso.fechaImpresion());
         request.setAttribute("antiguedad", ingreso.antiguedad());
         request.setAttribute("correo", usuario.get("correo"));
         request.setAttribute("usuarios", usuario);
+        request.setAttribute("nombre_corto", usuario.get("nombre_corto").toString());
         int supervisor = usuario.getInt("supervisor");
         request.setAttribute("supervisor", supervisor);
         if (supervisor != 0) {
@@ -144,19 +140,15 @@ public class svrSupervisor extends HttpServlet {
         try {
             usus = dao.listaSolicitudesPendientes();
             request.setAttribute("pendientes", usus);
+            this.getServletConfig().getServletContext()
+                    .getRequestDispatcher("/vistas/supervisor/pendientes_funcionario.jsp").forward(request, response);
 
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo listar los usuarios" + e.getMessage());
             System.out.println(e.getMessage());
         } finally {
             dao = null;
-        }
-        try {
-            this.getServletConfig().getServletContext()
-                    .getRequestDispatcher("/vistas/supervisor/pendientes_funcionario.jsp").forward(request, response);
-        } catch (Exception ex) {
-            request.setAttribute("msje", "No se puedo realizar la petición" + ex.getMessage());
-        }
+        }        
     }
     //solicitudes aceptadas de los funcionarios que supervisa
     private void solicitudesAceptadas(HttpServletRequest request, HttpServletResponse response,DAOSupervisor dao) throws ServletException, IOException {
