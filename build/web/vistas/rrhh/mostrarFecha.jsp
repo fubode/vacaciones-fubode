@@ -13,7 +13,7 @@
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <title>SGV-FUBODE | CARGOS</title>
+        <title>SGV-FUBODE | FECHA</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -25,7 +25,7 @@
             <div class="site-mobile-menu-body"></div>
         </div>    
 
-        <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
+    <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
         <div class="container-fluid">
             <div class="linea"></div>
             <div class="row align-items-center position-relative">
@@ -41,11 +41,11 @@
                             <li class="t"><a href="srvAdministrador?accion=solicitudes" class="nav-link">SOLICITUDES DE VACACIONES</a></li>                  
                             <li class="t"><a href="srvAdministrador?accion=funcionarios" class="nav-link">FUNCIONARIOS</a></li>
                             <li class="t"><a href="srvAdministrador?accion=entidades" class="nav-link">ENTIDADES</a></li>
-                            <li class="sombra"><a href="srvAdministrador?accion=cargos" class="nav-link">CARGOS</a></li>
+                            <li class="T"><a href="srvAdministrador?accion=cargos" class="nav-link">CARGOS</a></li>
                             <li class="t"><a href="srvAdministrador?accion=reportesFuncionario" class="nav-link">REPORTES FUNCIONARIO</a></li>
                             <li class="t"><a href="srvAdministrador?accion=reportesCargos" class="nav-link">REPORTES CARGOS</a></li>
                             <li class="t"><a href="srvAdministrador?accion=reportesEntidades" class="nav-link">REPORTES ENTIDADES</a></li>                            
-                            <li class="t"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
+                            <li class="sombra"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <label><strong>${nombre_corto}</strong></label>
@@ -77,33 +77,75 @@
 
 
 
-    <h1 class="text-center">CARGOS</h1>
-    <a href="#"  data-toggle="modal" data-target="#cargoNuevo">
-        <button type="button" class="btn fubode-azul" data-toggle="tooltip"  title="Programar fecha" data-original-title="Agregar Cargo">
-            AGREGAR NUEVO CARGO
-        </button>
-    </a>
+    <h1 class="text-center">FECHA </h1>
+
     <table id="tablaFubode" class="table container table-hover table-striped table-bordered ">
         <thead>
             <tr>
-                <th>CODIGO CARGO</th>
-                <th>NOMBRE CARGO</th>
-                <th>ACCIONES</th>
+                <th>TIPO</th>
+                <th>REFERENCIA</th>
+                <th>DESCRIPCION</th>
+                <th>NOMBRE ENTIDAD</th>
+                <th>ACCION</th>
             </tr>
         </thead>
         <tbody>
 
-            <c:forEach var="dato" items="${lista}">
+            <c:forEach var="dato" items="${fechas}">
                 <tr>
-                    <td>${dato.codigo_cargo}</td>
-                    <td>${dato.nombre_cargo}</td>
+                    <td>${dato.tipo}</td>
+                    <c:choose>
+                        <c:when  test="${dato.tipo=='VARIOS'}">
+                            <td class="bg-success text-white">
+                            </td>
+                        </c:when>
+                        <c:when  test="${dato.tipo=='NO_LABORAL' && dato.entidad=='0'}">
+                            <td class="bg-danger text-white">
+                            </td>
+                        </c:when>
+                        <c:when  test="${dato.tipo=='NO_LABORAL' && dato.entidad!='0'}">
+                            <td class="fubode-rojo text-white">
+                            </td>
+                        </c:when>
+
+                        <c:when  test="${dato.tipo=='MANANA' && dato.entidad=='0'}">
+                            <td class="bg-warning text-white">
+                            </td>
+                        </c:when>
+                        <c:when  test="${dato.tipo=='MANANA' && dato.entidad!='0'}">
+                            <td class="fubode-amarillo text-white">
+                            </td>
+                        </c:when>
+
+                        <c:when  test="${dato.tipo=='TARDE' && dato.entidad=='0'}">
+                            <td class="bg-info text-white">
+                            </td>
+                        </c:when>
+                        <c:when  test="${dato.tipo=='TARDE' && dato.entidad!='0'}">
+                            <td class="fubode-celeste text-white">
+                            </td>
+                        </c:when>
+
+                        <c:when  test="${dato.tipo=='SABADO' && dato.entidad=='0'}">
+                            <td class="bg-primary text-white">
+                            </td>
+                        </c:when>
+                        <c:when  test="${dato.tipo=='SABADO' && dato.entidad!='0'}">
+                            <td class="fubode-azul text-white">
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                        </c:otherwise>
+                    </c:choose> 
+                    <td>${dato.descripcion_estado}</td>
+                    <td>${dato.nombre_entidad}</td>
                     <td>
                         <div class="d-flex justify-content-center">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <button id="${dato.codigo_cargo}" type="button" class="btn btn-warning" onclick="editarCargo(this)">
+                                <button id="" type="button" class="btn btn-warning" onclick="mostrarDetalle('${dato.descripcion_estado}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                     <span  class="fa fa-pencil-square">
                                 </button>  
-                                    <button id="${dato.codigo_cargo}" type="button" class="btn btn-danger" onclick="eliminarCargo(this)">
+                                <button id="${dato.codigo_cargo}" type="button" class="btn btn-danger" onclick="eliminarFecha('${dato.id_fechas}')">
                                     <span  class="fa fa-trash">
                                 </button> 
                             </div>
@@ -114,61 +156,31 @@
         </tbody>
     </table>
 
-    <!-- Modal cargo nuevo -->
-    <div class="modal fade" id="cargoNuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <!-- modal detalle de fecha -->          
+    <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header fubode-azul">
-                    <h5 class="modal-title" id="exampleModalLongTitle">AGREGAR NUEVO CARGO</h5>
+                <div class="modal-header fubode-naranja detalle_des">
+                    <h5 class="modal-title text-white " id="exampleModalLongTitle">DETALLE DE FECHA</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="container card-body">
                     <div class="card">
-                        <div class="container">
-                            <label class="m-2"><strong>CODIGO CARGO: </strong></label>
-                            <input type="number" name="codigo" id="codigoCargo" class="form-control">                    
-                        </div>
-                        <div class="container mb-4">
-                            <label class="m-2"><strong>NOMBRE DEL CARGO: </strong></label>
-                            <input type="text" name="nombre" id="nombre" class="form-control">                    
-                        </div>
+                        <div class="container mt-3">
+                            <label ><strong>FECHA </strong></label>
+                            <input type="date" name = "fecha"  id="fecha_modificar" class="form-control" disabled/>
+                            <label ><strong>ENTIDAD </strong></label>
+                            <input type="text" name = "fecha"  id="entidad_modificar" class="form-control" disabled/>
+                            <label ><strong>DETALLE </strong></label>
+                            <textarea id ="detalle_modificar" class="container text-uppercase mb-3" row = "14" cols="10"></textarea>
+                        </div>                                        
                     </div>        
                 </div>   
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="agregarCargo" class="btn btn-success m-2" onclick="registrarCargo()">AGREGAR</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal cargo editar -->
-    <div class="modal fade" id="editar_cargo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header fubode-naranja">
-                    <h5 class="modal-title" id="exampleModalLongTitle">EDITAR CARGO</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="container card-body">
-                    <div class="card">
-                        <div class="container">
-                            <label class="m-2"><strong>CODIGO CARGO: </strong></label>
-                            <input type="number" name="codigo" id="e_codigoCargo" class="form-control" disabled>                    
-                        </div>
-                        <div class="container mb-4">
-                            <label class="m-2"><strong>NOMBRE DEL CARGO: </strong></label>
-                            <input type="text" name="nombre" id="e_nombreCargo" class="form-control">                    
-                        </div>
-                    </div>        
-                </div>   
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="editar" class="btn fubode-naranja m-2" onclick="editar()" >EDITAR</button>
+                    <button type="button" id ="registrar"class="btn btn-warning"  onclick="editarFecha()">EDITAR</button>
+                    <button type="button" id ="registrar"class="btn btn-danger"  onclick="eliminarFecha()">ELIMINAR</button>
+                    <button type="button" id ="registrar"class="btn btn-secondary"  data-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -181,6 +193,6 @@
     <script src="swetalert/sweetalert.js" type="text/javascript"></script>
     <script src="recursos/js/dataTable.js" type="text/javascript"></script>
     <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="js/administrador/cargos.js" type="text/javascript"></script>
+    <script src="js/administrador/mostrarFechas.js" type="text/javascript"></script>
 </body>
 </html>

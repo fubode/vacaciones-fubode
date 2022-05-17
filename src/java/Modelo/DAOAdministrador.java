@@ -7,7 +7,6 @@ package Modelo;
 
 import Helper.Calendario;
 import Helper.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class DAOAdministrador extends Conexion {
     public List<Map<String, Object>> listaSolicitudes() {
         String sql;
         List<Map<String, Object>> listaSolicitudes = null;
-        sql = "select s.codigo_solicitud,s.fecha_solicitud, s.descripcion_estado, s.fecha_salida, s.turno_salida,s.fecha_retorno,s.turno_retorno, s.fecha_estado,s.dias, "
+        sql = "select f.codigo_sai, s.codigo_solicitud,s.fecha_solicitud, s.descripcion_estado, s.fecha_salida, s.turno_salida,s.fecha_retorno,s.turno_retorno, s.fecha_estado,s.dias, "
                 + "f.apellido,f.nombre,ca.nombre_cargo,s.tipo,s.estado,s.detalle_compensacion, s.supervisor, e.nombre_entidad "
                 + "from solicitud_vacaciones s, funcionario f, cargo ca , entidad e "
                 + "where s.codigo_funcionario=f.codigo_sai and ca.codigo_cargo=f.cargo and e.codigo_entidad=f.entidad";
@@ -46,6 +45,14 @@ public class DAOAdministrador extends Conexion {
                 String nombre = nombreUsuario(codigo);
                 usu.replace("supervisor", nombre);
                 listaSolicitudes.set(i, usu);
+            }
+        }
+        for (int i = 0; i < listaSolicitudes.size(); i++) {
+            Map<String, Object> solicitud = listaSolicitudes.get(i);
+            int codigo = Integer.parseInt(solicitud.get("codigo_sai").toString());
+            if (codigo == codigo_say) {
+                listaSolicitudes.remove(i);
+                i--;
             }
         }
         return listaSolicitudes;
@@ -165,7 +172,13 @@ public class DAOAdministrador extends Conexion {
                 listaFuncionaios.get(i).put("hayExcedentes", usuario.hayExcedentes());
                 listaFuncionaios.get(i).put("saldo", usuario.saldoVacaciones());
             }
-
+            for (int i = 0; i < listaFuncionaios.size(); i++) {
+                int codigo_say = Integer.parseInt(listaFuncionaios.get(i).get("codigo_sai").toString());
+                if (codigo_say == this.codigo_say) {
+                    listaFuncionaios.remove(i);
+                    break;
+                }
+            }
         } catch (Exception e) {
             String mensaje = e.getMessage();
             System.err.println(mensaje);
@@ -215,7 +228,6 @@ public class DAOAdministrador extends Conexion {
                             cargo,
                             estado
                     );
-                    
 
                     break;
             }
@@ -243,13 +255,46 @@ public class DAOAdministrador extends Conexion {
 
     public List<List<Map<String, String>>> listaActividadesEntidad(int gestion, int mes) {
         String d = "sas";
+        String sql = "";
         Calendario calendario = new Calendario(gestion, mes);
         List<List<Map<String, String>>> listas = calendario.dias_calendario();
+        for (int i = 0; i < listas.size(); i++) {
+            List<Map<String, String>> semana = listas.get(i);
+            for (int j = 0; j < semana.size(); j++) {
+                Map<String, String> dia = semana.get(j);
+                String fechaActual = dia.get("fecha");
+                if (!fechaActual.equals("")) {
+                    sql = "select id_fechas, fecha, descripcion_estado, tipo, entidad FROM fechas  WHERE  fecha= '" + fechaActual + "'";
+                    List<Map<String, Object>> actividades = this.jdbcTemplate.queryForList(sql);
+                    if (actividades.size() > 1) {
+                        listas.get(i).get(j).replace("tipo", "VARIOS");
+                        listas.get(i).get(j).put("id_fechas", actividades.get(0).get("id_fechas").toString());
+                    }
+                    if (actividades.size() == 1) {
+                        listas.get(i).get(j).put("id_fechas", actividades.get(0).get("id_fechas").toString());
+                        int entidad = Integer.parseInt(actividades.get(0).get("entidad").toString());
+                        if (entidad != 0) {
+                            sql = "SELECT codigo_entidad, nombre_entidad, tipo_entidad, entidad_supervisor FROM public.entidad WHERE codigo_entidad=" + entidad;
+                            List<Map<String, Object>> nombre_entidad = this.jdbcTemplate.queryForList(sql);
+                            listas.get(i).get(j).replace("nombre_entidad", nombre_entidad.get(0).get("nombre_entidad").toString());
+                        }
+                        listas.get(i).get(j).replace("descripcion", actividades.get(0).get("descripcion_estado").toString());
+                        listas.get(i).get(j).replace("tipo", actividades.get(0).get("tipo").toString());
+                        listas.get(i).get(j).replace("entidad", actividades.get(0).get("entidad").toString());
+
+                    }
+                }
+            }
+        }
+
+        /*
         List<Map<String, Object>> list;
         String fecha_inicial = gestion + "-" + mes + "-" + "1";
         String fecha_final = gestion + "-" + mes + "-" + String.valueOf(calendario.diasMes(mes));
 
         String sql = "select fecha,descripcion_estado,tipo,entidad FROM fechas WHERE fecha>= '" + fecha_inicial + "' and fecha<='" + fecha_final + "'";
+        
+        
         list = this.jdbcTemplate.queryForList(sql);
         for (int i = 0; i < list.size(); i++) {
             String fecha = list.get(i).get("fecha").toString();
@@ -271,7 +316,7 @@ public class DAOAdministrador extends Conexion {
                     }
                 }
             }
-        }
+        }*/
         return listas;
     }
 
@@ -452,7 +497,7 @@ public class DAOAdministrador extends Conexion {
         return json;
     }
 
-    public void modificarSolicitud(String codigo, String fecha_solicitud, String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String dias, String tipo, String detalle_compensacion, String detalle_estado, String estado) {
+    public void modificarSolicitud(String codigo, String fecha_solicitud, String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String dias, String tipo, String detalle_compensacion, String detalle_estado, String estado, String descripcion_estado) {
         String sql = "SELECT codigo_solicitud, fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, estado, fecha_estado, descripcion_estado, codigo_funcionario, id_vacaciones, supervisor "
                 + "FROM public.solicitud_vacaciones "
                 + "WHERE codigo_solicitud='" + codigo + "'";
@@ -491,8 +536,8 @@ public class DAOAdministrador extends Conexion {
 
         String compensacion = "";
         String estadoS = "";
-        if (tipo.equals("COMPENSACION") || tipo.equals("ASUELTO")) {
-            compensacion = ", detalle_compensacion='" + detalle_compensacion + "'";
+        if (tipo.equals("COMPENSACION") || tipo.equals("ASUETO")) {
+            compensacion = ", detalle_compensacion='" + descripcion_estado + "'";
         }
         if (estado.equals("RECHAZADO")) {
             estadoS = ", descripcion_estado='" + detalle_estado + "'";
@@ -873,15 +918,15 @@ public class DAOAdministrador extends Conexion {
                 Date fecha_solicitud = new Date(usu.get("fecha_solicitud").toString());
                 usu.replace("fecha_solicitud", fecha_solicitud.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
                 Date fecha_salida = new Date(usu.get("fecha_salida").toString());
                 usu.replace("fecha_salida", fecha_salida.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
                 Date fecha_retorno = new Date(usu.get("fecha_retorno").toString());
                 usu.replace("fecha_retorno", fecha_retorno.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
                 Date fecha_estado = new Date(usu.get("fecha_estado").toString());
                 usu.replace("fecha_estado", fecha_estado.fechaImpresion());
                 listaSolicitudes.set(i, usu);
@@ -910,19 +955,19 @@ public class DAOAdministrador extends Conexion {
                 Date fecha_solicitud = new Date(usu.get("fecha_solicitud").toString());
                 usu.replace("fecha_solicitud", fecha_solicitud.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
                 Date fecha_salida = new Date(usu.get("fecha_salida").toString());
                 usu.replace("fecha_salida", fecha_salida.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
                 Date fecha_retorno = new Date(usu.get("fecha_retorno").toString());
                 usu.replace("fecha_retorno", fecha_retorno.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
                 Date fecha_estado = new Date(usu.get("fecha_estado").toString());
                 usu.replace("fecha_estado", fecha_estado.fechaImpresion());
                 listaSolicitudes.set(i, usu);
-                
+
             }
         }
 
@@ -1017,4 +1062,56 @@ public class DAOAdministrador extends Conexion {
         funcionario = usuario.getNombreCompleto();
         return funcionario;
     }
+
+    public void registrarFecha(String fecha, String entidad, String turno, String detalle) {
+        String sql = "INSERT INTO public.fechas("
+                + "fecha, descripcion_estado, tipo, entidad) "
+                + "VALUES (?, ?, ?, ?)";
+        this.jdbcTemplate.update(sql,
+                new Date(fecha),
+                detalle,
+                turno,
+                Integer.parseInt(entidad)
+        );
+    }
+
+    public void eliminarFecha(String fecha) throws Exception {
+        String sql = "DELETE FROM public.fechas"
+                + " WHERE id_fechas = '" + fecha + "'";
+        try {
+            this.jdbcTemplate.execute(sql);
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
+    public void editarFecha(String fecha, String detalle) {
+        try {
+            String sqleditarFecha = "UPDATE public.fechas "
+                    + "SET descripcion_estado='" + detalle + "'"
+                    + " WHERE id_fechas ='" + fecha + "'";
+            this.actualizarConsulta(sqleditarFecha);
+        } catch (Exception e) {
+        }
+    }
+
+    public List<Map<String, Object>> mostrarFecha(String fecha) {
+        List<Map<String, Object>> mostrarFecha = new LinkedList<>();
+        String sql = "select id_fechas,fecha,descripcion_estado,tipo,entidad from fechas where fecha='" + fecha + "'";
+        mostrarFecha = this.jdbcTemplate.queryForList(sql);
+        for (int i = 0; i < mostrarFecha.size(); i++) {
+            Map<String, Object> rowFecha = mostrarFecha.get(i);
+            int entidad = Integer.parseInt(rowFecha.get("entidad").toString());
+            if (entidad != 0) {
+                sql = "SELECT codigo_entidad, nombre_entidad, tipo_entidad, entidad_supervisor FROM public.entidad WHERE codigo_entidad=" + entidad;
+                List<Map<String, Object>> nombre_entidad = this.jdbcTemplate.queryForList(sql);
+                mostrarFecha.get(i).put("nombre_entidad", nombre_entidad.get(0).get("nombre_entidad").toString());
+            }else{
+                 mostrarFecha.get(i).put("nombre_entidad", "TODOS");
+            }
+        }
+        return mostrarFecha;
+    }
+
 }

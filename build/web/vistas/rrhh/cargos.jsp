@@ -13,7 +13,7 @@
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <title>SGV-FUBODE</title>
+        <title>SGV-FUBODE | CARGOS</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -48,7 +48,7 @@
                             <li class="t"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>

@@ -12,8 +12,8 @@
         <link href="recursos/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <title>SGV-FUBODE</title>
-    </head>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <title>SGV-FUBODE | CALENDARIO</title>
     <body>
         <div class="site-mobile-menu site-navbar-target">
             <div class="site-mobile-menu-header">
@@ -24,7 +24,7 @@
             <div class="site-mobile-menu-body"></div>
         </div>    
 
-        <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
+    <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
         <div class="container-fluid">
             <div class="linea"></div>
             <div class="row align-items-center position-relative">
@@ -47,7 +47,7 @@
                             <li class="sombra"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
@@ -82,12 +82,11 @@
     </svg>
     <div class="container">
         <div class="container">
-            <a href="#" data-toggle="modal" data-target="#modalFecha">
-                <button type="button" class="btn fubode-azul" data-toggle="tooltip"  title="Programar fecha" data-original-title="Programar fecha">
-                    PROGRAMAR FECHA</button>
-            </a>
+            <button type="button" class="btn fubode-azul" data-toggle="modal" data-target="#modalFecha"  title="Programar fecha" data-original-title="Programar fecha">
+                PROGRAMAR FECHA
+            </button>
             <label ><strong>SELECIONE UN AÑO </strong></label>
-            <select name="gestion" id="gestion" class="">
+            <select name="gestion" id="gestion" class="" onchange="mostrarCalendario()">
                 <c:forEach var="dato" items="${gestiones}">
                     <c:choose>
                         <c:when  test="${gestion==dato}">
@@ -100,7 +99,7 @@
                 </c:forEach>                    
             </select>
             <label ><strong>   SELECCIONE UN MES </strong></label>
-            <select name="mes" id="mes" class="">
+            <select name="mes" id="mes" class="" onchange="mostrarCalendario()">
                 <c:forEach var="dato" items="${meses}">
                     <c:choose>
                         <c:when  test="${mes==dato.valor}">
@@ -131,21 +130,83 @@
                 <tr>
                     <c:forEach var="dato" items="${lista}">
                         <c:choose>
-                            <c:when  test="${dato.tipo=='NO_LABORAL'}">
-                                <td class="bg-danger text-white">${dato.diaNumeral}</td>
+                            <c:when  test="${dato.tipo=='VARIOS'}">
+                                <td class="bg-success text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.fecha}"  class="btn btn-success" onclick="mostrarFechas(this)">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
                             </c:when>
-                            <c:when  test="${dato.tipo=='MANANA'}">
-                                <td class="bg-warning text-white">${dato.diaNumeral}</td>
+                            <c:when  test="${dato.tipo=='NO_LABORAL' && dato.entidad=='0'}">
+                                <td class="bg-danger text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn btn-danger" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
                             </c:when>
-                            <c:when  test="${dato.tipo=='TARDE'}">
-                                <td class="bg-info text-white">${dato.diaNumeral}</td>
+                            <c:when  test="${dato.tipo=='NO_LABORAL' && dato.entidad!='0'}">
+                                <td class="fubode-rojo text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-rojo" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
                             </c:when>
-                            <c:when  test="${dato.tipo=='SABADO'}">
-                                <td class="bg-primary text-white">${dato.diaNumeral}</td>
+
+                            <c:when  test="${dato.tipo=='MANANA' && dato.entidad=='0'}">
+                                <td class="bg-warning text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn btn-warning" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
+                            </c:when>
+                            <c:when  test="${dato.tipo=='MANANA' && dato.entidad!='0'}">
+                                <td class="fubode-amarillo text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-amarillo" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
+                            </c:when>
+
+                            <c:when  test="${dato.tipo=='TARDE' && dato.entidad=='0'}">
+                                <td class="bg-info text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn btn-info" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
+                            </c:when>
+                            <c:when  test="${dato.tipo=='TARDE' && dato.entidad!='0'}">
+                                <td class="fubode-celeste text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-celeste" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
+                            </c:when>
+
+                            <c:when  test="${dato.tipo=='SABADO' && dato.entidad=='0'}">
+                                <td class="bg-primary text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn btn-primary" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
+                            </c:when>
+                            <c:when  test="${dato.tipo=='SABADO' && dato.entidad!='0'}">
+                                <td class="fubode-azul text-white">
+                                    ${dato.diaNumeral}
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-azul" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                        <span  class="fa fa-eye">
+                                    </button>                                                       
+                                </td>
                             </c:when>
                             <c:otherwise>
                                 <td class="">${dato.diaNumeral}</td>
-
                             </c:otherwise>
                         </c:choose> 
                     </c:forEach>    
@@ -239,6 +300,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="modalFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -266,12 +328,41 @@
                                 </c:forEach>
                             </select>
                             <label ><strong>DETALLE </strong></label>
-                            <textarea id = "detalle"class="container" row = "14" cols="10"></textarea>
+                            <textarea id = "detalle"class="container text-uppercase" row = "14" cols="10"></textarea>
                         </div>                                        
                     </div>        
                 </div>   
                 <div class="modal-footer">
-                    <button type="button" id ="registrar"class="btn fubode-azul" data-dismiss="modal">REGISTRAR</button>
+                    <button type="button" id ="registrar"class="btn fubode-azul" data-dismiss="modal" onclick="registrarFecha()">REGISTRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal detalle de fecha -->          
+    <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header fubode-naranja detalle_des">
+                    <h5 class="modal-title text-white " id="exampleModalLongTitle">DETALLE DE FECHA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="container card-body">
+                    <div class="card">
+                        <div class="container mt-3">
+                            <label ><strong>FECHA </strong></label>
+                            <input type="date" name = "fecha"  id="fecha_modificar" class="form-control" disabled/>
+                            <label ><strong>ENTIDAD </strong></label>
+                            <input type="text" name = "fecha"  id="entidad_modificar" class="form-control" disabled/>
+                            <label ><strong>DETALLE </strong></label>
+                            <textarea id ="detalle_modificar" class="container text-uppercase mb-3" row = "14" cols="10"></textarea>
+                        </div>                                        
+                    </div>        
+                </div>   
+                <div class="modal-footer">
+                    <button type="button" id ="registrar"class="btn btn-warning"  onclick="editarFecha()">EDITAR</button>
+                    <button type="button" id ="registrar"class="btn btn-danger"  onclick="eliminarFecha()">ELIMINAR</button>
+                    <button type="button" id ="registrar"class="btn btn-secondary"  data-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -284,7 +375,6 @@
     <script src="swetalert/sweetalert.js" type="text/javascript"></script>
     <script src="recursos/js/dataTable.js" type="text/javascript"></script>
     <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="js/funcionesUsuario.js" type="text/javascript"></script>
-    <script src="js/calendario_rrhh.js" type="text/javascript"></script>
+    <script src="js/administrador/calendario_rrhh.js" type="text/javascript"></script>
 </body>
 </html>

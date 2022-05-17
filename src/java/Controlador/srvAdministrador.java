@@ -37,7 +37,7 @@ public class srvAdministrador extends HttpServlet {
                 cargarDatosFuncionario(request, response, dao);
                 switch (accion) {
                     case "funcionarios":
-                        funcionarios(request, response,dao);
+                        funcionarios(request, response, dao);
                         break;
                     case "crudFuncionario":
                         crudFuncionario(request, response, dao);
@@ -46,58 +46,70 @@ public class srvAdministrador extends HttpServlet {
                         entidadCrud(request, response, dao);
                         break;
                     case "entidades":
-                        entidades(request, response,dao);
+                        entidades(request, response, dao);
                         break;
                     case "solicitudes":
-                        solicitudesVacacioes(request, response,dao);
+                        solicitudesVacacioes(request, response, dao);
                         break;
                     case "cargos":
-                        cargos(request, response,dao);
-                        break;                    
+                        cargos(request, response, dao);
+                        break;
                     case "registrarCargo":
-                        registrarCargo(request, response,dao);
+                        registrarCargo(request, response, dao);
                         break;
                     case "registrarEntidad":
-                        registrarEntidad(request, response,dao);
+                        registrarEntidad(request, response, dao);
                         break;
                     case "registrarFuncionario":
-                        registrarFuncionario(request, response,dao);
+                        registrarFuncionario(request, response, dao);
                         break;
                     case "elimarCargo":
-                        elimarCargo(request, response,dao);
+                        elimarCargo(request, response, dao);
                         break;
                     case "eliminarEntidad":
-                        eliminarEntidad(request, response,dao);
+                        eliminarEntidad(request, response, dao);
                         break;
                     case "eliminarFuncionario":
-                        eliminarFuncionario(request, response,dao);
+                        eliminarFuncionario(request, response, dao);
                         break;
                     case "modificacionSolicitud":
-                        modificacionSolicitud(request, response,dao);
+                        modificacionSolicitud(request, response, dao);
                         break;
                     case "editaSolicitud":
-                        editaSolicitud(request, response,dao);
+                        editaSolicitud(request, response, dao);
                         break;
                     case "fechas":
-                        nroDias(request, response,dao);
+                        nroDias(request, response, dao);
                         break;
                     case "calendario":
-                        calendario(request, response,dao);
+                        calendario(request, response, dao);
+                        break;
+                    case "registrarFecha":
+                        registrarFecha(request, response, dao);
+                        break;
+                    case "eliminarFecha":
+                        eliminarFecha(request, response, dao);
+                        break;
+                    case "editarFecha":
+                        editarFecha(request, response, dao);
+                        break;
+                    case "mostrarFecha":
+                        mostrarFecha(request, response, dao);
                         break;
                     case "obtenerCargo":
-                        obtenerCargo(request, response,dao);
+                        obtenerCargo(request, response, dao);
                         break;
                     case "obtenerEntidad":
-                        obtenerEntidad(request, response,dao);
+                        obtenerEntidad(request, response, dao);
                         break;
                     case "obtenerFuncionario":
                         obtenerFuncionario(request, response);
                         break;
                     case "modificarSolicitud":
-                        modificarSolicitud(request, response,dao);
+                        modificarSolicitud(request, response, dao);
                         break;
                     case "funcionarioRepetido":
-                        funcionarioRepetido(request, response,dao);
+                        funcionarioRepetido(request, response, dao);
                         break;
                     case "reportesFuncionario":
                         reportesFuncionario(request, response, dao);
@@ -186,6 +198,7 @@ public class srvAdministrador extends HttpServlet {
         request.setAttribute("antiguedad", ingreso.antiguedad());
         request.setAttribute("correo", usuario.get("correo"));
         request.setAttribute("usuarios", usuario);
+        request.setAttribute("nombre_corto", usuario.get("nombre_corto"));
         int supervisor = usuario.getInt("supervisor");
         request.setAttribute("supervisor", supervisor);
         if (supervisor != 0) {
@@ -196,28 +209,23 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void solicitudesVacacioes(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {
-        
+    private void solicitudesVacacioes(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+
         List<Map<String, Object>> usus = null;
         try {
             usus = dao.listaSolicitudes();
-            
-            request.setAttribute("lista", usus);
 
+            request.setAttribute("lista", usus);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/rrhh/solicitudes.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo listar los usuarios" + e.getMessage());
             System.out.println(e.getMessage());
         } finally {
             dao = null;
         }
-        try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/rrhh/solicitudes.jsp").forward(request, response);
-        } catch (Exception ex) {
-            request.setAttribute("msje", "No se puedo realizar la petición" + ex.getMessage());
-        }
     }
 
-    private void funcionarios(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void funcionarios(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         List<Map<String, Object>> lista = null;
         try {
             lista = dao.listaFuncionaios();
@@ -234,7 +242,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void entidades(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void entidades(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         List<Map<String, Object>> entidades = null;
         try {
             entidades = dao.listaEntidades();
@@ -265,7 +273,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void cargos(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {        
+    private void cargos(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         List<Map<String, Object>> cargos = null;
         try {
             cargos = dao.listaCargos();
@@ -283,7 +291,8 @@ public class srvAdministrador extends HttpServlet {
             request.setAttribute("msje", "No se puedo realizar la petición" + ex.getMessage());
         }
     }
-    private void registrarCargo(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+
+    private void registrarCargo(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         try {
             String codigo = request.getParameter("codigo");
             String nombre = request.getParameter("nombre");
@@ -298,7 +307,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void elimarCargo(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void elimarCargo(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         try {
             String codigo = request.getParameter("cod");
             dao.elimarCargo(codigo);
@@ -311,8 +320,8 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void registrarEntidad(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {
-        
+    private void registrarEntidad(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+
         try {
             String codigo = request.getParameter("codigo");
             String nombre = request.getParameter("nombre");
@@ -329,7 +338,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void eliminarEntidad(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void eliminarEntidad(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         try {
             String codigo = request.getParameter("cod");
             dao.eliminarEntidad(codigo);
@@ -340,7 +349,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void registrarFuncionario(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void registrarFuncionario(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         try {
             int codigoSai = Integer.parseInt(request.getParameter("codigoSai"));
             String apellidos = request.getParameter("apellidos");
@@ -363,7 +372,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void eliminarFuncionario(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {      
+    private void eliminarFuncionario(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         if (request.getParameter("codigoSai") != null) {
             String codigoSai = request.getParameter("codigoSai");
             try {
@@ -377,7 +386,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void modificacionSolicitud(HttpServletRequest request, HttpServletResponse response,DAOAdministrador supervisor) {
+    private void modificacionSolicitud(HttpServletRequest request, HttpServletResponse response, DAOAdministrador supervisor) {
         if (request.getParameter("cod") != null) {
             String codigo = request.getParameter("cod");
             String estado = request.getParameter("estado");
@@ -393,7 +402,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void calendario(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) throws ServletException, IOException {
+    private void calendario(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) throws ServletException, IOException {
         int gestion = 0;
         int mes = 0;
         try {
@@ -424,11 +433,11 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void editaSolicitud(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) throws ServletException, IOException {
+    private void editaSolicitud(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) throws ServletException, IOException {
         PrintWriter out = null;
         JSONObject json = null;
         try {
-            
+
             out = response.getWriter();
             String codigo = request.getParameter("cod");
             json = dao.solicitud(codigo);
@@ -442,7 +451,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void nroDias(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void nroDias(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         String fecha_salida = request.getParameter("fecha_salida");
         String fecha_retorno = request.getParameter("fecha_retorno");
         String diferencia = request.getParameter("diferencia");
@@ -464,7 +473,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void obtenerCargo(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void obtenerCargo(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         JSONObject json = new JSONObject();
         PrintWriter out = null;
         int codigo = Integer.parseInt(request.getParameter("cod"));
@@ -480,7 +489,7 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void obtenerEntidad(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {        
+    private void obtenerEntidad(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
         JSONObject json = new JSONObject();
         PrintWriter out = null;
         int codigo = Integer.parseInt(request.getParameter("cod"));
@@ -513,8 +522,8 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void modificarSolicitud(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {
-        
+    private void modificarSolicitud(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+
         if (request.getParameter("cod") != null) {
 
             String codigo = request.getParameter("cod");
@@ -528,8 +537,9 @@ public class srvAdministrador extends HttpServlet {
             String detalle_compensacion = request.getParameter("detalle_compensacion");
             String detalle_estado = request.getParameter("detalle_estado");
             String estado = request.getParameter("estado");
+            String descripcion_estado = request.getParameter("descripcion_estado");
             try {
-                dao.modificarSolicitud(codigo, fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado);
+                dao.modificarSolicitud(codigo, fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado, descripcion_estado);
                 response.sendRedirect("srvAdministrador?accion=solicitudes");
             } catch (Exception e) {
                 request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
@@ -539,8 +549,8 @@ public class srvAdministrador extends HttpServlet {
         }
     }
 
-    private void funcionarioRepetido(HttpServletRequest request, HttpServletResponse response,DAOAdministrador dao) {
-        
+    private void funcionarioRepetido(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+
         JSONObject json = new JSONObject();
         PrintWriter out = null;
         int codigo = Integer.parseInt(request.getParameter("cod"));
@@ -577,7 +587,7 @@ public class srvAdministrador extends HttpServlet {
             String expedido = request.getParameter("expedido");
 
             out = null;
-            json = dao.crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, superviso, solicutud, estado,expedido);
+            json = dao.crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, superviso, solicutud, estado, expedido);
             out = response.getWriter();
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
@@ -750,17 +760,17 @@ public class srvAdministrador extends HttpServlet {
             String codigoSay = request.getParameter("codigoSay");
             int codigo = Integer.parseInt(codigoSay);
             List<Map<String, Object>> funcionario = dao.funcionario(codigo);
-            if(funcionario.size()!=0 &&funcionario!=null){
-                json.put("codigo_sai",funcionario.get(0).get("codigo_sai").toString());
-                json.put("estado",true);
-            }else{
-                json.put("codigo_sai","0");
-                json.put("estado",false);
+            if (funcionario.size() != 0 && funcionario != null) {
+                json.put("codigo_sai", funcionario.get(0).get("codigo_sai").toString());
+                json.put("estado", true);
+            } else {
+                json.put("codigo_sai", "0");
+                json.put("estado", false);
             }
-                
+
         } catch (Exception e) {
-            json.put("codigo_sai","0");
-            json.put("estado",false);
+            json.put("codigo_sai", "0");
+            json.put("estado", false);
             String enasaje = e.getMessage();
             this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/rrhh/reportesFuncionario.jsp").forward(request, response);
         } finally {
@@ -768,6 +778,7 @@ public class srvAdministrador extends HttpServlet {
             out.close();
         }
     }
+
     private void buscarEntidad(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) throws ServletException, IOException {
         JSONObject json = new JSONObject();
         PrintWriter out = null;
@@ -812,6 +823,53 @@ public class srvAdministrador extends HttpServlet {
         } finally {
             out.print(json);
             out.close();
+        }
+    }
+
+    private void registrarFecha(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+        try {
+            String fecha = request.getParameter("fecha");
+            String entidad = request.getParameter("entidad");
+            String turno = request.getParameter("turno");
+            String detalle = request.getParameter("detalle");
+            dao.registrarFecha(fecha, entidad, turno, detalle);
+        } catch (Exception e) {
+            System.out.println("-------" + e.getMessage());
+            request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
+        }
+    }
+
+    private void eliminarFecha(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+        try {
+            String fecha = request.getParameter("fecha");
+            dao.eliminarFecha(fecha);
+        } catch (Exception e) {
+            request.setAttribute("msje", "No se pudo listar los usuarios" + e.getMessage());
+            System.out.println(e.getMessage());
+        } finally {
+            dao = null;
+        }
+    }
+
+    private void editarFecha(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+        try {
+            String fecha = request.getParameter("fecha");
+            String detalle = request.getParameter("detalle");
+            dao.editarFecha(fecha, detalle);
+        } catch (Exception e) {
+            request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
+            System.out.println(e);
+        }
+    }
+
+    private void mostrarFecha(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+        try {
+            String fecha = request.getParameter("fecha");
+            List<Map<String, Object>> mostrarFecha = dao.mostrarFecha(fecha);
+            request.setAttribute("fechas", mostrarFecha);
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/rrhh/mostrarFecha.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
         }
     }
 }

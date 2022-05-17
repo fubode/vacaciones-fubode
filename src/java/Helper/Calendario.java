@@ -52,13 +52,14 @@ public class Calendario {
             dato.put("dia", dia);
             dato.put("diaNumeral", String.valueOf(i));
             dato.put("fecha", fecha);
-            dato.put("descripcion", "");
-            dato.put("entidad", "");
+            dato.put("descripcion", "NINGUNO");
+            dato.put("entidad", "0");
+            dato.put("nombre_entidad", "TODOS");
             if((dia == "Sabado") && sabados<2){
-                dato.put("tipo", "NO_LABORAL");
+                dato.put("tipo", "SABADO");
                 sabados++;
             }else{
-                dato.put("tipo", "");
+                dato.put("tipo", "NINGUNO");
             }
             if((dia == "Domingo")){
                 dato.put("tipo", "NO_LABORAL");

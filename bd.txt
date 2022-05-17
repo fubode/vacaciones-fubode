@@ -1,0 +1,166 @@
+CREATE TABLE public.cargo (
+    codigo_cargo integer NOT NULL,
+    nombre_cargo VARCHAR (48) NOT NULL
+);
+
+
+CREATE TABLE public.cuenta (
+    id_cuenta serial,
+    usuario character varying(100) NOT NULL,
+    pass character varying(280) NOT NULL,
+    estado character varying(48) DEFAULT 'DESBLOQUEADO'NOT NULL,
+    codigo_funcionario integer NOT NULL,
+    intentos integer DEFAULT 3
+);
+
+CREATE TABLE public.entidad (
+    codigo_entidad integer NOT NULL,
+    nombre_entidad VARCHAR (48) NOT NULL,
+    tipo_entidad VARCHAR (48) NOT NULL,
+    entidad_supervisor integer DEFAULT 0 NOT NULL
+);
+
+CREATE TABLE public.fechas (
+    id_fechas serial,
+    fecha date NOT NULL,
+    descripcion_estado VARCHAR (48) NOT NULL,
+    tipo VARCHAR (48) NOT NULL,
+    entidad integer DEFAULT 0 NOT NULL
+);
+
+CREATE TABLE public.funcionario (
+    codigo_sai integer NOT NULL,
+    apellido VARCHAR (48) NOT NULL,
+    nombre VARCHAR (48) NOT NULL,
+    fecha_ingreso date NOT NULL,
+    ci integer NOT NULL,
+    expedido VARCHAR (10) NOT NULL,
+    correo VARCHAR (60) NOT NULL,
+    fecha_salida date,
+    supervisor integer DEFAULT 0 NOT NULL ,
+    entidad integer NOT NULL,
+    cargo integer NOT NULL,
+    estado VARCHAR (48) DEFAULT 'ACTIVO' NOT NULL
+);
+
+CREATE TABLE public.rol (
+    id_rol serial,
+    nombre_rol VARCHAR (48) NOT NULL,
+    cod_sai integer DEFAULT 0 NOT NULL
+);
+
+
+CREATE TABLE public.solicitud_vacaciones (
+    codigo_solicitud VARCHAR (48) NOT NULL,
+    fecha_solicitud date NOT NULL,
+    fecha_salida date NOT NULL,
+    turno_salida VARCHAR (48) NOT NULL,
+    fecha_retorno date NOT NULL,
+    turno_retorno VARCHAR (48) NOT NULL,
+    dias real NOT NULL,
+    tipo VARCHAR (48) NOT NULL,
+    detalle_compensacion text DEFAULT 'NINGUNO' NOT NULL,
+    estado VARCHAR (48) NOT NULL DEFAULT 'PENDIENTE' NOT NULL,
+    fecha_estado date DEFAULT '1500-01-01' NOT NULL,
+    descripcion_estado text DEFAULT 'NINGUNO' NOT NULL,
+    codigo_funcionario integer NOT NULL,
+    supervisor integer DEFAULT 0 NOT NULL,
+    id_vacaciones serial 
+);
+
+
+CREATE TABLE public.solicitudes_modificadas (
+    id_modificado serial ,
+    codigo_solicitud VARCHAR (48) NOT NULL,
+    fecha_solicitud date NOT NULL,
+    fecha_salida date NOT NULL,
+    turno_salida VARCHAR (48) NOT NULL,
+    fecha_retorno date NOT NULL,
+    turno_retorno VARCHAR (48) NOT NULL,
+    dias real NOT NULL,
+    tipo VARCHAR (48) NOT NULL,
+    detalle_compensacion text DEFAULT 'NINGUNO' NOT NULL,
+    estado VARCHAR (48)  DEFAULT 'PENDIENTE' NOT NULL,
+    fecha_estado date DEFAULT '1500-01-01' NOT NULL,
+    descripcion_estado text DEFAULT 'NINGUNO'  NOT NULL,
+    codigo_funcionario integer NOT NULL,
+    supervisor integer NOT NULL,
+    modificador integer NOT NULL
+);
+
+
+ALTER TABLE ONLY public.cargo
+    ADD CONSTRAINT cargo_pkey PRIMARY KEY (codigo_cargo);
+
+ALTER TABLE ONLY public.cuenta
+    ADD CONSTRAINT cuenta_pkey PRIMARY KEY (id_cuenta);
+
+ALTER TABLE ONLY public.fechas
+    ADD CONSTRAINT fechas_pkey PRIMARY KEY (id_fechas);
+
+ALTER TABLE ONLY public.entidad
+    ADD CONSTRAINT pk_entidad_supervisor PRIMARY KEY (codigo_entidad);
+
+ALTER TABLE ONLY public.funcionario
+    ADD CONSTRAINT recursividad_pkey PRIMARY KEY (codigo_sai);
+
+
+ALTER TABLE ONLY public.rol
+    ADD CONSTRAINT rol_pkey PRIMARY KEY (id_rol);
+
+
+ALTER TABLE ONLY public.solicitud_vacaciones
+    ADD CONSTRAINT solicitud_vacaciones_pkey PRIMARY KEY (codigo_solicitud);
+
+ALTER TABLE ONLY public.solicitudes_modificadas
+    ADD CONSTRAINT solicitudes_modificadas_pkey PRIMARY KEY (id_modificado);
+
+ALTER TABLE ONLY public.funcionario
+    ADD CONSTRAINT fk_cargo_funcionario FOREIGN KEY (cargo) REFERENCES public.cargo(codigo_cargo);
+
+ALTER TABLE ONLY public.solicitud_vacaciones
+    ADD CONSTRAINT fk_codigo_sai_codigo_funcionario FOREIGN KEY (codigo_funcionario) REFERENCES public.funcionario(codigo_sai);
+
+ALTER TABLE ONLY public.cuenta
+    ADD CONSTRAINT fk_cuenta_funcionario FOREIGN KEY (codigo_funcionario) REFERENCES public.funcionario(codigo_sai);
+
+ALTER TABLE ONLY public.fechas
+    ADD CONSTRAINT fk_entidad_fecha FOREIGN KEY (entidad) REFERENCES public.entidad(codigo_entidad);
+
+ALTER TABLE ONLY public.funcionario
+    ADD CONSTRAINT fk_entidad_funcionario FOREIGN KEY (entidad) REFERENCES public.entidad(codigo_entidad);
+
+ALTER TABLE ONLY public.solicitudes_modificadas
+    ADD CONSTRAINT fk_funcionario_vacaciones_modificadas FOREIGN KEY (codigo_funcionario) REFERENCES public.funcionario(codigo_sai);
+
+ALTER TABLE ONLY public.rol
+    ADD CONSTRAINT fk_rol_codigo_funcionario FOREIGN KEY (cod_sai) REFERENCES public.funcionario(codigo_sai);
+
+ALTER TABLE ONLY public.solicitudes_modificadas
+    ADD CONSTRAINT fk_vacaciones_vacaciones_modificadas FOREIGN KEY (codigo_solicitud) REFERENCES public.solicitud_vacaciones(codigo_solicitud);
+
+
+
+
+INSERT INTO public.cargo(
+	codigo_cargo, nombre_cargo)
+	VALUES (100, 'GERENTE GENERAL');
+	
+INSERT INTO public.entidad(
+	codigo_entidad, nombre_entidad, tipo_entidad, entidad_supervisor)
+	VALUES (99, 'OFICINA NACIONAL', 'NACIONAL', 0);
+INSERT INTO public.funcionario(
+	codigo_sai, apellido, nombre, fecha_ingreso, ci, correo, fecha_salida, supervisor, entidad, cargo,expedido)
+	VALUES (3000, 'TORREZ ONTIVEROS', 'LUIS FERNANDO', '1999-1-1', 3068471, 'torrez.ontiveros.luis@gmail.com', '1750-1-1', 0, 99, 100,'OR');
+	
+INSERT INTO public.cuenta(
+	usuario, pass, codigo_funcionario)
+	VALUES ('torrez.ontiveros.luis@gmail.com', 3068471, 3000);
+
+INSERT INTO public.rol(
+	nombre_rol, cod_sai)
+	VALUES ('RRHH', 3000);
+INSERT INTO public.rol(
+	nombre_rol, cod_sai)
+	VALUES ('SEGURIDAD', 3000);
+

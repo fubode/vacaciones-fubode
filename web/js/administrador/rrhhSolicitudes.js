@@ -1,4 +1,18 @@
 var codigo = '';
+function cambioCompensacion(){
+    document.getElementById('descripcion_estado').style.display = "block"; // hide
+}
+function cambioVacacion(){
+    document.getElementById('descripcion_estado').style.display = "none"; // hide
+    
+}
+function cambioLicencia(){
+    document.getElementById('descripcion_estado').style.display = "none"; // hide
+    
+}
+function cambioAsueto(){
+    document.getElementById('descripcion_estado').style.display = "block"; // hide
+}
 function editarSolicitud(btn) {
     codigo = btn.id;
     var url = "srvAdministrador?accion=editaSolicitud&cod=" + codigo;
@@ -25,20 +39,28 @@ function editarSolicitud(btn) {
             switch (tipo) {
                 case "VACACION":
                     document.querySelector('#VACACION').checked = true;
+                    document.getElementById('asueto_m').style.display = "none"; // hide
                     document.getElementById('compesacion_m').style.display = "none"; // hide
+                    document.getElementById('descripcion_estado').style.display = "none"; // hide
                     break;
                 case "LICENCIA":
                     document.querySelector('#LICENCIA').checked = true;
                     document.getElementById('compesacion_m').style.display = "none"; // hide
+                    document.getElementById('asueto_m').style.display = "none"; // hide
+                    document.getElementById('descripcion_estado').style.display = "none"; // hide
                     break;
-                case "ASUELTO":
-                    document.querySelector('#ASUELTO').checked = true;
-                    document.getElementById('compesacion_m').style.display = "block"; // show
+                case "ASUETO":
+                    document.querySelector('#ASUETO').checked = true;
+                    document.getElementById('asueto_m').style.display = "block"; // show
+                    document.getElementById('compesacion_m').style.display = "none"; // show
+                    document.getElementById('descripcion_estado').value = data.detalle_compensacion;
                     break;
                 case "COMPENSACION":
                     document.querySelector('#COMPENSACION').checked = true;
                     document.getElementById('compesacion_m').style.display = "block"; // show
+                    document.getElementById('asueto_m').style.display = "none"; // show
                     document.getElementById('r_compensacion').value = data.detalle_compensacion;
+                    document.getElementById('descripcion_estado').value = data.detalle_compensacion;
                     break;
             }
             switch (data.estado) {
@@ -46,6 +68,7 @@ function editarSolicitud(btn) {
                     document.getElementById('aceptado_m').style.display = "none"; // hide
                     document.getElementById('rechazado_m').style.display = "none"; // hide
                     document.getElementById('anulado_m').style.display = "block"; // show
+                    document.getElementById('descripcion_estado').style.display = "block"; // show
                     break;
                 case "ACEPTADO":
                     document.getElementById('aceptado_m').style.display = "block"; // show
@@ -164,10 +187,12 @@ function editar() {
     var fecha_retorno = document.getElementById('fecha_retorno').value;
     var turno_retorno = document.getElementById('turno_retorno').value;
     var dias = document.getElementById('dias').value
+    var descripcion_estado = document.getElementById('descripcion_estado').value
     var tipo = $('input:radio[name=tipo]:checked').val();
     var detalle_compensacion = document.getElementById('r_compensacion').value;
     var detalle_estado = document.getElementById('detalleRechazo').value;
     var estado = estadoSolicitud;
+
 
     if (estado == 'ACEPTADO') {
         estado = document.getElementById('aceptado_m').value;
@@ -183,6 +208,7 @@ function editar() {
             +"&tipo=" + tipo,
             +"&detalle_compensacion=" + detalle_compensacion,
             +"&detalle_estado=" + detalle_estado,
+            +"&descripcion_estado=" + descripcion_estado,
             +"&estado=" + estado);
     swal({
         title: "ESTA SEGURO DE MODIFICAR ESTE FUNCIONARIO?",
@@ -197,10 +223,10 @@ function editar() {
     },
             function (isConfirm) {
                 if (isConfirm) {
-                    modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado);
+                    modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado,descripcion_estado);
                     swal("AGREGADO!", "EL REGISTRO FUE AGREGADO", "success");
                     setTimeout(function () {
-                        parent.location.href = "srvAdministrador?accion=solicitudes"
+                        parent.location.href = "srvAdministrador?accion=solicitudes";
                     }, 1800);
                 } else {
                     swal("CANCELADO", "EL REGISTRO NO FUE AGREGADO", "error");
@@ -209,7 +235,7 @@ function editar() {
 
 }
 
-function modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado) {
+function modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado,descripcion_estado) {
     var url = "srvAdministrador?accion=modificarSolicitud&"
             + "cod=" + codigo
             + "&fecha_solicitud=" + fecha_solicitud
@@ -221,7 +247,8 @@ function modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_r
             + "&tipo=" + tipo
             + "&detalle_compensacion=" + detalle_compensacion
             + "&detalle_estado=" + detalle_estado
-            + "&estado=" + estado;
+            + "&estado=" + estado
+            + "&descripcion_estado=" + descripcion_estado;
     $.ajax({
         type: 'POST',
         url: url,

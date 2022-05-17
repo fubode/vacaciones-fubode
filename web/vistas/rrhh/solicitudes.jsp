@@ -13,7 +13,7 @@
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <title>SGV-FUBODE</title>
+        <title>SGV-FUBODE | SOLICITUDES</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -48,7 +48,7 @@
                             <li class="t"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    JP
+                                    <label><strong>${nombre_corto}</strong></label>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
@@ -77,225 +77,227 @@
 
 
     <h1 class="text-center">SOLICITUDES DE VACACIONES DE FUNCIONARIOS</h1>
-    <table id="tablaFubode" class="table container table-hover table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>CODIGO SOLICITUD</th>
-                <th>FECHA SOLICITUD</th>
-                <th>FECHA SALIDA</th>
-                <th>TURNO SALIDA</th>
-                <th>FECHA RETORNO</th>
-                <th>TURNO RETORNO</th>
-                <th>DIAS</th>
-                <th>FECHA APROBACION</th>
-                <th>TIPO DE SOLICITUD</th>
-                <th>ESTADO</th>
-                <th>FUNCIONARIO</th>
-                <th>CARGO</th>
-                <th>ENTIDAD</th>
-                <th>ACCION</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            <c:forEach var="dato" items="${lista}">
+    <div class="letras">
+        <table id="tablaFubode" class="table container table-hover table-striped table-bordered">
+            <thead>
                 <tr>
-                    <td>${dato.codigo_solicitud}</td>
-                    <td>${dato.fecha_solicitud}</td>
-                    <td>${dato.fecha_salida}</td>
-                    <td>${dato.turno_salida}</td>
-                    <td>${dato.fecha_retorno}</td>
-                    <td>${dato.turno_retorno}</td>
-                    <td>${dato.dias}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${dato.fecha_estado=='1500-01-01'}">
-                                NINGUNO
-                            </c:when>
-                            <c:otherwise>
-                                ${dato.fecha_estado}    
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td class="text-center align-items-center">
-                        <c:choose>
-                            <c:when  test="${dato.tipo=='COMPENSACION'}">
-                                <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}">
-                                    <button type="button" class="btn fubode-azul btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
-                                        COMPENSACION</button></a>
-                                <!-- Modal compensacion -->
-                                <div class="modal fade" id="${dato.codigo_solicitud}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header fubode-azul">
-                                                <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <p>
-                                                    ${dato.detalle_compensacion}
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:when>
-                            <c:when  test="${dato.tipo=='ASUETO'}">
-                                <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}">
-                                    <button type="button" class="btn fubode-azul btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
-                                        ASUELTO</button></a>
-                                <!-- Modal compensacion -->
-                                <div class="modal fade" id="${dato.codigo_solicitud}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header fubode-azul">
-                                                <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>
-                                                    ${dato.detalle_compensacion}
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="badge badge-success m-2 p-2">${dato.tipo}</span>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${dato.estado=='ACEPTADO'}">
-                                <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}${dato.tipo}">
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
-                                        ${dato.estado}</button></a>
-                                <!-- Modal Rechazado -->
-                                <div class="modal fade" id="${dato.codigo_solicitud}${dato.tipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-success">
-                                                <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <label><strong>ESTA SOLICITUD FUE ACEPTADA POR:</strong></label>
-                                                <p>${dato.supervisor}</p>                                                
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:when>
-                            <c:when test="${dato.estado=='ANULADO'}">
-                                <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}${dato.tipo}">
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
-                                        ${dato.estado}</button></a>
-                                <!-- Modal Rechazado -->
-                                <div class="modal fade" id="${dato.codigo_solicitud}${dato.tipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger">
-                                                <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <label><strong>ESTA SOLICITUD FUE ANULADA POR:</strong></label>
-                                                <p>${dato.supervisor}</p>                                                
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:when>
-                            <c:when test="${dato.estado=='PENDIENTE'}">
-                                <span class="badge fubode-azul m-2 p-2">${dato.estado}</span>
-                            </c:when>
-                            <c:when test="${dato.estado=='RECHAZADO'}">
-                                <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}${dato.tipo}">
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
-                                        ${dato.estado}</button></a>
-                                <!-- Modal Rechazado -->
-                                <div class="modal fade" id="${dato.codigo_solicitud}${dato.tipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger">
-                                                <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <label><strong>ESTA SOLICITUD FUE RECHAZADA POR:</strong></label>
-                                                <p>${dato.supervisor}</p>
-                                                <label><strong>MOTIVO DE RECHAZO</strong></label>
-                                                <p>
-                                                    ${dato.descripcion_estado}
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:when>
-
-                        </c:choose>
-                    </td>
-                    <td>${dato.apellido}, ${dato.nombre}</td>
-                    <td>${dato.nombre_cargo}</td>
-                    <td>${dato.nombre_entidad}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${dato.estado=='PENDIENTE'}">
-                                <div class="d-flex justify-content-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button id="${dato.codigo_solicitud}" type="button" class="btn btn-success" onclick="aceptarSolicitud(this)">
-                                            <span  class="fa fa-check">
-                                        </button>
-                                        <button id="${dato.codigo_solicitud}" type="button" class="btn btn-danger " onclick="rechazarSolicitud(this)">
-                                            <span  class="fa fa-trash">
-                                        </button>
-                                    </div>
-                                </div>                               
-                            </c:when>
-                            <c:otherwise>
-                                <div class="d-flex justify-content-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button id="${dato.codigo_solicitud}" type="button" class="btn btn-warning" onclick="editarSolicitud(this)">
-                                            <span  class="fa fa-pencil-square">
-                                        </button>                                       
-                                    </div>
-                                </div>  
-                            </c:otherwise>
-                        </c:choose>                        
-                    </td>
+                    <th>CODIGO SOLICITUD</th>
+                    <th>FECHA SOLICITUD</th>
+                    <th>FECHA SALIDA</th>
+                    <th>TURNO SALIDA</th>
+                    <th>FECHA RETORNO</th>
+                    <th>TURNO RETORNO</th>
+                    <th>DIAS</th>
+                    <th>FECHA APROBACION</th>
+                    <th>TIPO DE SOLICITUD</th>
+                    <th>ESTADO</th>
+                    <th>FUNCIONARIO</th>
+                    <th>CARGO</th>
+                    <th>ENTIDAD</th>
+                    <th>ACCION</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+
+                <c:forEach var="dato" items="${lista}">
+                    <tr>
+                        <td>${dato.codigo_solicitud}</td>
+                        <td>${dato.fecha_solicitud}</td>
+                        <td>${dato.fecha_salida}</td>
+                        <td>${dato.turno_salida}</td>
+                        <td>${dato.fecha_retorno}</td>
+                        <td>${dato.turno_retorno}</td>
+                        <td>${dato.dias}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${dato.fecha_estado=='1500-01-01'}">
+                                    NINGUNO
+                                </c:when>
+                                <c:otherwise>
+                                    ${dato.fecha_estado}    
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td class="text-center align-items-center">
+                            <c:choose>
+                                <c:when  test="${dato.tipo=='COMPENSACION'}">
+                                    <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}">
+                                        <button type="button" class="btn fubode-azul btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
+                                            COMPENSACION</button></a>
+                                    <!-- Modal compensacion -->
+                                    <div class="modal fade" id="${dato.codigo_solicitud}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header fubode-azul">
+                                                    <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <p>
+                                                        ${dato.detalle_compensacion}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:when  test="${dato.tipo=='ASUETO'}">
+                                    <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}">
+                                        <button type="button" class="btn fubode-azul btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
+                                            ASUETO</button></a>
+                                    <!-- Modal compensacion -->
+                                    <div class="modal fade" id="${dato.codigo_solicitud}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header fubode-azul">
+                                                    <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        ${dato.detalle_compensacion}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge badge-success m-2 p-2">${dato.tipo}</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${dato.estado=='ACEPTADO'}">
+                                    <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}${dato.tipo}">
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
+                                            ${dato.estado}</button></a>
+                                    <!-- Modal Rechazado -->
+                                    <div class="modal fade" id="${dato.codigo_solicitud}${dato.tipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-success">
+                                                    <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label><strong>ESTA SOLICITUD FUE ACEPTADA POR:</strong></label>
+                                                    <p>${dato.supervisor}</p>                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:when test="${dato.estado=='ANULADO'}">
+                                    <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}${dato.tipo}">
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
+                                            ${dato.estado}</button></a>
+                                    <!-- Modal Rechazado -->
+                                    <div class="modal fade" id="${dato.codigo_solicitud}${dato.tipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger">
+                                                    <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label><strong>ESTA SOLICITUD FUE ANULADA POR:</strong></label>
+                                                    <p>${dato.supervisor}</p>                                                
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:when test="${dato.estado=='PENDIENTE'}">
+                                    <span class="badge fubode-azul m-2 p-2">${dato.estado}</span>
+                                </c:when>
+                                <c:when test="${dato.estado=='RECHAZADO'}">
+                                    <a href="#" class="nav-link"  data-toggle="modal" data-target="#${dato.codigo_solicitud}${dato.tipo}">
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip"  title="Detalle" data-original-title="Detalle">
+                                            ${dato.estado}</button></a>
+                                    <!-- Modal Rechazado -->
+                                    <div class="modal fade" id="${dato.codigo_solicitud}${dato.tipo}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger">
+                                                    <h5 class="modal-title text-white" id="exampleModalLongTitle">SOLICITUD ${dato.codigo_solicitud}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label><strong>ESTA SOLICITUD FUE RECHAZADA POR:</strong></label>
+                                                    <p>${dato.supervisor}</p>
+                                                    <label><strong>MOTIVO DE RECHAZO</strong></label>
+                                                    <p>
+                                                        ${dato.descripcion_estado}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+
+                            </c:choose>
+                        </td>
+                        <td>${dato.apellido}, ${dato.nombre}</td>
+                        <td>${dato.nombre_cargo}</td>
+                        <td>${dato.nombre_entidad}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${dato.estado=='PENDIENTE'}">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button id="${dato.codigo_solicitud}" type="button" class="btn btn-success" onclick="aceptarSolicitud(this)">
+                                                <span  class="fa fa-check">
+                                            </button>
+                                            <button id="${dato.codigo_solicitud}" type="button" class="btn btn-danger " onclick="rechazarSolicitud(this)">
+                                                <span  class="fa fa-trash">
+                                            </button>
+                                        </div>
+                                    </div>                               
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button id="${dato.codigo_solicitud}" type="button" class="btn btn-warning" onclick="editarSolicitud(this)">
+                                                <span  class="fa fa-pencil-square">
+                                            </button>                                       
+                                        </div>
+                                    </div>  
+                                </c:otherwise>
+                            </c:choose>                        
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>   
 
 <!-- Modal datos usuario -->
@@ -391,20 +393,24 @@
                     </div>
                     <div class="container">
                         <p><strong>TIPO DE SOLICITUD</strong></p>
-                        <input type="radio" id="VACACION" name="tipo" value="VACACION">
+                        <input type="radio" id="VACACION" name="tipo" value="VACACION" onclick="cambioVacacion()">
                         <label >VACACION</label><br>
-                        <input type="radio" id="LICENCIA" name="tipo" value="LICENCIA" >
+                        <input type="radio" id="LICENCIA" name="tipo" value="LICENCIA" onclick="cambioLicencia()">
                         <label>LICENCIA SIN GOCE DE HABER</label><br>
-                        <input type="radio" id="COMPENSACION" name="tipo" value="COMPENSACION">
+                        <input type="radio" id="COMPENSACION" name="tipo" value="COMPENSACION" onclick="cambioCompensacion()">
                         <label>COMPENSACION</label><br>
-                        <input type="radio" id="ASUELTO" name="tipo" value="ASUELTO">
-                        <label>ASUELTO</label><br>
+                        <input type="radio" id="ASUETO" name="tipo" value="ASUETO" onclick="cambioAsueto()">
+                        <label>ASUETO</label><br>
                     </div>
                     <div class="container crear mb-2" id="crear">
                         <label ><strong>ESTADO DE SOLICITUD</strong></label><br>
                         <button type="button" id="compesacion_m" class="btn fubode-azul m-2" >COMPENZACION</button>
+                        <button type="button" id="asueto_m" class="btn fubode-azul m-2" >ASUETO</button>
                         <button type="button" id="rechazado_m" class="btn btn-danger m-2" >RECHAZADO</button>
                         <button type="button" id="anulado_m" class="btn btn-danger m-2" >ANULADO</button>
+                        <div class="form-group">
+                            <textarea class="form-control" id="descripcion_estado" rows="3"></textarea>
+                        </div>
                         <div class="container-fluid">
                             <select name="aceptado_m" id="aceptado_m" class="form-control">
                                 <option value="ACEPTADO">ACEPTADO</option>
