@@ -343,7 +343,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea id = "r_detalle"class="form-control" row = "14" cols="10"></textarea>
+                <textarea id = "r_detalle"class="form-control  text-uppercase" row = "14" cols="10"></textarea>
             </div>
             <div class="modal-footer">
                 <button id = "rechazarSolicitud" type="button" class="btn btn-danger" onclick="rechazar_solicitud()">RECHAZAR SOLICITUD</button>
@@ -409,7 +409,7 @@
                         <button type="button" id="rechazado_m" class="btn btn-danger m-2" >RECHAZADO</button>
                         <button type="button" id="anulado_m" class="btn btn-danger m-2" >ANULADO</button>
                         <div class="form-group">
-                            <textarea class="form-control" id="descripcion_estado" rows="3"></textarea>
+                            <textarea class="form-control" id="descripcion_estado  text-uppercase" rows="3"></textarea>
                         </div>
                         <div class="container-fluid">
                             <select name="aceptado_m" id="aceptado_m" class="form-control">
@@ -441,7 +441,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea id = "r_compensacion"class="form-control" row = "14" cols="10"></textarea>
+                <textarea id = "r_compensacion"class="form-control  text-uppercase" row = "14" cols="10"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn fubode-azul m-2" data-dismiss="modal">ACEPTAR</button>
@@ -461,7 +461,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea id = "detalleRechazo"class="form-control" row = "14" cols="10"></textarea>
+                <textarea id = "detalleRechazo"class="form-control text-uppercase" row = "14" cols="10"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger m-2" data-dismiss="modal">ACEPTAR</button>

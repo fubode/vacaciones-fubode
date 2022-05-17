@@ -124,29 +124,18 @@
             </div>
             <div class="col-2">
                 <button class="btn btn-success" id="buscarFuncionario" >BUSCAR</button>
-                <button class="btn btn-secondary">LIMPIAR</button>
+                <button class="btn btn-secondary" onclick="limpiar()">LIMPIAR</button>
                 <button class="btn fubode-azul" onclick="imprimir()">IMPRIMIR</button>
             </div>
         </div>
     </div>
     <hr>
     <div id="areaImpresion">
-        <div id="reporte" class="text-center">
+        <div id="reporte">
 
-        </div>
-        <div  class="container-fluid m-4">
-            <div class="row">
-                <div id ="datos" class="col-6 datos">
-                    
-                </div>
-                <div id="informacion" class="col-6 informacion">
-
-                </div>
-            </div>
         </div>
         <div id="tablaSolicitudes" class="tablaSolicitudes m-4 letras">
             <table id="tabla_reporte" class="table container-fluid table-hover table-striped table-bordered">
-
             </table>
         </div>
     </div>
@@ -159,5 +148,6 @@
     <script src="recursos/js/dataTable.js" type="text/javascript"></script>
     <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="js/administrador/reporteFuncioario.js" type="text/javascript"></script>
+    <script src="js/administrador/imprimir.js" type="text/javascript"></script>
 </body>
 </html>

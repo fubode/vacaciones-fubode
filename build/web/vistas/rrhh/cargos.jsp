@@ -25,7 +25,7 @@
             <div class="site-mobile-menu-body"></div>
         </div>    
 
-        <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
+    <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
         <div class="container-fluid">
             <div class="linea"></div>
             <div class="row align-items-center position-relative">
@@ -103,7 +103,7 @@
                                 <button id="${dato.codigo_cargo}" type="button" class="btn btn-warning" onclick="editarCargo(this)">
                                     <span  class="fa fa-pencil-square">
                                 </button>  
-                                    <button id="${dato.codigo_cargo}" type="button" class="btn btn-danger" onclick="eliminarCargo(this)">
+                                <button id="${dato.codigo_cargo}" type="button" class="btn btn-danger" onclick="eliminarCargo(this)">
                                     <span  class="fa fa-trash">
                                 </button> 
                             </div>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="container mb-4">
                             <label class="m-2"><strong>NOMBRE DEL CARGO: </strong></label>
-                            <input type="text" name="nombre" id="nombre" class="form-control">                    
+                            <input type="text" name="nombre" id="nombre" class="form-control text-uppercase">                    
                         </div>
                     </div>        
                 </div>   
@@ -162,13 +162,44 @@
                         </div>
                         <div class="container mb-4">
                             <label class="m-2"><strong>NOMBRE DEL CARGO: </strong></label>
-                            <input type="text" name="nombre" id="e_nombreCargo" class="form-control">                    
+                            <input type="text" name="nombre" id="e_nombreCargo" class="form-control  text-uppercase">                    
                         </div>
                     </div>        
                 </div>   
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">Cerrar</button>
                     <button type="button" id="editar" class="btn fubode-naranja m-2" onclick="editar()" >EDITAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal datos usuario -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="exampleModalLongTitle">DATOS DEL FUNCIONARIO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center">FUNCIONARIO</h4>
+                    <label><strong>NOMBRE: </strong> ${nombreFuncionario}</label><br>
+                    <label><strong>CARGO: </strong> ${nombre_cargo}</label><br>
+                    <label><strong>ENTIDAD: </strong> ${nombre_entidad}</label><br>
+                    <label><strong>CORREO: </strong> ${correo}</label><br>
+                    <label><strong>FECHA DE INGRESO: </strong> ${fecha_ingreso}</label><br>
+                    <c:if test="${supervisor!=0}">
+                        <h4 class="text-center">SUPERVISOR</h4>
+                        <label><strong>NOMBRE: </strong> ${supervisor_nombre}</label><br>
+                        <label><strong>CARGO: </strong> ${supervisor_cargo}</label><br>
+                        <label><strong>ENTIDAD: </strong> ${supervisor_entidad}</label><br>
+                        <label><strong>CORREO: </strong> ${supervisor_correo}</label><br>
+                    </c:if>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

@@ -123,30 +123,22 @@
             </div>
             <div class="col-2">
                 <button class="btn btn-success" id="buscarCargo" >BUSCAR</button>
-                <button class="btn btn-secondary">LIMPIAR</button>
-                <button class="btn fubode-azul">IMPRIMIR</button>
+                <button class="btn btn-secondary" onclick="limpiar()">LIMPIAR</button>
+                <button class="btn fubode-azul" onclick="imprimir()">IMPRIMIR</button>
             </div>
         </div>
     </div>
     <hr>
-    <div id="reporte" class="text-center">
+    <div id="areaImpresion">
+        <div id="reporte">
 
-    </div>
-    <div  class="container-fluid">
-        <div class="row">
-            <div id ="datos" class="col-6 datos">
-
-            </div>
-            <div id="informacion" class="col-6 informacion">
-
-            </div>
+        </div>
+        <div id="tablaSolicitudes" class="tablaSolicitudes m-4 letras container-fluid">
+            <table id="tabla_reporte" class="table  table-hover table-striped table-bordered">
+            </table>
         </div>
     </div>
 
-    <div id="tablaSolicitudes" class="tablaSolicitudes">
-
-    </div>
-    
     <script src="recursos/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="recursos/js/popper.min.js" type="text/javascript"></script>
     <script src="recursos/js/bootstrap.min.js" type="text/javascript"></script>  
@@ -154,6 +146,7 @@
     <script src="swetalert/sweetalert.js" type="text/javascript"></script>
     <script src="recursos/js/dataTable.js" type="text/javascript"></script>
     <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="js/reporteCargos.js" type="text/javascript"></script>
+    <script src="js/administrador/reporteCargos.js" type="text/javascript"></script>
+    <script src="js/administrador/imprimir.js" type="text/javascript"></script>
 </body>
 </html>

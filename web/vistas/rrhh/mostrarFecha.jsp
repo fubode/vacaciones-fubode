@@ -185,6 +185,37 @@
             </div>
         </div>
     </div>
+    <!-- Modal datos usuario -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="exampleModalLongTitle">DATOS DEL FUNCIONARIO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center">FUNCIONARIO</h4>
+                    <label><strong>NOMBRE: </strong> ${nombreFuncionario}</label><br>
+                    <label><strong>CARGO: </strong> ${nombre_cargo}</label><br>
+                    <label><strong>ENTIDAD: </strong> ${nombre_entidad}</label><br>
+                    <label><strong>CORREO: </strong> ${correo}</label><br>
+                    <label><strong>FECHA DE INGRESO: </strong> ${fecha_ingreso}</label><br>
+                    <c:if test="${supervisor!=0}">
+                        <h4 class="text-center">SUPERVISOR</h4>
+                        <label><strong>NOMBRE: </strong> ${supervisor_nombre}</label><br>
+                        <label><strong>CARGO: </strong> ${supervisor_cargo}</label><br>
+                        <label><strong>ENTIDAD: </strong> ${supervisor_entidad}</label><br>
+                        <label><strong>CORREO: </strong> ${supervisor_correo}</label><br>
+                    </c:if>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="recursos/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="recursos/js/popper.min.js" type="text/javascript"></script>

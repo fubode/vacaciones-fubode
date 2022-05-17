@@ -484,10 +484,11 @@ public class DAOAdministrador extends Conexion {
                 + "FROM public.funcionario "
                 + "WHERE codigo_sai=" + codigo;
         List<Map<String, Object>> cargo = this.jdbcTemplate.queryForList(sql);
+        Date ingreso = new Date(cargo.get(0).get("fecha_ingreso").toString());
         json.put("codigo_sai", cargo.get(0).get("codigo_sai").toString());
         json.put("apellido", cargo.get(0).get("apellido").toString());
         json.put("nombre", cargo.get(0).get("nombre").toString());
-        json.put("fecha_ingreso", cargo.get(0).get("fecha_ingreso").toString());
+        json.put("fecha_ingreso",ingreso.fechaImpresion());
         json.put("ci", cargo.get(0).get("ci").toString());
         json.put("correo", cargo.get(0).get("correo").toString());
         json.put("supervisor", cargo.get(0).get("supervisor").toString());

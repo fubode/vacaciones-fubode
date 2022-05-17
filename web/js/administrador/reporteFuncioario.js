@@ -29,38 +29,67 @@ function buscarFuncionario() {
         type: 'GET',
         dataType: 'JSON',
         success: function (data) {
+            limpiarHoja();
+            var newDiv = document.createElement("div");
+            newDiv.className += "div_datos ";
+
             var titulo = document.createElement('h3');
             titulo.innerHTML = 'REPORTE FUNCIONARIO';
+            titulo.className += "text-center ";
+
             var intervalo = document.createElement('h4');
             let date = new Date();
             intervalo.innerHTML = '(Practicado del ' + data.intervalo + ')';
-            document.getElementById('reporte').appendChild(titulo);
-            document.getElementById('reporte').appendChild(intervalo);
-                
-            
+            intervalo.className += "text-center ";
+
+            newDiv.appendChild(titulo);
+            newDiv.appendChild(intervalo);
+
+            var divNivel1 = document.createElement("div");
+            divNivel1.className += "container-fluid m-4 ";
+
+            newDiv.appendChild(divNivel1);
+
+            var divNivel2 = document.createElement("div");
+            divNivel2.className += "row ";
+
+            divNivel1.appendChild(divNivel2);
+
+            var divDatos = document.createElement("div");
+            divDatos.className += "col-6 datos ";
+
+
+            var divInformacion = document.createElement("div");
+            divInformacion.className += "col-6 informacion ";
+
+            divNivel2.appendChild(divDatos);
+            divNivel2.appendChild(divInformacion);
+
+            document.getElementById('reporte').appendChild(newDiv);
+
             if (say == 0) {
-                agregarLinea('datos', 'Tipo', data.tipo);
-                agregarLinea('datos', 'Estado', data.estado);
-                agregarLinea('datos', 'Emitido', date.toLocaleDateString());
-                agregarLinea('datos', 'Expedido por', data.funcionario);
-                    agregarTablaFuncionarios(data.solicitudes);
+                agregarLinea(divDatos, 'Tipo', data.tipo);
+                agregarLinea(divDatos, 'Estado', data.estado);
+                agregarLinea(divDatos, 'Emitido', date.toLocaleDateString());
+                agregarLinea(divDatos, 'Expedido por', data.funcionario);
+                agregarTablaFuncionarios(data.solicitudes);
             } else {
-                agregarLinea('datos', 'Nombre', data.nombreCompleto);
-                agregarLinea('datos', 'Cargo', data.cargo);
-                agregarLinea('datos', 'Entidad', data.entidad);
-                agregarLinea('datos', 'Correo', data.correo);
-                agregarLinea('datos', 'Tipo', data.tipo);
-                agregarLinea('datos', 'Estado', data.estado);
-                agregarLinea('datos', 'Emitido', date.toLocaleDateString());
-                agregarLinea('datos', 'Expedido por', data.funcionario);
-                agregarLinea('informacion', 'Fecha de Ingreso', data.fechaIngreso);
-                agregarLinea('informacion', 'Antiguedad', data.antiguedad);
-                agregarLinea('informacion', 'Vacaciones Cumplidas', data.vacacionesCumplidas);
-                agregarLinea('informacion', 'Vacaciones Tomadas', data.vacacionesTomadas);
-                agregarLinea('informacion', 'Saldo de Vacaciones', data.vacacionesSaldo);
-                agregarLinea('informacion', 'Vacaciones sin Goce de Haber', data.vacacionesSinGoce);
-                agregarLinea('informacion', 'Vacaciones por Compensacion', data.vacacionesCompensaciones);
-                    agregarTabla(data.solicitudes);
+                agregarLinea(divDatos, 'Nombre', data.nombreCompleto);
+                agregarLinea(divDatos, 'Cargo', data.cargo);
+                agregarLinea(divDatos, 'Entidad', data.entidad);
+                agregarLinea(divDatos, 'Correo', data.correo);
+                agregarLinea(divDatos, 'Tipo', data.tipo);
+                agregarLinea(divDatos, 'Estado', data.estado);
+                agregarLinea(divDatos, 'Emitido', date.toLocaleDateString());
+                agregarLinea(divDatos, 'Expedido por', data.funcionario);
+                agregarLinea(divInformacion, 'Fecha de Ingreso', data.fechaIngreso);
+                agregarLinea(divInformacion, 'Antiguedad', data.antiguedad);
+                agregarLinea(divInformacion, 'Vacaciones Cumplidas', data.vacacionesCumplidas);
+                agregarLinea(divInformacion, 'Vacaciones Tomadas', data.vacacionesTomadas);
+                agregarLinea(divInformacion, 'Saldo de Vacaciones', data.vacacionesSaldo);
+                agregarLinea(divInformacion, 'Vacaciones sin Goce de Haber', data.vacacionesSinGoce);
+                agregarLinea(divInformacion, 'Vacaciones por Compensacion', data.vacacionesCompensaciones);
+                agregarTabla(data.solicitudes);
             }
 
         },
@@ -69,24 +98,26 @@ function buscarFuncionario() {
     }
     ).fail(function (data) {
         console.log('fail');
+        swal("ERROR", "NO SE RECUPERO NINGUN REGISTRO", "error");
     });
 }
 
 function agregarLinea(div, detalle, texto) {
-    var contenedor = document.getElementById(div);
     var labelNombre = document.createElement('label');
     var linea = document.createElement('br');
     labelNombre.innerHTML = detalle + ": " + texto;
-    contenedor.appendChild(labelNombre);
-    contenedor.appendChild(linea);
+    div.appendChild(labelNombre);
+    div.appendChild(linea);
 }
 
 function agregarTabla(solicitudes) {
-    console.log(solicitudes);
     var contenedor = document.getElementById('tablaSolicitudes');
     var table = document.getElementById('tabla_reporte');
     var thead = document.createElement('thead');
     var tbody = document.createElement('tbody');
+
+    thead.className += "head_tabla";
+    tbody.className += "body_tabla";
 
     table.appendChild(thead);
     table.appendChild(tbody);
@@ -189,6 +220,9 @@ function agregarTablaFuncionarios(solicitudes) {
     var table = document.getElementById('tabla_reporte');
     let thead = document.createElement('thead');
     let tbody = document.createElement('tbody');
+
+    thead.className += "head_tabla";
+    tbody.className += "body_tabla";
 
     table.appendChild(thead);
     table.appendChild(tbody);
@@ -328,7 +362,7 @@ function selecionarCombo() {
     }
     ).fail(function (data) {
         console.log(data);
-
+                 swal("ERROR", "NO SE RECUPERO NINGUN REGISTRO", "error");
         $('#funcionarios > option[value="' + data.codigo_sai + '"]').attr('selected', 'selected');
     });
 }
@@ -342,35 +376,22 @@ function validacionFechas() {
     var desde = document.getElementById('desde').value;
     var hasta = document.getElementById('hasta').value;
     var actual = new Date().toISOString().split('T')[0];
-    console.log(desde, hasta, actual);
+
+    var desdeTime = new Date(desde).getTime();
+    var hastaTime = new Date(hasta).getTime();
+    var actualTime = new Date(actual).getTime();
+   
 }
 
-function limpiar() {
-    var contenedor = document.getElementById('reporte');
-    contenedor.removeChild();
+function limpiarHoja() {
+    try {
+        $(".head_tabla").remove();
+        $(".body_tabla").remove();
+        $(".div_datos").remove();
+    } catch (e) {
+        console.log(e);
+    }
+
+
 }
 
-function imprimir() {
-    const $elementoParaConvertir = document.getElementById('areaImpresion'); // <-- Aquí puedes elegir cualquier elemento del DOM
-    html2pdf()
-            .set({
-                margin: 1,
-                filename: 'documento.pdf',
-                image: {
-                    type: 'jpeg',
-                    quality: 0.98
-                },
-                html2canvas: {
-                    scale: 3, // A mayor escala, mejores gráficos, pero más peso
-                    letterRendering: true,
-                },
-                jsPDF: {
-                    unit: "in",
-                    format: "a3",
-                    orientation: 'landscape' // landscape o portrait
-                }
-            })
-            .from($elementoParaConvertir)
-            .save()
-            .catch(err => console.log(err));
-}

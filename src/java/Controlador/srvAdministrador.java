@@ -673,7 +673,7 @@ public class srvAdministrador extends HttpServlet {
             if (funcionario == 0) {
                 List<Map<String, Object>> solicitudes = null;
                 solicitudes = dao.listaSolicitudes(funcionario, tipo, estado, desde, hasta);
-                json.put("intervalo", desde.toString() + " hasta el " + hasta.toString());
+                json.put("intervalo", desde.fechaImpresion() + " hasta el " + hasta.fechaImpresion());
                 json.put("tipo", tipo);
                 json.put("estado", estado);
                 json.put("funcionario", nombreFuncionario);
@@ -685,7 +685,7 @@ public class srvAdministrador extends HttpServlet {
                 json.put("cargo", usuario.getCargo());
                 json.put("entidad", usuario.getEntidad());
                 json.put("correo", usuario.getCorreo());
-                json.put("fechaIngreso", usuario.getFecha_ingreso());
+                json.put("fechaIngreso", usuario.getFecha_ingreso().fechaImpresion());
                 json.put("antiguedad", usuario.antiguedad());
                 json.put("vacacionesCumplidas", usuario.vacacionesCumplidas());
                 json.put("vacacionesTomadas", usuario.vacacionesTomadas());

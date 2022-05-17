@@ -141,7 +141,7 @@
                             <c:when  test="${dato.tipo=='NO_LABORAL' && dato.entidad=='0'}">
                                 <td class="bg-danger text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn btn-danger" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn btn-danger" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -149,7 +149,7 @@
                             <c:when  test="${dato.tipo=='NO_LABORAL' && dato.entidad!='0'}">
                                 <td class="fubode-rojo text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn fubode-rojo" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-rojo" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -158,7 +158,7 @@
                             <c:when  test="${dato.tipo=='MANANA' && dato.entidad=='0'}">
                                 <td class="bg-warning text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn btn-warning" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn btn-warning" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -166,7 +166,7 @@
                             <c:when  test="${dato.tipo=='MANANA' && dato.entidad!='0'}">
                                 <td class="fubode-amarillo text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn fubode-amarillo" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-amarillo" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -175,7 +175,7 @@
                             <c:when  test="${dato.tipo=='TARDE' && dato.entidad=='0'}">
                                 <td class="bg-info text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn btn-info" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn btn-info" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -183,7 +183,7 @@
                             <c:when  test="${dato.tipo=='TARDE' && dato.entidad!='0'}">
                                 <td class="fubode-celeste text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn fubode-celeste" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-celeste" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -192,7 +192,7 @@
                             <c:when  test="${dato.tipo=='SABADO' && dato.entidad=='0'}">
                                 <td class="bg-primary text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn btn-primary" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn btn-primary" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -200,7 +200,7 @@
                             <c:when  test="${dato.tipo=='SABADO' && dato.entidad!='0'}">
                                 <td class="fubode-azul text-white">
                                     ${dato.diaNumeral}
-                                    <button id="${dato.diaNumeral}"  class="btn fubode-azul" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}','${dato.tipo}','${dato.nombre_entidad}','${dato.id_fechas}')">
+                                    <button id="${dato.diaNumeral}"  class="btn fubode-azul" onclick="mostrarDetalle('${dato.descripcion}', '${dato.fecha}', '${dato.entidad}', '${dato.tipo}', '${dato.nombre_entidad}', '${dato.id_fechas}')">
                                         <span  class="fa fa-eye">
                                     </button>                                                       
                                 </td>
@@ -363,6 +363,37 @@
                     <button type="button" id ="registrar"class="btn btn-warning"  onclick="editarFecha()">EDITAR</button>
                     <button type="button" id ="registrar"class="btn btn-danger"  onclick="eliminarFecha()">ELIMINAR</button>
                     <button type="button" id ="registrar"class="btn btn-secondary"  data-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal datos usuario -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="exampleModalLongTitle">DATOS DEL FUNCIONARIO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center">FUNCIONARIO</h4>
+                    <label><strong>NOMBRE: </strong> ${nombreFuncionario}</label><br>
+                    <label><strong>CARGO: </strong> ${nombre_cargo}</label><br>
+                    <label><strong>ENTIDAD: </strong> ${nombre_entidad}</label><br>
+                    <label><strong>CORREO: </strong> ${correo}</label><br>
+                    <label><strong>FECHA DE INGRESO: </strong> ${fecha_ingreso}</label><br>
+                    <c:if test="${supervisor!=0}">
+                        <h4 class="text-center">SUPERVISOR</h4>
+                        <label><strong>NOMBRE: </strong> ${supervisor_nombre}</label><br>
+                        <label><strong>CARGO: </strong> ${supervisor_cargo}</label><br>
+                        <label><strong>ENTIDAD: </strong> ${supervisor_entidad}</label><br>
+                        <label><strong>CORREO: </strong> ${supervisor_correo}</label><br>
+                    </c:if>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
