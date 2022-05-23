@@ -53,7 +53,7 @@ function editarSolicitud(btn) {
                     document.querySelector('#ASUETO').checked = true;
                     document.getElementById('asueto_m').style.display = "block"; // show
                     document.getElementById('compesacion_m').style.display = "none"; // show
-                    document.getElementById('descripcion_estado').value = data.detalle_compensacion;
+                    //document.getElementById('descripcion_estado').value = data.detalle_compensacion;
                     break;
                 case "COMPENSACION":
                     document.querySelector('#COMPENSACION').checked = true;

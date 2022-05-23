@@ -409,7 +409,7 @@
                         <button type="button" id="rechazado_m" class="btn btn-danger m-2" >RECHAZADO</button>
                         <button type="button" id="anulado_m" class="btn btn-danger m-2" >ANULADO</button>
                         <div class="form-group">
-                            <textarea class="form-control" id="descripcion_estado  text-uppercase" rows="3"></textarea>
+                            <textarea class="form-control text-uppercase" id="descripcion_estado" rows="3"></textarea>
                         </div>
                         <div class="container-fluid">
                             <select name="aceptado_m" id="aceptado_m" class="form-control">

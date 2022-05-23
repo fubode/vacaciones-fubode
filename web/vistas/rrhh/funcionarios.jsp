@@ -339,7 +339,6 @@
             </div>
         </div>
     </div>
-
     <script src="recursos/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="recursos/js/popper.min.js" type="text/javascript"></script>
     <script src="recursos/js/bootstrap.min.js" type="text/javascript"></script>  
