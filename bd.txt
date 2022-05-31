@@ -164,3 +164,361 @@ INSERT INTO public.rol(
 	nombre_rol, cod_sai)
 	VALUES ('SEGURIDAD', 3000);
 
+
+INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-1', 'FERIADO DE AÑO NEUVO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-2', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+
+
+INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-8', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-9', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-9', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-16', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-22', 'DIA DEL ESTADO PLURINACIONAL', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-23', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-1-23', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+
+INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-5', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-5', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-6', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-13', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-20', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-27', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-2-28', 'CARNAVAL', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-1', 'CARNAVAL', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-5', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-12', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-6', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-13', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-20', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-3-27', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-2', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-9', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-3', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-15', 'VIERNES SANTO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-10', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-17', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-4-24', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-7', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-14', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-1', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-2', 'FERIADO POR DIA DEL TRABAJADOR', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-8', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+		
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-15', 'FERIADO POR DOMINGO', 'NO_LABORAL');	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-22', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-5-29', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-4', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-11', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-5', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-12', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-19', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-26', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-16', 'CORPUS CRISTI', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-6-21', 'AÑO NUEVO AYMARA', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-7-2', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-7-9', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-7-10', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-7-17', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-7-24', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-7-31', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-6', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-13', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-7', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-14', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-21', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-28', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-8-6', 'DIA DE LA INDEPENDENCIA', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-9-3', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-9-10', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-9-4', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-9-11', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-9-18', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-9-25', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-1', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-8', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-2', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-9', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-16', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-23', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-10-30', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-5', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-12', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-6', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-13', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-20', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-27', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-11-2', 'DIA DE TODOS LOS DIFUNTOS', 'NO_LABORAL');
+	
+	
+	
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-3', 'PRIMER SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-10', 'SEGUNDO SABADO DEL MES', 'SABADO');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-4', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-11', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-18', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-25', 'FERIADO POR DOMINGO', 'NO_LABORAL');
+	
+	INSERT INTO public.fechas(
+	fecha, descripcion_estado, tipo)
+	VALUES ('2022-12-26', 'FERIADO POR NAVIDAD', 'NO_LABORAL');
+	
