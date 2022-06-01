@@ -1,8 +1,10 @@
 package Controlador;
 
+import Helper.Calendario;
 import Helper.Date;
 import Modelo.Conexion;
 import Modelo.Usuario;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,11 +21,33 @@ public class DAOGeneral extends Conexion {
     public DAOGeneral() {
     }
 
-    public double diasNoLaborables(String fecha_salida, String fecha_retorno, String diferencia, String turno_salida, String turno_retorno, String codigo) {
+    public JSONObject diasNoLaborables(String fecha_salida, String fecha_retorno, String diferencia, String turno_salida, String turno_retorno, String codigo) {
         double diasNoLaborables = 0;
+        
+        int say = 0;
+        try {
+            say = Integer.parseInt(codigo);
+        } catch (Exception e) {
+            say = codigo_say;
+        }
+        String mensaje = "";
+        JSONObject json = new JSONObject();
+        String a = "asd";
         try {
             Date salida = new Date(fecha_salida);
             Date retorno = new Date(fecha_retorno);
+            if (esFeriado(salida, codigo) || esFeriado(retorno, codigo)) {
+                json.put("mensaje", "NO PUEDE SELECCIONAR UN DIA FERIADO");
+                json.put("dias", "");
+            } else {
+                double descuentoDias = descuentoDias(salida, retorno, say);
+                json.put("mensaje", "EXITO");
+            }
+        } catch (Exception e) {
+
+        }
+
+        /*
             String sqlSay = null;
             int say = 0;
             if (codigo.equals("null")) {
@@ -40,7 +64,7 @@ public class DAOGeneral extends Conexion {
                     + "and  fun.entidad=e.codigo_entidad "
                     + "and e.codigo_entidad=f.entidad "
                     + "and fun.codigo_sai=" + say + " "
-                    + "order by fecha";
+                    + "order by fecha"; 
             List<Map<String, Object>> entidades = this.jdbcTemplate.queryForList(listaEntidades);
             List<Map<String, Object>> entidad = this.jdbcTemplate.queryForList(listaEntidad);
             if (esFeriado(fecha_salida, fecha_retorno, entidad, entidades)) {
@@ -95,8 +119,8 @@ public class DAOGeneral extends Conexion {
         }
         if (diasNoLaborables < 0) {
             diasNoLaborables = 0;
-        }
-        return diasNoLaborables;
+        }*/
+        return json;
     }
 
     private boolean esFeriado(String fecha_salida, String fecha_retorno, List<Map<String, Object>> entidad, List<Map<String, Object>> entidades) {
@@ -119,8 +143,8 @@ public class DAOGeneral extends Conexion {
     public double vacaciones() throws JSONException {
         double totalVacaciones = totalVacaciones();
         double vacacionesTomadas = vacacionesTomadas();
-                
-        return totalVacaciones- vacacionesTomadas;
+
+        return totalVacaciones - vacacionesTomadas;
     }
 
     public double totalVacaciones() throws JSONException {
@@ -174,5 +198,49 @@ public class DAOGeneral extends Conexion {
             }
         }
         return funcionarioList;
+    }
+
+    private boolean esFeriado(Date fecha, String codigo) {
+        boolean esFeriado = false;
+        Usuario usuario = new Usuario(codigo_say);
+        int entididad = usuario.getCodigoEntidad();
+
+        List<Map<String, Object>> fechas;
+        String sql = "SELECT id_fechas, fecha, descripcion_estado, tipo, entidad "
+                + "FROM public.fechas "
+                + "WHERE fecha='" + fecha.toString() + "'";
+        fechas = this.jdbcTemplate.queryForList(sql);
+        String detalle = "";
+        if (fechas.size() == 1) {
+            detalle = fechas.get(0).get("tipo").toString();
+            if (detalle.equals("NO_LABORAL")) {
+                esFeriado = true;
+            }
+        } else {
+            for (int i = 0; i < fechas.size(); i++) {
+                detalle = fechas.get(i).get("tipo").toString();
+                if (detalle.equals("NO_LABORAL")) {
+                    esFeriado = true;
+                    break;
+                }
+            }
+        }
+        return esFeriado;
+    }
+
+    private double descuentoDias(Date salida, Date retorno, int codigo) throws ParseException {
+        double descuentoDias = 0;
+        String listaEntidades = "select fecha,tipo,entidad from fechas where entidad = 0 and fecha>= '" + salida.toString() + "'  and fecha<= '" + retorno.toString() + "' order by fecha";
+        String listaEntidad = "select fecha,tipo,e.nombre_entidad from fechas f, entidad e, funcionario fun where "
+                + "fecha>= '" + salida.toString() + "'  and fecha<= '" + retorno.toString() + "' "
+                + "and  fun.entidad=e.codigo_entidad "
+                + "and e.codigo_entidad=f.entidad "
+                + "and fun.codigo_sai=" + codigo + " "
+                + "order by fecha";
+        List<Map<String, Object>> entidades = this.jdbcTemplate.queryForList(listaEntidades);
+        List<Map<String, Object>> entidad = this.jdbcTemplate.queryForList(listaEntidad);
+        Calendario calendario = new Calendario();
+        List<Map<String, Object>> dias = calendario.dias(salida.toString(),retorno.toString());
+        return descuentoDias;
     }
 }

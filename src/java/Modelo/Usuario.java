@@ -28,6 +28,7 @@ public class Usuario {
     private Conexion conexion;
     private Date fecha_ingreso;
     private int supervisor;
+    private int codigoEntidad;
     private String nombre;
     private String apellido;
     private String correo;
@@ -146,7 +147,7 @@ public class Usuario {
         this.codigo_say = codigoSay;
         this.conexion = new Conexion();
         List<Map<String, Object>> usuario = null;
-        String sql = "SELECT codigo_sai, apellido, f.nombre, fecha_ingreso,correo,ca.nombre_cargo, e.nombre_entidad,f.supervisor,usuario,pass "
+        String sql = "SELECT codigo_sai, apellido, f.nombre, fecha_ingreso,correo,ca.nombre_cargo, e.nombre_entidad,f.supervisor,usuario,pass, codigo_entidad "
                 + "FROM funcionario f, cargo ca, entidad e, cuenta cu "
                 + "where cu.codigo_funcionario=f.codigo_sai and  f.cargo=ca.codigo_cargo and f.entidad=e.codigo_entidad and f.codigo_sai=" + codigo_say;
         usuario = conexion.jdbcTemplate.queryForList(sql);
@@ -155,11 +156,16 @@ public class Usuario {
         this.fecha_ingreso = new Date(usuario.get(0).get("fecha_ingreso").toString());
         this.cargo = usuario.get(0).get("nombre_cargo").toString();
         this.entidad = usuario.get(0).get("nombre_entidad").toString();
+        this.codigoEntidad = Integer.parseInt(usuario.get(0).get("codigo_entidad").toString());
         this.correo = usuario.get(0).get("correo").toString();
         this.usuario = usuario.get(0).get("usuario").toString();
         this.password = usuario.get(0).get("pass").toString();
         this.supervisor = Integer.parseInt(usuario.get(0).get("supervisor").toString());
         this.estado = "DESBLOQUEADO";
+    }
+
+    public int getCodigoEntidad() {
+        return codigoEntidad;
     }
 
     public int getCodigo_say() {

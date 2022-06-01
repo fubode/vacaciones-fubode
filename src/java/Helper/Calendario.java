@@ -5,11 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 public class Calendario {
 
@@ -21,6 +21,15 @@ public class Calendario {
         this.gestion = gestion;
         this.mes = mes;
         this.dia = 1;
+    }
+
+    public Calendario(int dia, int mes, int gestion) {
+        this.dia = dia;
+        this.mes = mes;
+        this.gestion = gestion;
+    }
+
+    public Calendario() {
     }
 
     public int getGestion() {
@@ -55,16 +64,16 @@ public class Calendario {
             dato.put("descripcion", "NINGUNO");
             dato.put("entidad", "0");
             dato.put("nombre_entidad", "TODOS");
-            if((dia == "Sabado") && sabados<2){
+            if ((dia == "Sabado") && sabados < 2) {
                 dato.put("tipo", "SABADO");
                 sabados++;
-            }else{
+            } else {
                 dato.put("tipo", "NINGUNO");
             }
-            if((dia == "Domingo")){
+            if ((dia == "Domingo")) {
                 dato.put("tipo", "NO_LABORAL");
             }
-            if (dia == "Domingo" || i==diasMes) {
+            if (dia == "Domingo" || i == diasMes) {
                 semana.add(dato);
                 lista.add(semana);
                 semana = new LinkedList<>();
@@ -73,6 +82,7 @@ public class Calendario {
             }
         }
         List<List<Map<String, String>>> listaArreglada = listaArreglada(lista);
+
         return listaArreglada;
     }
 
@@ -161,14 +171,14 @@ public class Calendario {
     }
 
     private List<List<Map<String, String>>> listaArreglada(List<List<Map<String, String>>> listas) {
-        List<Map<String, String>> lista =  listas.get(0);
-        List<Map<String, String>> listaVacio =  new LinkedList<>();
+        List<Map<String, String>> lista = listas.get(0);
+        List<Map<String, String>> listaVacio = new LinkedList<>();
         int tamanio = lista.size();
-        if(tamanio!=7){
-            for (int i = 0; i < (7-tamanio); i++) {
+        if (tamanio != 7) {
+            for (int i = 0; i < (7 - tamanio); i++) {
                 Map<String, String> dato = new HashMap<>();
                 dato.put("dia", "");
-                dato.put("diaNumeral","");
+                dato.put("diaNumeral", "");
                 dato.put("fecha", "");
                 listaVacio.add(dato);
             }
@@ -179,78 +189,117 @@ public class Calendario {
         }
         return listas;
     }
-    
-    public ArrayList<Map<String,String>> meses(){
-        ArrayList<Map<String,String>> meses = new ArrayList<>();
-        Map<String,String> mes = new HashMap<>();
-        mes.put("mes","ENERO");
+
+    public ArrayList<Map<String, String>> meses() {
+        ArrayList<Map<String, String>> meses = new ArrayList<>();
+        Map<String, String> mes = new HashMap<>();
+        mes.put("mes", "ENERO");
         mes.put("valor", "1");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","FEBRERO");
+        mes.put("mes", "FEBRERO");
         mes.put("valor", "2");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","MARZO");
+        mes.put("mes", "MARZO");
         mes.put("valor", "3");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","ABRIL");
+        mes.put("mes", "ABRIL");
         mes.put("valor", "4");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","MAYO");
+        mes.put("mes", "MAYO");
         mes.put("valor", "5");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","JUNIO");
+        mes.put("mes", "JUNIO");
         mes.put("valor", "6");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","JULIO");
+        mes.put("mes", "JULIO");
         mes.put("valor", "7");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","AGOSTO");
+        mes.put("mes", "AGOSTO");
         mes.put("valor", "8");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","SEPTIEMBRE");
+        mes.put("mes", "SEPTIEMBRE");
         mes.put("valor", "9");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","OCTUBRE");
+        mes.put("mes", "OCTUBRE");
         mes.put("valor", "10");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","NOVIEMBRE");
+        mes.put("mes", "NOVIEMBRE");
         mes.put("valor", "11");
         meses.add(mes);
-        
+
         mes = new HashMap<>();
-        mes.put("mes","DICIEMBRE");
+        mes.put("mes", "DICIEMBRE");
         mes.put("valor", "12");
         meses.add(mes);
         return meses;
     }
-    
-    public ArrayList<Integer> gestiones(){
+
+    public ArrayList<Integer> gestiones() {
         ArrayList<Integer> gestiones = new ArrayList<>();
         int inicio = 2000;
         int fin = 2050;
-        for (int  i= inicio;  i<= fin; i++) {
+        for (int i = inicio; i <= fin; i++) {
             gestiones.add(i);
         }
         return gestiones;
+    }
+
+    public List<Map<String, Object>> dias(String salida, String retorno) throws ParseException {
+        List<Map<String, Object>> dias = new LinkedList<>();
+        while (estaEnRango(salida, retorno)) {
+            Map<String, Object> dia = new HashMap<>();
+            dia.put("fecha", salida);
+            dia.put("entidad", "0");
+            dia.put("tipo", "NINGURNO");
+            dia.put("descuento", 0);
+            dia.put("dia", diaSemana(salida));
+            salida = diaSiguiente(salida);
+            dias.add(dia);
+        }
+        return dias;
+    }
+
+    private boolean estaEnRango(String salida, String retorno) {
+        boolean estaEnRango = true;
+        try {
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateSalida = sdformat.parse(salida);
+            Date dateRetorno = sdformat.parse(retorno);
+            if (dateSalida.after(dateRetorno)) {
+                estaEnRango = false;
+            }
+        } catch (Exception e) {
+        }
+        return estaEnRango;
+    }
+
+    private String diaSiguiente(String salida) throws ParseException {
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = sdformat.parse(salida);
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 1);
+        dt = c.getTime();
+        return sdformat.format(dt);
     }
 }

@@ -93,13 +93,16 @@ public class srvGeneral extends HttpServlet {
         String diferencia = request.getParameter("diferencia");
         String turno_salida = request.getParameter("turno_salida");
         String turno_retorno = request.getParameter("turno_retorno");
-        String codigo = request.getParameter("cod");
-        double diasNoLaborables = dao.diasNoLaborables(fecha_salida, fecha_retorno, diferencia, turno_salida, turno_retorno,codigo);
-        PrintWriter out = null;
-        JSONObject json = new JSONObject();
+        String codigo = "";
         try {
+            codigo= request.getParameter("cod");
+        } catch (Exception e) {
+        }
+        PrintWriter out = null;
+        JSONObject json = null;
+        try {
+            json = dao.diasNoLaborables(fecha_salida, fecha_retorno, diferencia, turno_salida, turno_retorno,codigo);
             out = response.getWriter();
-            json.put("dias",diasNoLaborables);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
             System.out.println(e);

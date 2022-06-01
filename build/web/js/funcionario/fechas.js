@@ -39,7 +39,7 @@ $(document).ready(function () {
                                 "&turno_salida=" + turno_salida +
                                 "&turno_retorno=" + turno_retorno +
                                 "&diferencia=" + diferencia +
-                                "&cod=" + cod;
+                                "&cod=" + null;
                     } catch (e) {
                         console.log(e);
                         url = "srvGeneral?accion=fechas" +
@@ -56,11 +56,12 @@ $(document).ready(function () {
                         type: 'GET',
                         dataType: 'JSON',
                         success: function (data) {
+                            
                             console.log('exito')
                             console.log(data)
-                            console.log(data.dias);
-                            if (data.dias == 10000) {
-                                swal('NO PUEDE SELECCIONAR UN DIA FERIADO');
+                            if (data.mensaje != "EXITO") {
+                            console.log(data.mensaje);
+                                swal(data.mensaje);
                                 document.querySelector('#fecha_retorno').value = aux_retorno;
                             } else {
                                 document.getElementById('dias').value = data.dias;
