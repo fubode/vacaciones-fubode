@@ -21,9 +21,8 @@ public class DAOGeneral extends Conexion {
     public DAOGeneral() {
     }
 
-    public JSONObject diasNoLaborables(String fecha_salida, String fecha_retorno, String diferencia, String turno_salida, String turno_retorno, String codigo) {
-        double diasNoLaborables = 0;
-        
+    public JSONObject diasNoLaborables(String fecha_salida, String fecha_retorno, String turno_salida, String turno_retorno, String codigo) {
+
         int say = 0;
         try {
             say = Integer.parseInt(codigo);
@@ -41,103 +40,17 @@ public class DAOGeneral extends Conexion {
                 json.put("dias", "");
             } else {
                 double descuentoDias = descuentoDias(salida, retorno, say);
+                double descuentoTurno = descuentoTurno(turno_salida, turno_retorno, say);
+                double cantDias = cantDias(fecha_salida, fecha_retorno);
+                double totalDescuento = cantDias - descuentoDias - descuentoTurno;
+                
                 json.put("mensaje", "EXITO");
+                json.put("dias", totalDescuento);
             }
         } catch (Exception e) {
 
         }
-
-        /*
-            String sqlSay = null;
-            int say = 0;
-            if (codigo.equals("null")) {
-                say = codigo_say;
-            } else {
-                sqlSay = "SELECT codigo_funcionario "
-                        + "FROM public.solicitud_vacaciones "
-                        + "WHERE codigo_solicitud='" + codigo + "'";
-                say = Integer.parseInt(this.jdbcTemplate.queryForList(sqlSay).get(0).get("codigo_funcionario").toString());
-            }
-            String listaEntidades = "select fecha,tipo,entidad from fechas where entidad = 0 and fecha>= '" + fecha_salida + "'  and fecha<= '" + fecha_retorno + "' order by fecha";
-            String listaEntidad = "select fecha,tipo,e.nombre_entidad from fechas f, entidad e, funcionario fun where "
-                    + "fecha>= '" + fecha_salida + "'  and fecha<= '" + fecha_retorno + "' "
-                    + "and  fun.entidad=e.codigo_entidad "
-                    + "and e.codigo_entidad=f.entidad "
-                    + "and fun.codigo_sai=" + say + " "
-                    + "order by fecha"; 
-            List<Map<String, Object>> entidades = this.jdbcTemplate.queryForList(listaEntidades);
-            List<Map<String, Object>> entidad = this.jdbcTemplate.queryForList(listaEntidad);
-            if (esFeriado(fecha_salida, fecha_retorno, entidad, entidades)) {
-                diasNoLaborables = 10000;
-            } else {
-                for (Map<String, Object> map : entidad) {
-                    String tipo = map.get("tipo").toString();
-                    switch (tipo) {
-                        case "SABADO":
-                            diasNoLaborables += 0.5;
-                            break;
-                        case "NO_LABORAL":
-                            diasNoLaborables += 1;
-                            break;
-                        case "TARDE":
-                            diasNoLaborables += 0.5;
-                            break;
-                        case "MANANA":
-                            diasNoLaborables += 0.5;
-                            break;
-                    }
-                }
-                for (Map<String, Object> e : entidades) {
-                    String tipo = e.get("tipo").toString();
-                    switch (tipo) {
-                        case "SABADO":
-                            diasNoLaborables += 0.5;
-                            break;
-                        case "NO_LABORAL":
-                            diasNoLaborables += 1;
-                            break;
-                        case "TARDE":
-                            diasNoLaborables += 0.5;
-                            break;
-                        case "MANANA":
-                            diasNoLaborables += 0.5;
-                            break;
-                    }
-                }
-                double descuentoTurno = 0;
-                if (turno_salida.equals("MAÑANA") && turno_retorno.equals("TARDE")) {
-                    descuentoTurno += 0.5;
-                } else {
-                    if (turno_salida.equals("TARDE") && turno_retorno.equals("MAÑANA")) {
-                        descuentoTurno -= 0.5;
-                    }
-                }
-                diasNoLaborables = Double.parseDouble(diferencia) - diasNoLaborables + descuentoTurno;
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        if (diasNoLaborables < 0) {
-            diasNoLaborables = 0;
-        }*/
         return json;
-    }
-
-    private boolean esFeriado(String fecha_salida, String fecha_retorno, List<Map<String, Object>> entidad, List<Map<String, Object>> entidades) {
-        boolean esFeriado = false;
-        for (Map<String, Object> e : entidades) {
-            if (e.get("fecha").toString().equals(fecha_retorno) || e.get("fecha").toString().equals(fecha_salida)) {
-                esFeriado = true;
-                break;
-            }
-        }
-        for (Map<String, Object> e : entidad) {
-            if (e.get("fecha").toString().equals(fecha_retorno) || e.get("fecha").toString().equals(fecha_salida)) {
-                esFeriado = true;
-                break;
-            }
-        }
-        return esFeriado;
     }
 
     public double vacaciones() throws JSONException {
@@ -228,6 +141,10 @@ public class DAOGeneral extends Conexion {
         return esFeriado;
     }
 
+    private double cantDias(String salida, String retorno) throws ParseException{
+        Calendario calendario = new Calendario();
+        return calendario.dias(salida, retorno).size();
+    }
     private double descuentoDias(Date salida, Date retorno, int codigo) throws ParseException {
         double descuentoDias = 0;
         String listaEntidades = "select fecha,tipo,entidad from fechas where entidad = 0 and fecha>= '" + salida.toString() + "'  and fecha<= '" + retorno.toString() + "' order by fecha";
@@ -240,7 +157,78 @@ public class DAOGeneral extends Conexion {
         List<Map<String, Object>> entidades = this.jdbcTemplate.queryForList(listaEntidades);
         List<Map<String, Object>> entidad = this.jdbcTemplate.queryForList(listaEntidad);
         Calendario calendario = new Calendario();
-        List<Map<String, Object>> dias = calendario.dias(salida.toString(),retorno.toString());
+        List<Map<String, Object>> dias = calendario.dias(salida.toString(), retorno.toString());
+
+        for (int i = 0; i < entidades.size(); i++) {
+            String fecha = entidades.get(i).get("fecha").toString();
+            for (int j = 0; j < dias.size(); j++) {
+                String fechaDia = dias.get(j).get("fecha").toString();
+                if (calendario.sonIguales(fecha, fechaDia)) {
+                    String tipo = entidades.get(i).get("tipo").toString();
+                    switch (tipo) {
+                        case "NO_LABORAL":
+                            dias.get(j).put("descuento", 1);
+                            dias.get(j).put("tipo", "NO_LABORAL");
+                            break;
+                        case "TARDE":
+                            dias.get(j).put("descuento", 0.5);
+                            dias.get(j).put("tipo", "TARDE");
+                            break;
+                        case "MANANA":
+                            dias.get(j).put("descuento", 0.5);
+                            dias.get(j).put("tipo", "MANANA");
+                            break;
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < entidad.size(); i++) {
+            String fecha = entidad.get(i).get("fecha").toString();
+            for (int j = 0; j < dias.size(); j++) {
+                String fechaDia = dias.get(j).get("fecha").toString();
+                if (calendario.sonIguales(fecha, fechaDia)) {
+                    String tipo = entidad.get(i).get("tipo").toString();
+                    switch (tipo) {
+                        case "NO_LABORAL":
+                            dias.get(j).put("descuento", 1);
+                            dias.get(j).put("tipo", "NO_LABORAL");
+                            break;
+                        case "TARDE":
+                            dias.get(j).put("descuento", 0.5);
+                            dias.get(j).put("tipo", "TARDE");
+                            break;
+                        case "MANANA":
+                            dias.get(j).put("descuento", 0.5);
+                            dias.get(j).put("tipo", "MANANA");
+                            break;
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < dias.size(); i++) {
+            double descuento = Double.parseDouble(dias.get(i).get("descuento").toString());
+            descuentoDias = descuentoDias + descuento;
+        }
         return descuentoDias;
+    }
+
+    private double descuentoTurno(String turno_salida, String turno_retorno, int say) {
+        double descuentoTurno = 0;
+        if (turno_salida.equals("TARDE")) {
+            descuentoTurno = 0.5;
+        }
+
+        if (turno_retorno.equals("TARDE")) {
+            descuentoTurno = descuentoTurno + 0.5;
+        } else {
+            if (turno_retorno.equals("MAÑANA")) {
+                descuentoTurno = descuentoTurno + 1;
+            }
+        }
+        return descuentoTurno;
     }
 }

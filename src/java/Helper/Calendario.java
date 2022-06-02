@@ -268,11 +268,22 @@ public class Calendario {
         List<Map<String, Object>> dias = new LinkedList<>();
         while (estaEnRango(salida, retorno)) {
             Map<String, Object> dia = new HashMap<>();
+            String diaSemana = diaSemana(salida);
+            if(diaSemana.equals("Sabado")){
+                dia.put("tipo", "TARDE");
+                dia.put("descuento", 0.5);
+            }else{
+                if(diaSemana.equals("Domingo")){
+                    dia.put("tipo", "NO_LABORAL");
+                    dia.put("descuento", 1);
+                }else{
+                    dia.put("descuento", 0);
+                    dia.put("tipo", "NINGUNO");
+                }
+            }
             dia.put("fecha", salida);
             dia.put("entidad", "0");
-            dia.put("tipo", "NINGURNO");
-            dia.put("descuento", 0);
-            dia.put("dia", diaSemana(salida));
+            dia.put("dia", diaSemana);
             salida = diaSiguiente(salida);
             dias.add(dia);
         }
@@ -301,5 +312,12 @@ public class Calendario {
         c.add(Calendar.DATE, 1);
         dt = c.getTime();
         return sdformat.format(dt);
+    }
+
+    public boolean sonIguales(String fecha, String fechaDia) throws ParseException {
+         SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateSalida = sdformat.parse(fecha);
+            Date dateRetorno = sdformat.parse(fechaDia);
+        return dateRetorno.equals(dateSalida);
     }
 }

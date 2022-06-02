@@ -90,7 +90,6 @@ public class srvGeneral extends HttpServlet {
     private void calcular(HttpServletRequest request, HttpServletResponse response, DAOGeneral dao) throws ServletException, IOException, JSONException {
         String fecha_salida = request.getParameter("fecha_salida");
         String fecha_retorno = request.getParameter("fecha_retorno");
-        String diferencia = request.getParameter("diferencia");
         String turno_salida = request.getParameter("turno_salida");
         String turno_retorno = request.getParameter("turno_retorno");
         String codigo = "";
@@ -101,7 +100,7 @@ public class srvGeneral extends HttpServlet {
         PrintWriter out = null;
         JSONObject json = null;
         try {
-            json = dao.diasNoLaborables(fecha_salida, fecha_retorno, diferencia, turno_salida, turno_retorno,codigo);
+            json = dao.diasNoLaborables(fecha_salida, fecha_retorno, turno_salida, turno_retorno,codigo);
             out = response.getWriter();
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());

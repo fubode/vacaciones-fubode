@@ -57,10 +57,7 @@ $(document).ready(function () {
                         dataType: 'JSON',
                         success: function (data) {
                             
-                            console.log('exito')
-                            console.log(data)
                             if (data.mensaje != "EXITO") {
-                            console.log(data.mensaje);
                                 swal(data.mensaje);
                                 document.querySelector('#fecha_retorno').value = aux_retorno;
                             } else {
@@ -87,24 +84,5 @@ $(document).ready(function () {
             document.querySelector('#fecha_salida').value = aux_salida;
             swal('La fecha de salida debe ser mayor a la fecha actual');
         }
-
-    }
-    
-    function salidaMenorActual(salida,retorno){
-        console.log(salida,retorno);
-        var salidaMenorActual = false;
-        var salidaCadena = String(salida);
-        var retornoCadena = String(retorno);
-        
-        salidaCadena = salidaCadena.substring(0,4);
-        retornoCadena = retornoCadena.substring(0,4);
-        
-        salida = Number(salidaCadena);
-        retorno = Number(retornoCadena);
-        if(salida>=retorno){
-            console.log(salida>=retorno);
-            salidaMenorActual = true;
-        }
-        return salidaMenorActual;
     }
 });
