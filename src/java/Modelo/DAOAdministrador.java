@@ -488,7 +488,7 @@ public class DAOAdministrador extends Conexion {
         json.put("codigo_sai", cargo.get(0).get("codigo_sai").toString());
         json.put("apellido", cargo.get(0).get("apellido").toString());
         json.put("nombre", cargo.get(0).get("nombre").toString());
-        json.put("fecha_ingreso",ingreso.fechaImpresion());
+        json.put("fecha_ingreso", ingreso.fechaImpresion());
         json.put("ci", cargo.get(0).get("ci").toString());
         json.put("correo", cargo.get(0).get("correo").toString());
         json.put("supervisor", cargo.get(0).get("supervisor").toString());
@@ -1064,16 +1064,67 @@ public class DAOAdministrador extends Conexion {
         return funcionario;
     }
 
-    public void registrarFecha(String fecha, String entidad, String turno, String detalle) {
-        String sql = "INSERT INTO public.fechas("
-                + "fecha, descripcion_estado, tipo, entidad) "
-                + "VALUES (?, ?, ?, ?)";
-        this.jdbcTemplate.update(sql,
-                new Date(fecha),
-                detalle,
-                turno,
-                Integer.parseInt(entidad)
-        );
+    public JSONObject registrarFecha(String fecha, String entidad, String tipo, String detalle) {
+        JSONObject registrarFecha = new JSONObject();
+        registrarFecha.put("mensaje", "NO SE PUDO REGISTRAR LA FECHA");
+        List<Map<String, Object>> mostrarFecha = new LinkedList<>();
+
+        if (tipo.equals("NO_LABORAL")) {
+            String sqlFecha = "select id_fechas,fecha,descripcion_estado,tipo,entidad "
+                    + "from fechas "
+                    + " where fecha='" + fecha + "'";
+            mostrarFecha = this.jdbcTemplate.queryForList(sqlFecha);
+            if (mostrarFecha.size() == 0) {
+                String sql = "INSERT INTO public.fechas("
+                        + "fecha, descripcion_estado, tipo, entidad) "
+                        + "VALUES (?, ?, ?, ?)";
+                this.jdbcTemplate.update(sql,
+                        new Date(fecha),
+                        detalle,
+                        tipo,
+                        Integer.parseInt(entidad)
+                );
+                registrarFecha.put("mensaje", "EXITO");
+            }else{
+                registrarFecha.put("mensaje", "NO SE PUDO REGISTRAR LA FECHA");
+            }
+        }else{
+            String sqlFecha = "select id_fechas,fecha,descripcion_estado,tipo,entidad "
+                    + "from fechas "
+                    + " where fecha='" + fecha + "' and entidad=0 and tipo ='NO_LABORAL'";
+            mostrarFecha = this.jdbcTemplate.queryForList(sqlFecha);
+            if(mostrarFecha.size()==0){
+                String sql = "INSERT INTO public.fechas("
+                        + "fecha, descripcion_estado, tipo, entidad) "
+                        + "VALUES (?, ?, ?, ?)";
+                this.jdbcTemplate.update(sql,
+                        new Date(fecha),
+                        detalle,
+                        tipo,
+                        Integer.parseInt(entidad)
+                );
+                registrarFecha.put("mensaje", "EXITO");
+            }
+            
+            sqlFecha = "select id_fechas,fecha,descripcion_estado,tipo,entidad "
+                    + "from fechas "
+                    + " where fecha='" + fecha + "' and entidad="+Integer.parseInt(entidad) +" and tipo ='NO_LABORAL'";
+            mostrarFecha = this.jdbcTemplate.queryForList(sqlFecha);
+            if(mostrarFecha.size()==0){
+                String sql = "INSERT INTO public.fechas("
+                        + "fecha, descripcion_estado, tipo, entidad) "
+                        + "VALUES (?, ?, ?, ?)";
+                this.jdbcTemplate.update(sql,
+                        new Date(fecha),
+                        detalle,
+                        tipo,
+                        Integer.parseInt(entidad)
+                );
+                registrarFecha.put("mensaje", "EXITO");
+            }
+            
+        }       
+        return registrarFecha;
     }
 
     public void eliminarFecha(String fecha) throws Exception {
@@ -1108,8 +1159,8 @@ public class DAOAdministrador extends Conexion {
                 sql = "SELECT codigo_entidad, nombre_entidad, tipo_entidad, entidad_supervisor FROM public.entidad WHERE codigo_entidad=" + entidad;
                 List<Map<String, Object>> nombre_entidad = this.jdbcTemplate.queryForList(sql);
                 mostrarFecha.get(i).put("nombre_entidad", nombre_entidad.get(0).get("nombre_entidad").toString());
-            }else{
-                 mostrarFecha.get(i).put("nombre_entidad", "TODOS");
+            } else {
+                mostrarFecha.get(i).put("nombre_entidad", "TODOS");
             }
         }
         return mostrarFecha;

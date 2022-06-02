@@ -827,15 +827,23 @@ public class srvAdministrador extends HttpServlet {
     }
 
     private void registrarFecha(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+        JSONObject json = new JSONObject();
+        PrintWriter out = null;
+
         try {
+            out = response.getWriter();
             String fecha = request.getParameter("fecha");
             String entidad = request.getParameter("entidad");
             String turno = request.getParameter("turno");
             String detalle = request.getParameter("detalle");
-            dao.registrarFecha(fecha, entidad, turno, detalle);
+            json = dao.registrarFecha(fecha, entidad, turno, detalle);
+            
         } catch (Exception e) {
             System.out.println("-------" + e.getMessage());
             request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
+        } finally {
+            out.print(json);
+            out.close();
         }
     }
 

@@ -11,9 +11,7 @@ function mostrarFechas(btn) {
     parent.location.href = "srvAdministrador?accion=mostrarFecha&fecha=" + fecha;
 }
 
-function mostrarDetalle(detalle, fecha, entidad, tipo, nombre_entidad,id) {
-    console.log(detalle, fecha, entidad, tipo, nombre_entidad,id);
-    console.log(id);
+function mostrarDetalle(detalle, fecha, entidad, tipo, nombre_entidad, id) {
     fechaModificar = fecha;
     id_fechas = id;
 
@@ -89,8 +87,12 @@ function  registrarFecha() {
                         url: url,
                         async: true,
                         success: function (r) {
-                            swal('Se registro correctamente la fecha');
-                            parent.location.href = "srvAdministrador?accion=calendario";
+                            if (r.mensaje == 'EXITO') {
+                                swal('Se registro correctamente la fecha');
+                                parent.location.href = "srvAdministrador?accion=calendario";
+                            } else {
+                                swal(r.mensaje);
+                            }
                         }
                     });
                     swal("ENVIADO!", "EL REGISTRO FUE PROGRAMADAO", "success");
@@ -101,7 +103,6 @@ function  registrarFecha() {
 }
 
 function eliminarFecha() {
-    console.log("eliminar", fechaModificar);
     swal({
         title: "ESTAS SEGURO DE ELIMINAR ESTA FECHA?",
         text: "",

@@ -56,20 +56,18 @@ $(document).ready(function () {
                         type: 'GET',
                         dataType: 'JSON',
                         success: function (data) {
-                            
                             if (data.mensaje != "EXITO") {
                                 swal(data.mensaje);
                                 document.querySelector('#fecha_retorno').value = aux_retorno;
                             } else {
+                                swal(data.mensaje);
                                 document.getElementById('dias').value = data.dias;
                             }
                         },
 
                     }).done(function (data) {
-                        console.log('echso')
                     }
                     ).fail(function (data) {
-                        console.log('fallo')
                     });
 
                 } else {
