@@ -146,16 +146,30 @@
                         </td>
                         <td>${dato.nombre_entidad}</td>
                         <td>
-                            <div class="container">
+                            <c:choose>
+                                <c:when  test="${dato.estado=='ACTIVO'}">
+                                    <div class="container">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button id="${dato.codigo_sai}" type="button" class="btn btn-warning" onclick="editarFuncionario(this)">
+                                                <span  class="fa fa-pencil-square">
+                                            </button>
+                                            <button id="${dato.codigo_sai}" type="button" class="btn btn-danger " onclick="darBajaFuncionario(this)">
+                                                <span  class="fa fa-trash">
+                                            </button>
+                                        </div>
+                                    </div>                               
+                                </c:when>                            
+                                <c:otherwise>
+                                    <div class="container">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button id="${dato.codigo_sai}" type="button" class="btn btn-warning" onclick="editarFuncionario(this)">
-                                        <span  class="fa fa-pencil-square">
-                                    </button>
-                                    <button id="${dato.codigo_sai}" type="button" class="btn btn-danger " onclick="darBajaFuncionario(this)">
-                                        <span  class="fa fa-trash">
+                                    <button id="${dato.codigo_sai}" type="button" title="Habilitar funcionario" class="btn btn-success" onclick="habilitarfuncionario(this)">
+                                        <span  class="fa fa-check">
                                     </button>
                                 </div>
-                            </div> 
+                            </div>                               
+                                </c:otherwise>
+                            </c:choose>
+
                         </td>
                     </tr>
                 </c:forEach>

@@ -1,3 +1,38 @@
+function  habilitarfuncionario(btn) {
+    var codigoSai = btn.id;
+    var url = "srvAdministrador?accion=habilitarfuncionario&cod=" + codigoSai;
+    swal({
+        title: "ESTA SEGURO DE DAR DE BAJA AL FUNCIONARIO?",
+        text: "SI HABILITA A ESTE FUNCIONAR SE BORRARAN TODOS LOS REGISTROS DE VACACIONES",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "SI, HABILITAR!",
+        cancelButtonText: "NO, CANCELAR!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        success: function (data) {
+                            console.log(data.mensaje);
+                            parent.location.href = "srvAdministrador?accion=funcionarios";
+                        },
+                    }).done(function (data) {
+                    }
+                    ).fail(function (data) {
+                    });
+                } else {
+                    swal("CANCELADO", "CANCELASTE LA ACCION", "error");
+                }
+            });
+
+}
+
 function editarFuncionario(btn) {
     var codigoSai = btn.id;
     var url = "srvAdministrador?accion=obtenerFuncionario&cod=" + codigoSai;
@@ -11,7 +46,7 @@ function editarFuncionario(btn) {
             document.getElementById('nombre_e').value = data.nombre;
             document.getElementById('ingreso_e').value = data.fecha_ingreso;
             document.getElementById('ci_e').value = data.ci;
-            
+
             var e_expedido = document.getElementById("e_expedido");
             var expedido = data.expedido;
             for (var i = 0; i < e_expedido.length; i++) {
@@ -21,7 +56,7 @@ function editarFuncionario(btn) {
                     $('#e_expedido > option[value="' + data.expedido + '"]').attr('selected', 'selected');
                 }
             }
-            
+
             document.getElementById('correo_e').value = data.correo;
 
             var entidades = document.getElementById("entidades");
@@ -107,7 +142,7 @@ function editar() {
     var cargo = document.getElementById('cargo_e').value;
     var supervisor = document.getElementById('supervisor_e').value;
     var e_expedido = document.getElementById('e_expedido').value;
-    crudFuncionario('editar', codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, '', '',e_expedido);
+    crudFuncionario('editar', codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, '', '', e_expedido);
 }
 
 function agregar() {
@@ -121,10 +156,10 @@ function agregar() {
     var entidad = document.getElementById('entidad').value;
     var cargo = document.getElementById('cargo').value;
     var supervisor = document.getElementById('supervisor').value;
-    crudFuncionario('registrar', codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, '', '',expedido);
+    crudFuncionario('registrar', codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, '', '', expedido);
 }
 
-function crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, solicutud, estado,expedido) {
+function crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, solicutud, estado, expedido) {
     var mensajeAlerta = '';
     var mensajeRespuesta = '';
     switch (tipo) {
@@ -172,7 +207,7 @@ function crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo
                 },
                         function (isConfirm) {
                             if (isConfirm) {
-                                crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, 'NO', 'ACEPTAR',expedido);
+                                crudFuncionario(tipo, codigoSai, apellidos, nombre, ingreso, ci, correo, entidad, cargo, supervisor, 'NO', 'ACEPTAR', expedido);
                                 swal("REGISTRO EXITOSO!", mensajeRespuesta, "success");
                                 setTimeout(function () {
                                     parent.location.href = "srvAdministrador?accion=funcionarios";

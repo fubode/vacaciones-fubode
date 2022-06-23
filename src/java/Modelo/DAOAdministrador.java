@@ -1085,15 +1085,15 @@ public class DAOAdministrador extends Conexion {
                         Integer.parseInt(entidad)
                 );
                 registrarFecha.put("mensaje", "EXITO");
-            }else{
+            } else {
                 registrarFecha.put("mensaje", "NO SE PUDO REGISTRAR LA FECHA");
             }
-        }else{
+        } else {
             String sqlFecha = "select id_fechas,fecha,descripcion_estado,tipo,entidad "
                     + "from fechas "
                     + " where fecha='" + fecha + "' and entidad=0 and tipo ='NO_LABORAL'";
             mostrarFecha = this.jdbcTemplate.queryForList(sqlFecha);
-            if(mostrarFecha.size()==0){
+            if (mostrarFecha.size() == 0) {
                 String sql = "INSERT INTO public.fechas("
                         + "fecha, descripcion_estado, tipo, entidad) "
                         + "VALUES (?, ?, ?, ?)";
@@ -1105,12 +1105,12 @@ public class DAOAdministrador extends Conexion {
                 );
                 registrarFecha.put("mensaje", "EXITO");
             }
-            
+
             sqlFecha = "select id_fechas,fecha,descripcion_estado,tipo,entidad "
                     + "from fechas "
-                    + " where fecha='" + fecha + "' and entidad="+Integer.parseInt(entidad) +" and tipo ='NO_LABORAL'";
+                    + " where fecha='" + fecha + "' and entidad=" + Integer.parseInt(entidad) + " and tipo ='NO_LABORAL'";
             mostrarFecha = this.jdbcTemplate.queryForList(sqlFecha);
-            if(mostrarFecha.size()==0){
+            if (mostrarFecha.size() == 0) {
                 String sql = "INSERT INTO public.fechas("
                         + "fecha, descripcion_estado, tipo, entidad) "
                         + "VALUES (?, ?, ?, ?)";
@@ -1122,8 +1122,8 @@ public class DAOAdministrador extends Conexion {
                 );
                 registrarFecha.put("mensaje", "EXITO");
             }
-            
-        }       
+
+        }
         return registrarFecha;
     }
 
@@ -1164,6 +1164,35 @@ public class DAOAdministrador extends Conexion {
             }
         }
         return mostrarFecha;
+    }
+
+    public JSONObject habilitarFuncionario(String cod) {
+        int codigo = Integer.parseInt(cod);
+        JSONObject habilitarFuncionario = new JSONObject();
+        try {
+            String sql = "DELETE FROM public.solicitudes_modificadas "
+                    + "WHERE codigo_funcionario=" + codigo;
+
+            this.jdbcTemplate.execute(sql);
+            
+            sql = "DELETE FROM public.solicitud_vacaciones "
+                    + "WHERE codigo_funcionario=" + codigo;
+
+            this.jdbcTemplate.execute(sql);
+            
+            String sqleditarFecha = "UPDATE public.funcionario "
+                    + "SET estado='" + "ACTIVO" + "'"
+                    + " WHERE codigo_sai =" + codigo;
+            this.actualizarConsulta(sqleditarFecha);
+            
+            
+            habilitarFuncionario.put("mensaje", "exito");
+
+        } catch (Exception e) {
+            habilitarFuncionario.put("mensaje", e.getMessage());
+        }
+
+        return habilitarFuncionario;
     }
 
 }

@@ -132,6 +132,9 @@ public class srvAdministrador extends HttpServlet {
                     case "buscarEntidad":
                         buscarEntidad(request, response, dao);
                         break;
+                    case "habilitarfuncionario":
+                        habilitarfuncionario(request, response, dao);
+                        break;
                 }
             } else if (request.getParameter("cambiar") != null) {
             } else {
@@ -878,6 +881,24 @@ public class srvAdministrador extends HttpServlet {
             this.getServletConfig().getServletContext().getRequestDispatcher("/vistas/rrhh/mostrarFecha.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
+        }
+    }
+
+    private void habilitarfuncionario(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) {
+        JSONObject json = new JSONObject();
+        PrintWriter out = null;
+
+        try {
+            String cod = request.getParameter("cod");
+            out = response.getWriter();
+            json = dao.habilitarFuncionario(cod);
+            
+        } catch (Exception e) {
+            System.out.println("-------" + e.getMessage());
+            request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
+        } finally {
+            out.print(json);
+            out.close();
         }
     }
 }
