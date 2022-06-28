@@ -155,7 +155,7 @@ INSERT INTO public.funcionario(
 	
 INSERT INTO public.cuenta(
 	usuario, pass, codigo_funcionario)
-	VALUES ('torrez.ontiveros.luis@gmail.com', 3068471, 3000);
+	VALUES ('torrez.ontiveros.luis@gmail.com', 'nzqlb5eN9E5tX/zo+fLCSA==', 3000);
 
 INSERT INTO public.rol(
 	nombre_rol, cod_sai)

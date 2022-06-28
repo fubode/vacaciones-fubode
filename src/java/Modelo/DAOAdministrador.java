@@ -7,6 +7,7 @@ package Modelo;
 
 import Helper.Calendario;
 import Helper.Date;
+import Helper.EncriptadorAES;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -626,9 +627,12 @@ public class DAOAdministrador extends Conexion {
                     String sqlCargo = "INSERT INTO public.cuenta("
                             + "usuario, pass, codigo_funcionario) "
                             + "VALUES (?, ?, ?)";
+                    EncriptadorAES encriptadorAES = new EncriptadorAES();
+                    final String claveEncriptacion = "secreto!";
+                    String passEncriptado = encriptadorAES.encriptar(String.valueOf(ci), claveEncriptacion);
                     this.jdbcTemplate.update(sqlCargo,
                             correo,
-                            String.valueOf(ci),
+                            passEncriptado,
                             sai
                     );
                     mensaje = "registro insertado correctamente";

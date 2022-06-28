@@ -1,6 +1,7 @@
 package Modelo;
 
 import Helper.Date;
+import Helper.EncriptadorAES;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -207,6 +208,7 @@ public class Conexion {
     }
 
     public Usuario identificar(String user, String password) {
+        EncriptadorAES encriptadorAES = new EncriptadorAES();
         Usuario usuario = null;
         try {
             String sqlUsuario = "SELECT id_cuenta, usuario, pass, estado, codigo_funcionario "
@@ -223,7 +225,10 @@ public class Conexion {
                     intentos = Integer.parseInt(cantIntentos.get(0).get("intentos").toString());
                 }
                 if (intentos != 0) {
-                    if (password.equals(users.get(0).get("pass").toString())) {
+                    final String claveEncriptacion = "secreto!";
+                    String pass = users.get(0).get("pass").toString();
+                    String desEncriptado = encriptadorAES.desencriptar(pass, claveEncriptacion);
+                    if (password.equals(desEncriptado)) {
                         usuario = new Usuario(users.get(0).get("usuario").toString(),
                                 users.get(0).get("pass").toString(),
                                 Integer.parseInt(users.get(0).get("codigo_funcionario").toString()));
