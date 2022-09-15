@@ -156,15 +156,36 @@ public class DAOAdministrador extends Conexion {
     public List<Map<String, Object>> listaFuncionaios() {
         String sql;
 
-        sql = "SELECT codigo_sai, apellido, nombre, fecha_ingreso, ci, correo, fecha_salida, supervisor, ca.nombre_cargo, e.nombre_entidad, f.estado "
-                + "FROM funcionario f, entidad e, cargo ca "
-                + "where f.entidad=e.codigo_entidad and f.cargo=ca.codigo_cargo";
+        sql = "select codigo_sai, "
+                + "apellido, "
+                + "nombre, "
+                + "fecha_ingreso, "
+                + "fecha_salida, "
+                + "supervisor, "
+                + "estado,"
+                + "(select b.nombre || ' ' || b.apellido from funcionario b where b.codigo_sai = a.supervisor  ) as" + '"' + "jefe" + '"' + ", "
+                + "(select sum(dias) from solicitud_vacaciones s, funcionario f "
+                + "                where s.codigo_funcionario=f.codigo_sai and "
+                + "                s.estado = 'ACEPTADO' and "
+                + "                (s.tipo = 'DUODESIMA' OR  s.tipo = 'VACACION') and "
+                + "                s.codigo_funcionario= a.codigo_sai) as" + '"' + "tomadas" + '"' + ", "
+                + "ca.nombre_cargo, "
+                + "e.nombre_entidad "
+                + "from funcionario a, cargo ca, entidad e "
+                + "where a.cargo=ca.codigo_cargo and a.entidad=e.codigo_entidad";
         List<Map<String, Object>> listaFuncionaios = null;
         try {
             listaFuncionaios = this.ejecutarConsulta(sql);
+            int cd = 0;
+            String data = "";
             for (int i = 0; i < listaFuncionaios.size(); i++) {
-                int codigo_say = Integer.parseInt(listaFuncionaios.get(i).get("codigo_sai").toString());
-                Usuario usuario = new Usuario(codigo_say);
+                cd = Integer.parseInt(listaFuncionaios.get(i).get("codigo_sai").toString());
+                
+                String fecha_ingreso =listaFuncionaios.get(i).get("fecha_ingreso").toString();
+                String tomadas=listaFuncionaios.get(i).get("tomadas").toString();
+                String jefe = (listaFuncionaios.get(i).get("jefe")==null?"NINGUNO":listaFuncionaios.get(i).get("jefe").toString());
+                
+                UsuarioAD usuario = new UsuarioAD(fecha_ingreso, tomadas, jefe);
                 Map<String, Object> funcionario = listaFuncionaios.get(i);
                 listaFuncionaios.get(i).put("antiguedad", usuario.antiguedad());
                 listaFuncionaios.get(i).put("supervisor", usuario.nombreSupervisor());
@@ -172,6 +193,9 @@ public class DAOAdministrador extends Conexion {
                 listaFuncionaios.get(i).put("cumplidas", usuario.vacacionesCumplidas());
                 listaFuncionaios.get(i).put("hayExcedentes", usuario.hayExcedentes());
                 listaFuncionaios.get(i).put("saldo", usuario.saldoVacaciones());
+
+                data = cd + " - " + usuario.antiguedad() + " - " + usuario.nombreSupervisor() + " - " + usuario.vacacionesTomadas() + " - " + usuario.vacacionesCumplidas() + " - " + usuario.hayExcedentes() + " - " + usuario.saldoVacaciones();
+                System.out.println(data);
             }
             for (int i = 0; i < listaFuncionaios.size(); i++) {
                 int codigo_say = Integer.parseInt(listaFuncionaios.get(i).get("codigo_sai").toString());
@@ -1178,18 +1202,17 @@ public class DAOAdministrador extends Conexion {
                     + "WHERE codigo_funcionario=" + codigo;
 
             this.jdbcTemplate.execute(sql);
-            
+
             sql = "DELETE FROM public.solicitud_vacaciones "
                     + "WHERE codigo_funcionario=" + codigo;
 
             this.jdbcTemplate.execute(sql);
-            
+
             String sqleditarFecha = "UPDATE public.funcionario "
                     + "SET estado='" + "ACTIVO" + "'"
                     + " WHERE codigo_sai =" + codigo;
             this.actualizarConsulta(sqleditarFecha);
-            
-            
+
             habilitarFuncionario.put("mensaje", "exito");
 
         } catch (Exception e) {
