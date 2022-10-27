@@ -590,6 +590,8 @@ public class DAOUSUARIO extends Conexion {
 
     private void insertarSolicitud(String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String tipo, String detalle, String dias) {
         String codigo = codigo(tipo);
+        Date fecha = new Date().fechaActual();
+        String fecha_solicitud = fecha.toString();
         String sql = "INSERT INTO public.solicitud_vacaciones("
                 + "codigo_solicitud,"
                 + "supervisor,"
@@ -603,13 +605,11 @@ public class DAOUSUARIO extends Conexion {
                 + " detalle_compensacion,"
                 + " codigo_funcionario) "
                 + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-        Date fecha = new Date().fechaActual();
-        String a = fecha.toString();
         Date fecha_s = new Date(fecha_salida);
         this.jdbcTemplate.update(sql,
                 codigo,
                 0,
-                fecha,
+                new Date(fecha_solicitud),
                 fecha_s,
                 turno_salida,
                 new Date(fecha_retorno),

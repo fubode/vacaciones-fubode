@@ -94,7 +94,7 @@
 
                 <div class="input-group input-group-lg m-4">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-lg">REPIA CONTRASEÑA</span>
+                        <span class="input-group-text" id="inputGroup-sizing-lg">REPITA CONTRASEÑA</span>
                     </div>
                     <input type="password" id="repetir" class="form-control" value="" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
                 </div>
