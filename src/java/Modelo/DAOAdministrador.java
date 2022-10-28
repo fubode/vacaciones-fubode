@@ -513,7 +513,7 @@ public class DAOAdministrador extends Conexion {
         json.put("codigo_sai", cargo.get(0).get("codigo_sai").toString());
         json.put("apellido", cargo.get(0).get("apellido").toString());
         json.put("nombre", cargo.get(0).get("nombre").toString());
-        json.put("fecha_ingreso", ingreso.fechaImpresion());
+        json.put("fecha_ingreso", ingreso.fechaHTML());
         json.put("ci", cargo.get(0).get("ci").toString());
         json.put("correo", cargo.get(0).get("correo").toString());
         json.put("supervisor", cargo.get(0).get("supervisor").toString());
@@ -911,14 +911,14 @@ public class DAOAdministrador extends Conexion {
         return json;
     }
 
-    public List<Map<String, Object>> listaSolicitudes(int funcionario, String tipo, String estado, Date desde, Date hasta) {
+    public List<Map<String, Object>> listaSolicitudes(int funcionario, String tipo, String estado, Date desde, Date hasta, String estoFuncionario) {
         List<Map<String, Object>> listaSolicitudes = null;
-        String sql = "SELECT codigo_solicitud, fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, estado, fecha_estado, descripcion_estado, codigo_funcionario, supervisor "
-                + "FROM public.solicitud_vacaciones "
+        String sql = "SELECT codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, estado, fecha_estado, descripcion_estado, codigo_funcionario, supervisor "
+                + "FROM public.solicitud_vacaciones s, public.funcionario f "
                 + "where codigo_funcionario = " + funcionario;
         String condiciones = "";
         String condicionesFechas = " and fecha_solicitud BETWEEN '" + desde + "' and '" + hasta + "'";
-
+        
         if (funcionario == 0) {
             if (!tipo.equals("TODOS")) {
                 condiciones = condiciones + " and tipo = '" + tipo + "'";
@@ -926,12 +926,16 @@ public class DAOAdministrador extends Conexion {
             if (!estado.equals("TODOS")) {
                 condiciones = condiciones + " and s.estado = '" + estado + "'";
             }
-            sql = "SELECT f.codigo_sai, f.nombre,f.apellido,codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, s.estado, fecha_estado, s.supervisor "
+            if (!estoFuncionario.equals("TODOS")) {
+                condiciones = condiciones + " and f.estado = '" + estoFuncionario + "'";
+            }
+            sql = "SELECT f.codigo_sai, f.nombre,f.apellido,codigo_solicitud, s.fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, s.estado, fecha_estado, s.supervisor "
                     + "FROM public.solicitud_vacaciones s, public.funcionario f "
                     + "where s.codigo_funcionario=f.codigo_sai ";
             sql = sql + condiciones + condicionesFechas;
 
             listaSolicitudes = this.jdbcTemplate.queryForList(sql);
+            
             for (int i = 0; i < listaSolicitudes.size(); i++) {
                 Map<String, Object> usu = listaSolicitudes.get(i);
                 String codigo = usu.get("supervisor").toString();
@@ -967,6 +971,7 @@ public class DAOAdministrador extends Conexion {
             if (!estado.equals("TODOS")) {
                 condiciones = condiciones + " and estado = '" + estado + "'";
             }
+            
             sql = sql + condiciones + condicionesFechas;
             listaSolicitudes = this.jdbcTemplate.queryForList(sql);
             for (int i = 0; i < listaSolicitudes.size(); i++) {

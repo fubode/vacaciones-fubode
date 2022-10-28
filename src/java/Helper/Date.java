@@ -12,7 +12,8 @@ import java.util.GregorianCalendar;
  *
  * @author home
  */
-public class Date extends GregorianCalendar{
+public class Date extends GregorianCalendar {
+
     private int gestion;
     private int mes;
     private int dia;
@@ -42,20 +43,20 @@ public class Date extends GregorianCalendar{
     }
 
     public Date(int year, int mes, int dia) {
-        super(year,mes,dia);
+        super(year, mes, dia);
         this.gestion = year;
         this.mes = mes;
         this.dia = dia;
     }
 
     public Date() {
-        
+
     }
-    
-    public Date(String fecha){
-        super(Integer.parseInt(fecha.split("-")[0])
-                ,Integer.parseInt(fecha.split("-")[1])-1
-                ,Integer.parseInt(fecha.split("-")[2]));
+
+    public Date(String fecha) {
+        super(Integer.parseInt(fecha.split("-")[0]),
+                Integer.parseInt(fecha.split("-")[1]) - 1,
+                Integer.parseInt(fecha.split("-")[2]));
         String[] cadena = fecha.split("-");
         this.gestion = Integer.parseInt(cadena[0]);
         this.mes = Integer.parseInt(cadena[1]);
@@ -66,59 +67,81 @@ public class Date extends GregorianCalendar{
     public String toString() {
         return gestion + "-" + mes + "-" + dia;
     }
-    
-    
-    public int antiguedad(){
+
+    public int antiguedad() {
         Date newActual = fechaActual();
         float mes = newActual.getMes();
         float meses12 = 12;
-        float meses =mes/meses12;
+        float meses = mes / meses12;
         float dias360 = 360;
         float dia = newActual.getDia();
-        float dias = dia/dias360;
-        float total = newActual.getGestion()+meses+dias;
+        float dias = dia / dias360;
+        float total = newActual.getGestion() + meses + dias;
         mes = this.mes;
-        meses = mes/meses12;
+        meses = mes / meses12;
         dia = this.dia;
-        dias = dia/dias360;
-        int antiguedad=(int)(total-(this.gestion+meses+dias));        
-        return antiguedad ;
+        dias = dia / dias360;
+        int antiguedad = (int) (total - (this.gestion + meses + dias));
+        return antiguedad;
     }
-    
-    private long conversionDias(Date fecha){
+
+    private long conversionDias(Date fecha) {
         long time = fecha.getTime().getTime();
-        return (long)Math.floor(time/(1000*60*60*24));
+        return (long) Math.floor(time / (1000 * 60 * 60 * 24));
     }
-    public Date fechaActual(){
+
+    public Date fechaActual() {
         Calendar c = new GregorianCalendar();
         Date actual = new Date();
         int yearAcutal = Integer.parseInt(Integer.toString(c.get(Calendar.YEAR)));
-        int mesAcutal = 1+Integer.parseInt(Integer.toString(c.get(Calendar.MONTH)));
+        int mesAcutal = 1 + Integer.parseInt(Integer.toString(c.get(Calendar.MONTH)));
         int diaAcutal = Integer.parseInt(Integer.toString(c.get(Calendar.DATE)));
         Date newActual = new Date(yearAcutal, mesAcutal, diaAcutal);
         return newActual;
     }
-    public String fechaParaCodigo(){
-        return mes+""+gestion;
+
+    public String fechaParaCodigo() {
+        return mes + "" + gestion;
     }
-    public String fechaImpresion(){
+
+    public String fechaImpresion() {
         String diaCadena = "";
         String mesCadena = "";
-        if(gestion==1500 && mes==1 && dia==1){
+        if (gestion == 1500 && mes == 1 && dia == 1) {
             return "NINGUNO";
-        }else{
-            if(dia<=9){
-                diaCadena = "0"+dia;
-            }else{
+        } else {
+            if (dia <= 9) {
+                diaCadena = "0" + dia;
+            } else {
                 diaCadena = String.valueOf(dia);
             }
-            if(mes<=9){
-                mesCadena = "0"+mes;
-            }else{
+            if (mes <= 9) {
+                mesCadena = "0" + mes;
+            } else {
                 mesCadena = String.valueOf(mes);
             }
-            
-            return  diaCadena+"/"+mesCadena+"/"+gestion;
+
+            return diaCadena + "/" + mesCadena + "/" + gestion;
+        }
+    }
+    
+    public String fechaHTML() {
+        String diaCadena = "";
+        String mesCadena = "";
+        if (gestion == 1500 && mes == 1 && dia == 1) {
+            return "NINGUNO";
+        } else {
+            if (dia <= 9) {
+                diaCadena = "0" + dia;
+            } else {
+                diaCadena = String.valueOf(dia);
+            }
+            if (mes <= 9) {
+                mesCadena = "0" + mes;
+            } else {
+                mesCadena = String.valueOf(mes);
+            }
+            return gestion + "-" + mesCadena + "-" + diaCadena;
         }
     }
 }

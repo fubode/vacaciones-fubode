@@ -94,7 +94,15 @@
                 </select>
             </div>
             <div class="col-1">
-                <p><strong>Tipo</strong></p>
+                <p><strong>Estado funcionario</strong></p>
+                <select name="estoFuncionario" id="estoFuncionario" class="form-control">
+                    <option value="TODOS">TODOS</option>
+                    <option value="ACTIVO">ACTIVOS</option>
+                    <option value="INACTIVO">INACTIVOS</option>
+                </select>
+            </div>
+            <div class="col-1">
+                <p><strong>Tipo de vacaciones</strong></p>
                 <select name="tipo" id="tipo" class="form-control">
                     <option value="TODOS">TODOS</option>
                     <option value="VACACION">VACACION</option>
@@ -105,7 +113,7 @@
                 </select>
             </div>
             <div class="col-2">
-                <p><strong>Estado</strong></p>
+                <p><strong>Estado solicitud</strong></p>
                 <select name="estado" id="estado" class="form-control">
                     <option value="TODOS">TODOS</option>
                     <option value="PENDIENTE">PENDIENTE</option>

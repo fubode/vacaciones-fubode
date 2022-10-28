@@ -55,6 +55,9 @@ public class srvSeguridad extends HttpServlet {
                     case "noAsignar":
                         noAsignar(request, response, dao);
                         break;
+                    case "reestablecer":
+                        reestablecer(request, response, dao);
+                        break;
                     default:
                         response.sendRedirect("identificar.jsp");
                 }
@@ -187,6 +190,15 @@ private void asignar(HttpServletRequest request, HttpServletResponse response, D
             String rol = request.getParameter("rol");
             dao.asignar(codigo,rol);
             response.sendRedirect("srvSeguridad?accion=roles");
+        } catch (Exception e) {
+        }
+    }
+
+    private void reestablecer(HttpServletRequest request, HttpServletResponse response, DAOSeguridad dao) {
+        try {
+            String codigo = request.getParameter("codigo");
+            dao.reestablecer(codigo);
+            response.sendRedirect("srvSeguridad?accion=cuentas");
         } catch (Exception e) {
         }
     }

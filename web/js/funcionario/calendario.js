@@ -50,3 +50,9 @@ $(document).ready(function () {
     }
 });
 
+function mostrarDetalle(detalle) {
+    console.log(detalle);
+    document.getElementById('detalle_modificar').value = detalle;
+    $("#modalDetalle").modal("show");
+
+}

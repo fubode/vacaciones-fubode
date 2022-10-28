@@ -12,7 +12,7 @@
         <link href="recursos/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
         <link href="swetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <title>Welcome to Spring Web MVC project</title>
+        <title>SGV-FUBODE | CUENTAS</title>
     </head>
     <body>
         <div class="site-mobile-menu site-navbar-target">
@@ -41,7 +41,7 @@
                             <li class="t"><a href="srvSeguridad?accion=roles" class="nav-link">ROLES</a></li>                  
                             <li class="nav-item dropdown t user">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    
+
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
@@ -77,6 +77,7 @@
                 <th>NOMBRE</th>
                 <th>USUARIO</th>
                 <th>ESTADO</th>
+                <th>RESTABLECER CONTRASEÑA</th>
             </tr>
         </thead>
         <tbody>
@@ -96,7 +97,10 @@
                                 <button class="btn btn-danger" onclick="desbloquear(${dato.codigo_funcionario})">${dato.estado}</button>
                             </c:otherwise>
                         </c:choose>
-                    </td>                    
+                    </td>
+                    <td class="text-center align-items-center">
+                        <button class="btn btn-warning" onclick="reestablecer(${dato.codigo_funcionario})">REESTABLECER CONTRASEÑA</button>
+                    </td>                     
                 </tr>
             </c:forEach>
         </tbody>

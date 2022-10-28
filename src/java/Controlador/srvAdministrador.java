@@ -669,13 +669,16 @@ public class srvAdministrador extends HttpServlet {
             }
             int funcionario = Integer.parseInt(request.getParameter("funcionario"));
             String tipo = request.getParameter("tipo");
+            String estoFuncionario = request.getParameter("estoFuncionario");
             String estado = request.getParameter("estado");
-            Date desde = new Date(request.getParameter("desde"));
-            Date hasta = new Date(request.getParameter("hasta"));
+            String fechaDesde = request.getParameter("desde");
+            String fechaHasta = request.getParameter("hasta");
+            Date desde = new Date(fechaDesde);
+            Date hasta = new Date(fechaHasta);
             String nombreFuncionario = dao.funcionario();
             if (funcionario == 0) {
                 List<Map<String, Object>> solicitudes = null;
-                solicitudes = dao.listaSolicitudes(funcionario, tipo, estado, desde, hasta);
+                solicitudes = dao.listaSolicitudes(funcionario, tipo, estado, desde, hasta,estoFuncionario);
                 json.put("intervalo", desde.fechaImpresion() + " hasta el " + hasta.fechaImpresion());
                 json.put("tipo", tipo);
                 json.put("estado", estado);
@@ -702,7 +705,7 @@ public class srvAdministrador extends HttpServlet {
                 json.put("usuario", usuario);
 
                 List<Map<String, Object>> solicitudes = null;
-                solicitudes = dao.listaSolicitudes(funcionario, tipo, estado, desde, hasta);
+                solicitudes = dao.listaSolicitudes(funcionario, tipo, estado, desde, hasta, estoFuncionario);
                 json.put("solicitudes", solicitudes);
             }
         } catch (Exception e) {

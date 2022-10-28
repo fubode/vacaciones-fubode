@@ -1,5 +1,6 @@
 package Modelo;
 
+import Helper.EncriptadorAES;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +129,26 @@ public class DAOSeguridad extends Conexion {
             this.jdbcTemplate.execute(sql);
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    public void reestablecer(String codigo) {
+        try {
+            int say = Integer.parseInt(codigo);
+            String sql = "SELECT ci FROM public.funcionario WHERE codigo_sai=" + say;
+            List<Map<String, Object>> lista = this.ejecutarConsulta(sql);
+            String ci = lista.get(0).get("ci").toString();
+
+            EncriptadorAES encriptadorAES = new EncriptadorAES();
+            final String claveEncriptacion = "secreto!";
+            String passEncriptado = encriptadorAES.encriptar(ci, claveEncriptacion);
+            
+            String sql1 = "UPDATE cuenta "
+                + "SET  pass='"+passEncriptado+"' "
+                + "WHERE codigo_funcionario = " + say;
+        this.actualizarConsulta(sql1);
+            
+        } catch (Exception e) {
         }
     }
 

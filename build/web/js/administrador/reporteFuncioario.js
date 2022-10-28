@@ -10,6 +10,7 @@ function buscarFuncionario() {
     var codigoSay = document.getElementById('codigoSay').value;
     var funcionario = document.getElementById('funcionarios').value;
     var tipo = document.getElementById('tipo').value;
+    var estoFuncionario = document.getElementById('estoFuncionario').value;
     var estado = document.getElementById('estado').value;
     var desde = document.getElementById('desde').value;
     var hasta = document.getElementById('hasta').value;
@@ -21,6 +22,7 @@ function buscarFuncionario() {
             "&codigoSay=" + codigoSay +
             "&funcionario=" + funcionario +
             "&tipo=" + tipo +
+            "&estoFuncionario=" + estoFuncionario +
             "&estado=" + estado +
             "&desde=" + desde +
             "&hasta=" + hasta;

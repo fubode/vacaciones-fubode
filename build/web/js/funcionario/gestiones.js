@@ -14,3 +14,4 @@ function mostrarGestiones(){
         x.style.display = "none";
     }
 }
+

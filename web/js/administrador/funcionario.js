@@ -41,6 +41,7 @@ function editarFuncionario(btn) {
         type: 'GET',
         dataType: 'JSON',
         success: function (data) {
+            console.log(data);
             document.getElementById('codigoSai_e').value = data.codigo_sai;
             document.getElementById('apellidos_e').value = data.apellido;
             document.getElementById('nombre_e').value = data.nombre;

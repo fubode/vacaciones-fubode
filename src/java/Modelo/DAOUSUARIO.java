@@ -2,6 +2,7 @@ package Modelo;
 
 import Helper.Calendario;
 import Helper.Date;
+import Helper.EncriptadorAES;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -376,7 +377,7 @@ public class DAOUSUARIO extends Conexion {
                 solicitud.replace("fecha_retorno", new Date(solicitud.get("fecha_retorno").toString()).fechaImpresion());
                 solicitud.replace("fecha_estado", new Date(solicitud.get("fecha_estado").toString()).fechaImpresion());
                 solicitudes.set(i, solicitud);
-                
+
             }
         }
         return solicitudes;
@@ -623,8 +624,11 @@ public class DAOUSUARIO extends Conexion {
 
     public void actualizar(String usuario, String pass) {
         try {
+            EncriptadorAES encriptadorAES = new EncriptadorAES();
+            final String claveEncriptacion = "secreto!";
+            String passEncriptado = encriptadorAES.encriptar(pass, claveEncriptacion);
             String sql = "UPDATE public.cuenta "
-                    + "SET usuario='" + usuario + "', pass='" + pass + "' "
+                    + "SET usuario='" + usuario + "', pass='" + passEncriptado + "' "
                     + "WHERE codigo_funcionario=" + codigo_say;
             this.actualizarConsulta(sql);
         } catch (Exception e) {

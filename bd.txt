@@ -1295,18 +1295,29 @@ INSERT INTO public.solicitud_vacaciones(codigo_solicitud,supervisor, fecha_solic
 
 INSERT INTO public.rol(
 	nombre_rol, cod_sai)
-	VALUES ('RRHH', 3977518);
-
-INSERT INTO public.rol(
-	nombre_rol, cod_sai)
-	VALUES ('SEGURIDAD', 3977518);
-
-INSERT INTO public.rol(
-	nombre_rol, cod_sai)
 	VALUES ('RRHH', 3000);
+
 INSERT INTO public.rol(
 	nombre_rol, cod_sai)
 	VALUES ('SEGURIDAD', 3000);
+
+
+INSERT INTO public.rol(
+	nombre_rol, cod_sai)
+	VALUES ('RRHH', 3834);
+
+INSERT INTO public.rol(
+	nombre_rol, cod_sai)
+	VALUES ('SEGURIDAD', 3834);
+
+
+INSERT INTO public.rol(
+	nombre_rol, cod_sai)
+	VALUES ('RRHH', 4109);
+
+INSERT INTO public.rol(
+	nombre_rol, cod_sai)
+	VALUES ('RRHH', 3081);
 
 
 INSERT INTO public.fechas(

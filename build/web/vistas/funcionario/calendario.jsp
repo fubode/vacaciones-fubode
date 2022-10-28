@@ -128,43 +128,33 @@
                             <c:when  test="${dato.tipo=='NO_LABORAL'}">
                                 <td class="bg-danger" data-toggle="modal" data-target="#${dato.diaNumeral}">
                                     ${dato.diaNumeral}  
-                                    <div class="modal fade" id="${dato.diaNumeral}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-warning">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">DATOS DEL FUNCIONARIO</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <h1>hola</h1>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <button id="${dato.diaNumeral}"  class="btn btn-danger" onclick="mostrarDetalle('${dato.descripcion}')">
+                                        <span  class="fa fa-eye">
+                                    </button>
                                 </td>
                             </c:when>
                             <c:when  test="${dato.tipo=='MANANA'}">
                                 <td class="bg-warning text-white">
                                     ${dato.diaNumeral}                                    
-
+                                    <button id="${dato.diaNumeral}"  class="btn btn-warning" onclick="mostrarDetalle('${dato.descripcion}')">
+                                        <span  class="fa fa-eye">
+                                    </button>
                                 </td>
                             </c:when>
                             <c:when  test="${dato.tipo=='TARDE'}">
                                 <td class="bg-info text-white">
                                     ${dato.diaNumeral}                                    
-
-                                </td>
+                                    <button id="${dato.diaNumeral}"  class="btn btn-info" onclick="mostrarDetalle('${dato.descripcion}')">
+                                        <span  class="fa fa-eye">
+                                    </button>
                                 </td>
                             </c:when>
                             <c:when  test="${dato.tipo=='SABADO'}">
                                 <td class="bg-primary text-white">
                                     ${dato.diaNumeral}                                    
-
+                                    <button id="${dato.diaNumeral}"  class="btn btn-primary" onclick="mostrarDetalle('${dato.descripcion}')">
+                                        <span  class="fa fa-eye">
+                                    </button>
                                 </td>
                                 </td>
                             </c:when>
@@ -219,6 +209,29 @@
         </div>
     </div>                        
 
+    <div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header fubode-naranja detalle_des">
+                    <h5 class="modal-title text-white " id="exampleModalLongTitle">DETALLE DE FECHA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="container card-body">
+                    <div class="card">
+                        <div class="container mt-3">
+                            <label ><strong>DETALLE </strong></label>
+                            <input  type="text" id ="detalle_modificar" class="container text-uppercase mb-3" disabled></input>
+                        </div>                                        
+                    </div>        
+                </div>   
+                <div class="modal-footer">
+                    <button type="button" id ="registrar"class="btn btn-secondary"  data-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Modal datos usuario -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -258,6 +271,6 @@
     <script src="swetalert/sweetalert.js" type="text/javascript"></script>
     <script src="recursos/js/dataTable.js" type="text/javascript"></script>
     <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="js/calendario.js" type="text/javascript"></script>
+    <script src="js/funcionario/calendario.js" type="text/javascript"></script>
 </body>
 </html>
