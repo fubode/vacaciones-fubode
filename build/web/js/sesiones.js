@@ -18,11 +18,11 @@ function inciarSesion() {
             console.log(data);
             if (data.verficacion) {
                 parent.location.href = "srvUsuario?accion=inicio";
-            } else {                
-                if(data.estado=='BLOQUEADO'){
+            } else {
+                if (data.estado == 'BLOQUEADO') {
                     alert('Su cuenta esta bloqueada, comuniquese con el administrador');
-                }else{
-                    alert('Contraseña incorrecta');                    
+                } else {
+                    alert('Contraseña incorrecta');
                 }
             }
         },
@@ -33,3 +33,5 @@ function inciarSesion() {
         console.log("fallo");
     });
 }
+
+

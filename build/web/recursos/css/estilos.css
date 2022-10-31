@@ -157,3 +157,22 @@ form{
 	font-size: 13px;
 	margin-top:20px;
 }
+
+#conten-bloque-flex {
+    display: flex; /* Imprescindible */
+    width: 150px; /* Una longitud o auto */
+    height: 150px; /* Una longitud necesariamente */
+    justify-content: flex-end; /* X */
+    align-items: flex-start; /* Y  (relacionado con align-self) */
+    background-color: lightskyblue;
+}
+#bloque-flex {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: inherit; /* Indiferente */
+    align-self: flex-start; /* Y (relacionado con align-items) */
+    text-align: center;
+    background-color: green;
+    color: white;
+}

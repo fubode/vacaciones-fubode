@@ -33,11 +33,13 @@ public class srvSesion extends HttpServlet {
                         break;
                     case "SEGURIDAD":
                         SEGURIDAD(request, response);
+                        break;
                     case "RRHH":
                         RRHH(request, response);
+                        break;
                     case "cambiar":
                         cambiar(request, response);
-                        break;
+                        break;                   
                     default:
                         response.sendRedirect("index.xhtml");
                 }

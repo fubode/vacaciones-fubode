@@ -74,7 +74,7 @@ public class srvUsuario extends HttpServlet {
                         break;
                     case "actualizar":
                         actualizar(request, response, dao);
-                        break;
+                        break;                    
                     default:
                         response.sendRedirect("index.xhtml");
                         break;
@@ -234,7 +234,7 @@ public class srvUsuario extends HttpServlet {
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));
         request.setAttribute("nombre_entidad", usuario.get("nombre_entidad"));
-        request.setAttribute("fecha_ingreso",ingreso.fechaImpresion());
+        request.setAttribute("fecha_ingreso", ingreso.fechaImpresion());
         request.setAttribute("nombre_corto", usuario.get("nombre_corto"));
         request.setAttribute("antiguedad", ingreso.antiguedad());
         request.setAttribute("correo", usuario.get("correo"));
@@ -418,10 +418,10 @@ public class srvUsuario extends HttpServlet {
         try {
             String usuario = request.getParameter("usuario");
             String pass = request.getParameter("pass");
-            dao.actualizar(usuario,pass);
+            dao.actualizar(usuario, pass);
             response.sendRedirect("srvUsuario?accion=inicio");
         } catch (Exception e) {
-            
+
         }
     }
 }
