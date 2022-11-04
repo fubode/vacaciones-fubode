@@ -112,7 +112,7 @@ function darBajaFuncionario(btn) {
                     anularSolicitud(codigo);
                     swal("DAR DE BAJA!", "EL FUNCIONARIO FUE DADO DE BAJA", "success");
                     setTimeout(function () {
-                        parent.location.href = "srvAdministrador?accion=funcionarios"
+                        parent.location.href = "srvAdministrador?accion=funcionarios";
                     }, 1800);
                 } else {
                     swal("CANCELADO", "CANCELASTE LA ACCION", "error");

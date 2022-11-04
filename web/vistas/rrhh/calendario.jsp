@@ -24,55 +24,63 @@
             <div class="site-mobile-menu-body"></div>
         </div>    
 
-    <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
-        <div class="container-fluid">
-            <div class="linea"></div>
-            <div class="row align-items-center position-relative">
-                <div class="site-logo">
-                    <a href="index.htm" class="text-black">
-                        <img src="${pageContext.request.contextPath}/recursos/images/logo.png" alt=""/>
-                    </a>
-                </div>
 
-                <div class="col-12">
-                    <nav class="site-navigation text-right ml-auto " role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-                            <li class="t"><a href="srvAdministrador?accion=solicitudes" class="nav-link">SOLICITUDES DE VACACIONES</a></li>                  
-                            <li class="t"><a href="srvAdministrador?accion=funcionarios" class="nav-link">FUNCIONARIOS</a></li>
-                            <li class="t"><a href="srvAdministrador?accion=entidades" class="nav-link">ENTIDADES</a></li>
-                            <li class="t"><a href="srvAdministrador?accion=cargos" class="nav-link">CARGOS</a></li>
-                            <li class="t"><a href="srvAdministrador?accion=reportesFuncionario" class="nav-link">REPORTES FUNCIONARIO</a></li>
-                            <li class="t"><a href="srvAdministrador?accion=reportesCargos" class="nav-link">REPORTES CARGOS</a></li>
-                            <li class="t"><a href="srvAdministrador?accion=reportesEntidades" class="nav-link">REPORTES ENTIDADES</a></li>                            
-                            <li class="sombra"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
-                            <li class="nav-item dropdown t user">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <label><strong>${nombre_corto}</strong></label>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
-                                    <c:if test="${esSupervisor==true}">
-                                        <a class="t dropdown-item" href="svrSupervisor?accion=pendientes">SUPERVISOR</a>                                        
-                                    </c:if>  
-                                    <c:forEach var="data" items="${roles}">
-                                        <a class="t dropdown-item" href="srvSesion?accion=${data.nombre_rol}">${data.nombre_rol}</a>  
-                                    </c:forEach>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
-                                        ${nombreFuncionario}
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </nav>
+        <div class="linea"></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-4 align-self-start">
+                    <a class="navbar-brand" href="#">
+                        <a href="index.htm" class="text-black">
+                            <img src="${pageContext.request.contextPath}/recursos/images/logo.png" alt=""/>
+                        </a>
+                    </a>      
                 </div>
-                <div class="toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+            </div>
+            <div class="row align-items-end">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+            </div>
+
+            <div class="row align-items-end">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="t"><a href="srvAdministrador?accion=solicitudes" class="nav-link">SOLICITUDES DE VACACIONES</a></li>                  
+                        <li class="t"><a href="srvAdministrador?accion=funcionarios" class="nav-link">FUNCIONARIOS</a></li>
+                        <li class="t"><a href="srvAdministrador?accion=entidades" class="nav-link">ENTIDADES</a></li>
+                        <li class="t"><a href="srvAdministrador?accion=cargos" class="nav-link">CARGOS</a></li>
+                        <li class="t"><a href="srvAdministrador?accion=reportesFuncionario" class="nav-link">REPORTES FUNCIONARIO</a></li>
+                        <li class="t"><a href="srvAdministrador?accion=reportesCargos" class="nav-link">REPORTES CARGOS</a></li>
+                        <li class="t"><a href="srvAdministrador?accion=reportesEntidades" class="nav-link">REPORTES ENTIDADES</a></li>                            
+                        <li class="sombra"><a href="srvAdministrador?accion=calendario" class="nav-link">CALENDARIO</a></li>
+                        <li class="nav-item dropdown t user">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <label><strong>${nombre_corto}</strong></label>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
+                                <c:if test="${esSupervisor==true}">
+                                    <a class="t dropdown-item" href="svrSupervisor?accion=pendientes">SUPERVISOR</a>                                        
+                                </c:if>  
+                                <c:forEach var="data" items="${roles}">
+                                    <a class="t dropdown-item" href="srvSesion?accion=${data.nombre_rol}">${data.nombre_rol}</a>  
+                                </c:forEach>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
+                                    ${nombreFuncionario}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="linea2"></div>
-    </header>
+    </nav>
+    <div class="linea2"></div>
 
 
     <h1 class="text-center">Calendario de actividades</h1>

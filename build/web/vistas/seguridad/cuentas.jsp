@@ -24,49 +24,56 @@
             <div class="site-mobile-menu-body"></div>
         </div>    
 
-    <header class="container-fluid site-navbar js-sticky-header site-navbar-target" role="banner">
+        <div class="linea"></div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <div class="linea"></div>
-            <div class="row align-items-center position-relative">
-                <div class="site-logo">
-                    <a href="index.htm" class="text-black">
-                        <img src="${pageContext.request.contextPath}/recursos/images/logo.png" alt=""/>
-                    </a>
+            <div class="row align-items-center">
+                <div class="col-4 align-self-start">
+                    <a class="navbar-brand" href="#">
+                        <a href="index.htm" class="text-black">
+                            <img src="${pageContext.request.contextPath}/recursos/images/logo.png" alt=""/>
+                        </a>
+                    </a>      
                 </div>
+            </div>
+            <div class="row align-items-end">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                <div class="col-12">
-                    <nav class="site-navigation text-right ml-auto " role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-                            <li class="sombra"><a href="srvSeguridad?accion=cuentas" class="nav-link">CUENTAS</a></li>
-                            <li class="t"><a href="srvSeguridad?accion=roles" class="nav-link">ROLES</a></li>                  
-                            <li class="nav-item dropdown t user">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </div>
 
+            <div class="row align-items-end">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="sombra"><a href="srvSeguridad?accion=cuentas" class="nav-link">CUENTAS</a></li>
+                        <li class="t"><a href="srvSeguridad?accion=roles" class="nav-link">ROLES</a></li>                  
+                        <li class="nav-item dropdown t user">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
+                                <c:if test="${esSupervisor==true}">
+                                    <a class="t dropdown-item" href="svrSupervisor?accion=pendientes">SUPERVISOR</a>                                        
+                                </c:if>           
+                                <c:forEach var="data" items="${roles}">
+                                    <a class="t dropdown-item" href="srvSesion?accion=${data.nombre_rol}">${data.nombre_rol}</a>  
+                                </c:forEach>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
+                                    ${nombreFuncionario}
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="t dropdown-item" href="srvUsuario?accion=inicio">FUNCIONARIO</a>
-                                    <c:if test="${esSupervisor==true}">
-                                        <a class="t dropdown-item" href="svrSupervisor?accion=pendientes">SUPERVISOR</a>                                        
-                                    </c:if>           
-                                    <c:forEach var="data" items="${roles}">
-                                        <a class="t dropdown-item" href="srvSesion?accion=${data.nombre_rol}">${data.nombre_rol}</a>  
-                                    </c:forEach>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
-                                        ${nombreFuncionario}
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </nav>
+                                <div class="dropdown-divider"></div>
+                                <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
             </div>
         </div>
-        <div class="linea2"></div>
-    </header>
+    </nav>
+    <div class="linea2"></div>
 
     <h1 class="text-center">CUENTAS</h1>
     <table id="tablaFubode" class="table container table-hover table-striped table-bordered">

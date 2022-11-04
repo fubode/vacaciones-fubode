@@ -161,6 +161,8 @@ public class DAOAdministrador extends Conexion {
                 + "nombre, "
                 + "fecha_ingreso, "
                 + "fecha_salida, "
+                + "ci, "
+                + "correo, "
                 + "supervisor, "
                 + "estado,"
                 + "(select b.nombre || ' ' || b.apellido from funcionario b where b.codigo_sai = a.supervisor  ) as" + '"' + "jefe" + '"' + ", "
@@ -180,11 +182,17 @@ public class DAOAdministrador extends Conexion {
             String data = "";
             for (int i = 0; i < listaFuncionaios.size(); i++) {
                 cd = Integer.parseInt(listaFuncionaios.get(i).get("codigo_sai").toString());
-                
-                String fecha_ingreso =listaFuncionaios.get(i).get("fecha_ingreso").toString();
-                String tomadas=listaFuncionaios.get(i).get("tomadas").toString();
-                String jefe = (listaFuncionaios.get(i).get("jefe")==null?"NINGUNO":listaFuncionaios.get(i).get("jefe").toString());
-                
+
+                String fecha_ingreso = listaFuncionaios.get(i).get("fecha_ingreso").toString();
+                String tomadas = "";
+                try {
+                    tomadas = listaFuncionaios.get(i).get("tomadas").toString();
+
+                } catch (Exception e) {
+                    tomadas = "0";
+                }
+                String jefe = (listaFuncionaios.get(i).get("jefe") == null ? "NINGUNO" : listaFuncionaios.get(i).get("jefe").toString());
+
                 UsuarioAD usuario = new UsuarioAD(fecha_ingreso, tomadas, jefe);
                 Map<String, Object> funcionario = listaFuncionaios.get(i);
                 listaFuncionaios.get(i).put("antiguedad", usuario.antiguedad());
@@ -268,6 +276,9 @@ public class DAOAdministrador extends Conexion {
                 + "SET estado='INACTIVO'"
                 + ", fecha_salida=(select current_date) "
                 + "WHERE codigo_sai=" + codigoSai;
+        String sqlEliminar = "DELETE FROM public.cuenta"
+                + " WHERE codigo_funcionario = " + codigoSai;
+        this.jdbcTemplate.execute(sqlEliminar);
         this.actualizarConsulta(sql);
     }
 
@@ -918,7 +929,7 @@ public class DAOAdministrador extends Conexion {
                 + "where codigo_funcionario = " + funcionario;
         String condiciones = "";
         String condicionesFechas = " and fecha_solicitud BETWEEN '" + desde + "' and '" + hasta + "'";
-        
+
         if (funcionario == 0) {
             if (!tipo.equals("TODOS")) {
                 condiciones = condiciones + " and tipo = '" + tipo + "'";
@@ -935,7 +946,7 @@ public class DAOAdministrador extends Conexion {
             sql = sql + condiciones + condicionesFechas;
 
             listaSolicitudes = this.jdbcTemplate.queryForList(sql);
-            
+
             for (int i = 0; i < listaSolicitudes.size(); i++) {
                 Map<String, Object> usu = listaSolicitudes.get(i);
                 String codigo = usu.get("supervisor").toString();
@@ -971,7 +982,7 @@ public class DAOAdministrador extends Conexion {
             if (!estado.equals("TODOS")) {
                 condiciones = condiciones + " and estado = '" + estado + "'";
             }
-            
+
             sql = sql + condiciones + condicionesFechas;
             listaSolicitudes = this.jdbcTemplate.queryForList(sql);
             for (int i = 0; i < listaSolicitudes.size(); i++) {
@@ -1217,6 +1228,27 @@ public class DAOAdministrador extends Conexion {
                     + "SET estado='" + "ACTIVO" + "'"
                     + " WHERE codigo_sai =" + codigo;
             this.actualizarConsulta(sqleditarFecha);
+
+            List<Map<String, Object>> funcionario = new LinkedList<>();
+            String sqlFuncionario = "select correo,ci "
+                    + "from funcionario "
+                    + " where codigo_sai=" + codigo;
+            funcionario = this.jdbcTemplate.queryForList(sqlFuncionario);
+
+            String correo = funcionario.get(0).get("correo").toString();
+            String ci = funcionario.get(0).get("ci").toString();
+
+            String sqlCargo = "INSERT INTO public.cuenta("
+                    + "usuario, pass, codigo_funcionario) "
+                    + "VALUES (?, ?, ?)";
+            EncriptadorAES encriptadorAES = new EncriptadorAES();
+            final String claveEncriptacion = "secreto!";
+            String passEncriptado = encriptadorAES.encriptar(ci, claveEncriptacion);
+            this.jdbcTemplate.update(sqlCargo,
+                    correo,
+                    passEncriptado,
+                    codigo
+            );
 
             habilitarFuncionario.put("mensaje", "exito");
 
