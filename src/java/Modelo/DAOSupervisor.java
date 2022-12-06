@@ -158,47 +158,157 @@ public class DAOSupervisor extends Conexion {
 
     public List<Map<String, Object>> listaFuncionaios() {
         String sql;
-
-        sql = "SELECT codigo_sai, apellido, nombre, fecha_ingreso, ci, correo, fecha_salida, supervisor, ca.nombre_cargo, e.nombre_entidad, f.estado "
-                + "FROM funcionario f, entidad e, cargo ca "
-                + "where f.entidad=e.codigo_entidad and f.cargo=ca.codigo_cargo and f.supervisor=" + codigo_say;
         List<Map<String, Object>> listaFuncionaios = new LinkedList<>();
         List<Map<String, Object>> funcionarios = new LinkedList<>();
-        try {
-            funcionarios = this.ejecutarConsulta(sql);
-            for (int i = 0; i < funcionarios.size(); i++) {
-                int codigo_say = Integer.parseInt(funcionarios.get(i).get("codigo_sai").toString());
-                Usuario usuario = new Usuario(codigo_say);
-                Map<String, Object> funcionario = funcionarios.get(i);
-                funcionario.put("antiguedad", usuario.antiguedad());
-                funcionario.put("supervisor", usuario.nombreSupervisor());
-                funcionario.put("tomadas", usuario.vacacionesTomadas());
-                funcionario.put("cumplidas", usuario.vacacionesCumplidas());
-                funcionario.put("hayExcedentes", usuario.hayExcedentes());
-                funcionario.put("saldo", usuario.saldoVacaciones());
-                listaFuncionaios.add(funcionario);
-                listaFuncionaios = listaFuncionaios(listaFuncionaios, codigo_say);
-            }
+        if (codigo_say == 3000) {
+            sql = "select codigo_sai, "
+                    + "apellido, "
+                    + "nombre, "
+                    + "fecha_ingreso, "
+                    + "fecha_salida, "
+                    + "ci, "
+                    + "correo, "
+                    + "supervisor, "
+                    + "estado,"
+                    + "(select b.nombre || ' ' || b.apellido from funcionario b where b.codigo_sai = a.supervisor  ) as" + '"' + "jefe" + '"' + ", "
+                    + "(select sum(dias) from solicitud_vacaciones s, funcionario f "
+                    + "                where s.codigo_funcionario=f.codigo_sai and "
+                    + "                s.estado = 'ACEPTADO' and "
+                    + "                (s.tipo = 'DUODESIMA' OR  s.tipo = 'VACACION') and "
+                    + "                s.codigo_funcionario= a.codigo_sai) as" + '"' + "tomadas" + '"' + ", "
+                    + "ca.nombre_cargo, "
+                    + "e.nombre_entidad "
+                    + "from funcionario a, cargo ca, entidad e "
+                    + "where a.cargo=ca.codigo_cargo and a.entidad=e.codigo_entidad and a.codigo_sai <>" + codigo_say;
+            try {
+                funcionarios = this.ejecutarConsulta(sql);
+                for (int i = 0; i < funcionarios.size(); i++) {
+                    int codigo_say = Integer.parseInt(funcionarios.get(i).get("codigo_sai").toString());
+                    Map<String, Object> funcionario = funcionarios.get(i);
 
-        } catch (Exception e) {
-            String mensaje = e.getMessage();
-            System.err.println(mensaje);
+                    String fecha_ingreso = funcionarios.get(i).get("fecha_ingreso").toString();
+                    String tomadas = "";
+                    try {
+                        tomadas = funcionarios.get(i).get("tomadas").toString();
+
+                    } catch (Exception e) {
+                        tomadas = "0";
+                    }
+                    String jefe = (funcionarios.get(i).get("jefe") == null ? "NINGUNO" : funcionarios.get(i).get("jefe").toString());
+
+                    UsuarioAD usuario = new UsuarioAD(fecha_ingreso, tomadas, jefe);
+
+                    funcionario.put("antiguedad", usuario.antiguedad());
+                    funcionario.put("supervisor", usuario.nombreSupervisor());
+                    funcionario.put("tomadas", usuario.vacacionesTomadas());
+                    funcionario.put("cumplidas", usuario.vacacionesCumplidas());
+                    funcionario.put("hayExcedentes", usuario.hayExcedentes());
+                    funcionario.put("saldo", usuario.saldoVacaciones());
+                    listaFuncionaios.add(funcionario);
+                }
+
+            } catch (Exception e) {
+                String mensaje = e.getMessage();
+                System.err.println(mensaje);
+            }
+        } else {
+
+            sql = "select codigo_sai, "
+                    + "apellido, "
+                    + "nombre, "
+                    + "fecha_ingreso, "
+                    + "fecha_salida, "
+                    + "ci, "
+                    + "correo, "
+                    + "supervisor, "
+                    + "estado,"
+                    + "(select b.nombre || ' ' || b.apellido from funcionario b where b.codigo_sai = a.supervisor  ) as" + '"' + "jefe" + '"' + ", "
+                    + "(select sum(dias) from solicitud_vacaciones s, funcionario f "
+                    + "                where s.codigo_funcionario=f.codigo_sai and "
+                    + "                s.estado = 'ACEPTADO' and "
+                    + "                (s.tipo = 'DUODESIMA' OR  s.tipo = 'VACACION') and "
+                    + "                s.codigo_funcionario= a.codigo_sai) as" + '"' + "tomadas" + '"' + ", "
+                    + "ca.nombre_cargo, "
+                    + "e.nombre_entidad "
+                    + "from funcionario a, cargo ca, entidad e "
+                    + "where a.cargo=ca.codigo_cargo and a.entidad=e.codigo_entidad and a.supervisor=" + codigo_say;
+
+            try {
+                funcionarios = this.ejecutarConsulta(sql);
+                for (int i = 0; i < funcionarios.size(); i++) {
+                    int codigo_say = Integer.parseInt(funcionarios.get(i).get("codigo_sai").toString());
+                    Map<String, Object> funcionario = funcionarios.get(i);
+
+                    String fecha_ingreso = funcionarios.get(i).get("fecha_ingreso").toString();
+                    String tomadas = "";
+                    try {
+                        tomadas = funcionarios.get(i).get("tomadas").toString();
+
+                    } catch (Exception e) {
+                        tomadas = "0";
+                    }
+                    String jefe = (funcionarios.get(i).get("jefe") == null ? "NINGUNO" : funcionarios.get(i).get("jefe").toString());
+
+                    UsuarioAD usuario = new UsuarioAD(fecha_ingreso, tomadas, jefe);
+
+                    funcionario.put("antiguedad", usuario.antiguedad());
+                    funcionario.put("supervisor", usuario.nombreSupervisor());
+                    funcionario.put("tomadas", usuario.vacacionesTomadas());
+                    funcionario.put("cumplidas", usuario.vacacionesCumplidas());
+                    funcionario.put("hayExcedentes", usuario.hayExcedentes());
+                    funcionario.put("saldo", usuario.saldoVacaciones());
+                    listaFuncionaios.add(funcionario);
+                    listaFuncionaios = listaFuncionaios(listaFuncionaios, codigo_say);
+                }
+            } catch (Exception e) {
+                String mensaje = e.getMessage();
+                System.err.println(mensaje);
+            }
         }
+
         return listaFuncionaios;
     }
 
     private List<Map<String, Object>> listaFuncionaios(List<Map<String, Object>> listaFuncionaios, int codigo_say) {
+        String sql = "select codigo_sai, "
+                + "apellido, "
+                + "nombre, "
+                + "fecha_ingreso, "
+                + "fecha_salida, "
+                + "ci, "
+                + "correo, "
+                + "supervisor, "
+                + "estado,"
+                + "(select b.nombre || ' ' || b.apellido from funcionario b where b.codigo_sai = a.supervisor  ) as" + '"' + "jefe" + '"' + ", "
+                + "(select sum(dias) from solicitud_vacaciones s, funcionario f "
+                + "                where s.codigo_funcionario=f.codigo_sai and "
+                + "                s.estado = 'ACEPTADO' and "
+                + "                (s.tipo = 'DUODESIMA' OR  s.tipo = 'VACACION') and "
+                + "                s.codigo_funcionario= a.codigo_sai) as" + '"' + "tomadas" + '"' + ", "
+                + "ca.nombre_cargo, "
+                + "e.nombre_entidad "
+                + "from funcionario a, cargo ca, entidad e "
+                + "where a.cargo=ca.codigo_cargo and a.entidad=e.codigo_entidad and a.supervisor=" + codigo_say;
 
-        String sql = "SELECT codigo_sai, apellido, nombre, fecha_ingreso, ci, correo, fecha_salida, supervisor, ca.nombre_cargo, e.nombre_entidad, f.estado "
-                + "FROM funcionario f, entidad e, cargo ca "
-                + "where f.entidad=e.codigo_entidad and f.cargo=ca.codigo_cargo and f.supervisor=" + codigo_say;
-        List<Map<String, Object>> funcionarios = new LinkedList<>();
         try {
+            List<Map<String, Object>> funcionarios = new LinkedList<>();
             funcionarios = this.ejecutarConsulta(sql);
             for (int i = 0; i < funcionarios.size(); i++) {
-                int say = Integer.parseInt(funcionarios.get(i).get("codigo_sai").toString());
-                Usuario usuario = new Usuario(say);
+                int cs = Integer.parseInt(funcionarios.get(i).get("codigo_sai").toString());
                 Map<String, Object> funcionario = funcionarios.get(i);
+
+                String fecha_ingreso = funcionarios.get(i).get("fecha_ingreso").toString();
+                String tomadas = "";
+                try {
+                    tomadas = funcionarios.get(i).get("tomadas").toString();
+
+                } catch (Exception e) {
+                    tomadas = "0";
+                }
+                String jefe = (funcionarios.get(i).get("jefe") == null ? "NINGUNO" : funcionarios.get(i).get("jefe").toString());
+
+                UsuarioAD usuario = new UsuarioAD(fecha_ingreso, tomadas, jefe);
+
                 funcionario.put("antiguedad", usuario.antiguedad());
                 funcionario.put("supervisor", usuario.nombreSupervisor());
                 funcionario.put("tomadas", usuario.vacacionesTomadas());
@@ -206,10 +316,11 @@ public class DAOSupervisor extends Conexion {
                 funcionario.put("hayExcedentes", usuario.hayExcedentes());
                 funcionario.put("saldo", usuario.saldoVacaciones());
                 listaFuncionaios.add(funcionario);
-                listaFuncionaios = listaFuncionaios(listaFuncionaios, say);
+                listaFuncionaios = listaFuncionaios(listaFuncionaios, cs);
             }
-
         } catch (Exception e) {
+            String mensaje = e.getMessage();
+            System.err.println(mensaje);
         }
         return listaFuncionaios;
     }
