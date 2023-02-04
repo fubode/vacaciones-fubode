@@ -79,7 +79,7 @@
         </div>
     </nav>
     <div class="linea2"></div>
-
+    
     <h1 class="text-center">BIENVENIDO, ${nombreFuncionario}</h1>
     <div class="container card-body">
         <div class="card">
