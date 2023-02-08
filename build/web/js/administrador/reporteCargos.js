@@ -12,14 +12,26 @@ function buscarCargo() {
     var hasta = document.getElementById('hasta').value;
     var codigo = parseInt(cargos);
     console.log(cargos, tipo, estado, desde, hasta);
-
-
-    var url = "srvAdministrador?accion=buscarCargo" +
+    
+    if(cargos==0){
+        var url = "srvReportes?accion=reporteCargosTodos" +
             "&cargos=" + cargos +
             "&tipo=" + tipo +
             "&estado=" + estado +
             "&desde=" + desde +
             "&hasta=" + hasta;
+        window.open(url, '_blank');
+        
+    }else{
+        var url = "srvReportes?accion=reporteCargo" +
+            "&cargos=" + cargos +
+            "&tipo=" + tipo +
+            "&estado=" + estado +
+            "&desde=" + desde +
+            "&hasta=" + hasta;
+        window.open(url, '_blank');
+    }
+    /*
     $.ajax({
         url: url,
         type: 'GET',
@@ -82,6 +94,7 @@ function buscarCargo() {
     ).fail(function (data) {
         console.log('fail');
     });
+    */
 }
 
 function agregarLinea(div, detalle, texto) {
@@ -220,8 +233,8 @@ function agregarTabla(solicitudes) {
 function agregarTablaCargos(solicitudes) {
     console.log(solicitudes);
     var contenedor = document.getElementById('tablaSolicitudes');
-    contenedor.className += "table container table-hover table-striped table-bordered";
-    let table = document.createElement('table');
+    //contenedor.className += "table container-fluid table-hover table-striped table-bordered";
+    let table = document.getElementById('tabla_reporte');
     let thead = document.createElement('thead');
     let tbody = document.createElement('tbody');
 

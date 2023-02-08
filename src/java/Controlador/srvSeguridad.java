@@ -154,6 +154,7 @@ public class srvSeguridad extends HttpServlet {
         request.setAttribute("antiguedad", ingreso.antiguedad());
         request.setAttribute("correo", usuario.get("correo"));
         request.setAttribute("usuarios", usuario);
+        request.setAttribute("nombre_corto", usuario.get("nombre_corto"));
         int supervisor = usuario.getInt("supervisor");
         request.setAttribute("supervisor", supervisor);
         if (supervisor != 0) {

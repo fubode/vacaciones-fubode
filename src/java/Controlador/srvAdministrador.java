@@ -206,9 +206,9 @@ public class srvAdministrador extends HttpServlet {
         request.setAttribute("supervisor", supervisor);
         if (supervisor != 0) {
             request.setAttribute("supervisor_nombre", usuario.get("supervisor_nombre"));
-            request.setAttribute("supervisor_cargo", usuario.get("nombre_cargo"));
-            request.setAttribute("supervisor_entidad", usuario.get("nombre_entidad"));
-            request.setAttribute("supervisor_correo", usuario.get("correo"));
+            request.setAttribute("supervisor_cargo", usuario.get("supervisor_cargo"));
+            request.setAttribute("supervisor_entidad", usuario.get("supervisor_entidad"));
+            request.setAttribute("supervisor_correo", usuario.get("supervisor_correo"));
         }
     }
 

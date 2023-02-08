@@ -14,14 +14,28 @@ function buscarEntidad() {
     var hasta = document.getElementById('hasta').value;
     var codigo = parseInt(entidad);
 
-
-    var url = "srvAdministrador?accion=buscarEntidad" +
+    
+    if(entidad==0){
+        var url = "srvReportes?accion=reporteEntidadTodos" +
             "&cargos=" + cargos +
             "&entidad=" + entidad +
             "&tipo=" + tipo +
             "&estado=" + estado +
             "&desde=" + desde +
             "&hasta=" + hasta;
+        window.open(url, '_blank');
+        
+    }else{
+        var url = "srvReportes?accion=reporteEntidad" +
+            "&cargos=" + cargos +
+            "&entidad=" + entidad +
+            "&tipo=" + tipo +
+            "&estado=" + estado +
+            "&desde=" + desde +
+            "&hasta=" + hasta;
+        window.open(url, '_blank');
+    }
+    /*
     $.ajax({
         url: url,
         type: 'GET',
@@ -62,6 +76,7 @@ function buscarEntidad() {
     ).fail(function (data) {
         console.log('fail');
     });
+    */
 }
 
 function agregarLinea(div, detalle, texto) {

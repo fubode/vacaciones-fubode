@@ -15,70 +15,58 @@
         <title>SGV-FUBODE | SOLICITUD PENDIENTES</title>
     </head>
     <body>
-        <div class="site-mobile-menu site-navbar-target">
-            <div class="site-mobile-menu-header">
-                <div class="site-mobile-menu-close mt-3">
-                    <span class="icon-close2 js-menu-toggle"></span>
-                </div>
-            </div>
-            <div class="site-mobile-menu-body"></div>
-        </div>    
 
         <div class="linea"></div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-4 align-self-start">
-                    <a class="navbar-brand" href="#">
-                        <a href="index.htm" class="text-black">
-                            <img src="${pageContext.request.contextPath}/recursos/images/logo.png" alt=""/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <img src="recursos/images/logo.png" alt="" />
+        </a>
+
+        <div class="collapse navbar-collapse d-flex jus" id="navbarTogglerDemo03">
+
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="t"><a href="srvUsuario?accion=inicio" class="nav-link text-black">INICIO</a>
+                </li>
+                <li class="t"><a href="srvUsuario?accion=nueva" class="nav-link">SOLICITUDES NUEVAS</a></li>
+                <li class="sombra"><a href="srvUsuario?accion=pendientes" class="nav-link">SOLICITUDES PENDIENTES</a>
+                </li>
+                <li class="t"><a href="srvUsuario?accion=aceptadas" class="nav-link">SOLICITUDES ACEPTADAS</a>
+                </li>
+                <li class="t"><a href="srvUsuario?accion=rechazadas" class="nav-link">SOLICITUDES RECHAZADAS</a>
+                </li>
+                <li class="t"><a href="srvUsuario?accion=actividades" class="nav-link">CALENDARIO</a></li>
+                <li class="nav-item dropdown t user">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <label><strong>${nombre_corto}</strong></label>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <c:if test="${esSupervisor==true}">
+                            <a class="t dropdown-item" href="svrSupervisor?accion=pendientes">SUPERVISOR</a>
+                        </c:if>
+                        <c:forEach var="data" items="${roles}">
+                            <a class="t dropdown-item"
+                               href="srvSesion?accion=${data.nombre_rol}">${data.nombre_rol}</a>
+                        </c:forEach>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="nav-link dropdown-item" data-toggle="modal"
+                           data-target="#exampleModalCenter">
+                            ${nombreFuncionario}
                         </a>
-                    </a>      
-                </div>
-            </div>
-            <div class="row align-items-end">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-            </div>
-
-            <div class="row align-items-end">
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="t"><a href="srvUsuario?accion=inicio" class="nav-link">INICIO</a></li>
-                        <li class="t"><a href="srvUsuario?accion=nueva" class="nav-link">SOLICITUDES NUEVAS</a></li>                  
-                        <li class="sombra"><a href="srvUsuario?accion=pendientes" class="nav-link">SOLICITUDES PENDIENTES</a></li>
-                        <li class="t"><a href="srvUsuario?accion=aceptadas" class="nav-link">SOLICITUDES ACEPTADAS</a></li>
-                        <li class="t"><a href="srvUsuario?accion=rechazadas" class="nav-link">SOLICITUDES RECHAZADAS</a></li>
-                        <li class="t"><a href="srvUsuario?accion=actividades" class="nav-link">CALENDARIO</a></li>
-                        <li class="nav-item dropdown t user">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <label><strong>${nombre_corto}</strong></label>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <c:if test="${esSupervisor==true}">
-                                    <a class="t dropdown-item" href="svrSupervisor?accion=pendientes">SUPERVISOR</a>                                        
-                                </c:if>           
-                                <c:forEach var="data" items="${roles}">
-                                    <a class="t dropdown-item" href="srvSesion?accion=${data.nombre_rol}">${data.nombre_rol}</a>  
-                                </c:forEach>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="nav-link dropdown-item"  data-toggle="modal" data-target="#exampleModalCenter">
-                                    ${nombreFuncionario}
-                                </a>
-                                <a href="srvUsuario?accion=configuraciones">
-                                    <span class="fa fa-gear">
-                                        Configuraciones
-                                    </span>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                        <a href="srvUsuario?accion=configuraciones">
+                            <span class="fa fa-gear">
+                                Configuraciones
+                            </span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="srvSesion?accion=cerrar" class="nav-link">cerrar sesion</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
     <div class="linea2"></div>

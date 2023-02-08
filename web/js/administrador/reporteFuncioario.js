@@ -15,22 +15,37 @@ function buscarFuncionario() {
     var desde = document.getElementById('desde').value;
     var hasta = document.getElementById('hasta').value;
     var say = parseInt(funcionario);
-    console.log(codigoSay, funcionario, tipo, estado, desde, hasta);
 
 
-    var url = "srvAdministrador?accion=buscarFuncionario" +
-            "&codigoSay=" + codigoSay +
-            "&funcionario=" + funcionario +
-            "&tipo=" + tipo +
-            "&estoFuncionario=" + estoFuncionario +
-            "&estado=" + estado +
-            "&desde=" + desde +
-            "&hasta=" + hasta;
+    if(codigoSay==0){
+        var url = "srvReportes?accion=reporteTodos" +
+                "&codigoSay=" + codigoSay +
+                "&funcionario=" + funcionario +
+                "&tipo=" + tipo +
+                "&estoFuncionario=" + estoFuncionario +
+                "&estado=" + estado +
+                "&desde=" + desde +
+                "&hasta=" + hasta;
+        window.open(url, '_blank');
+        
+    }else{
+        var url = "srvReportes?accion=reporteFuncionario" +
+                "&codigoSay=" + codigoSay +
+                "&funcionario=" + funcionario +
+                "&tipo=" + tipo +
+                "&estoFuncionario=" + estoFuncionario +
+                "&estado=" + estado +
+                "&desde=" + desde +
+                "&hasta=" + hasta;
+        window.open(url, '_blank');
+    }
+    /*
     $.ajax({
         url: url,
         type: 'GET',
         dataType: 'JSON',
         success: function (data) {
+            window.open('srvReportes?accion=reporteFun1&data='+data, '_blank');
             limpiarHoja();
             var newDiv = document.createElement("div");
             newDiv.className += "div_datos ";
@@ -101,7 +116,7 @@ function buscarFuncionario() {
     ).fail(function (data) {
         console.log('fail');
         swal("ERROR", "NO SE RECUPERO NINGUN REGISTRO", "error");
-    });
+    });*/
 }
 
 function agregarLinea(div, detalle, texto) {

@@ -491,25 +491,37 @@ public class DAOAdministrador extends Conexion {
 
     public JSONObject obtenerCargo(int codigo) throws JSONException {
         JSONObject json = new JSONObject();
-        String sql = "SELECT codigo_cargo, nombre_cargo "
-                + "FROM public.cargo "
-                + "where codigo_cargo = " + codigo;
-        List<Map<String, Object>> cargo = this.jdbcTemplate.queryForList(sql);
-        json.put("codigo_cargo", cargo.get(0).get("codigo_cargo").toString());
-        json.put("nombre_cargo", cargo.get(0).get("nombre_cargo").toString());
+        if (codigo == 0) {
+            json.put("codigo_cargo", 0);
+            json.put("nombre_cargo", "NINGUNO");
+        } else {
+            String sql = "SELECT codigo_cargo, nombre_cargo "
+                    + "FROM public.cargo "
+                    + "where codigo_cargo = " + codigo;
+            List<Map<String, Object>> cargo = this.jdbcTemplate.queryForList(sql);
+            json.put("codigo_cargo", cargo.get(0).get("codigo_cargo").toString());
+            json.put("nombre_cargo", cargo.get(0).get("nombre_cargo").toString());
+        }
         return json;
     }
 
     public JSONObject obtenerEntidad(int codigo) throws JSONException {
         JSONObject json = new JSONObject();
-        String sql = "SELECT codigo_entidad, nombre_entidad, tipo_entidad, entidad_supervisor "
-                + "FROM public.entidad "
-                + "WHERE codigo_entidad=" + codigo;
-        List<Map<String, Object>> cargo = this.jdbcTemplate.queryForList(sql);
-        json.put("codigo_entidad", cargo.get(0).get("codigo_entidad").toString());
-        json.put("nombre_entidad", cargo.get(0).get("nombre_entidad").toString());
-        json.put("tipo_entidad", cargo.get(0).get("tipo_entidad").toString());
-        json.put("entidad_supervisor", cargo.get(0).get("entidad_supervisor").toString());
+        if (codigo == 0) {
+            json.put("codigo_entidad", 0);
+            json.put("nombre_entidad", "NINGUNO");
+            json.put("tipo_entidad", "NINGUNO");
+            json.put("entidad_supervisor", "NINGUNO");
+        } else {
+            String sql = "SELECT codigo_entidad, nombre_entidad, tipo_entidad, entidad_supervisor "
+                    + "FROM public.entidad "
+                    + "WHERE codigo_entidad=" + codigo;
+            List<Map<String, Object>> cargo = this.jdbcTemplate.queryForList(sql);
+            json.put("codigo_entidad", cargo.get(0).get("codigo_entidad").toString());
+            json.put("nombre_entidad", cargo.get(0).get("nombre_entidad").toString());
+            json.put("tipo_entidad", cargo.get(0).get("tipo_entidad").toString());
+            json.put("entidad_supervisor", cargo.get(0).get("entidad_supervisor").toString());
+        }
 
         return json;
     }
@@ -924,7 +936,7 @@ public class DAOAdministrador extends Conexion {
 
     public List<Map<String, Object>> listaSolicitudes(int funcionario, String tipo, String estado, Date desde, Date hasta, String estoFuncionario) {
         List<Map<String, Object>> listaSolicitudes = null;
-        String sql = "SELECT codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, estado, fecha_estado, descripcion_estado, codigo_funcionario, supervisor "
+        String sql = "SELECT codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, s.estado, fecha_estado, descripcion_estado, codigo_funcionario, s.supervisor "
                 + "FROM public.solicitud_vacaciones s, public.funcionario f "
                 + "where codigo_funcionario = " + funcionario;
         String condiciones = "";
@@ -976,6 +988,7 @@ public class DAOAdministrador extends Conexion {
                 listaSolicitudes.set(i, usu);
             }
         } else {
+            condiciones = " and s.codigo_funcionario=f.codigo_sai ";
             if (!tipo.equals("TODOS")) {
                 condiciones = condiciones + " and tipo = '" + tipo + "'";
             }
@@ -1021,7 +1034,7 @@ public class DAOAdministrador extends Conexion {
 
     public List<Map<String, Object>> listaSolicitudesPorCargo(int cargos, String tipo, String estado, Date desde, Date hasta) {
         List<Map<String, Object>> listaSolicitudes = null;
-        String sql = "SELECT f.nombre,f.apellido,ca.nombre_cargo,ca.codigo_cargo ,codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, s.tipo, s.estado, s.codigo_funcionario, s.supervisor "
+        String sql = "SELECT f.codigo_sai,f.nombre,f.apellido,ca.nombre_cargo,ca.codigo_cargo ,codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, s.fecha_estado, dias, s.tipo, s.estado, s.codigo_funcionario, s.supervisor "
                 + "FROM public.solicitud_vacaciones s, public.funcionario f, public.cargo ca "
                 + "where f.codigo_sai=s.codigo_funcionario and f.cargo=ca.codigo_cargo ";
         String condiciones = "";
@@ -1054,6 +1067,21 @@ public class DAOAdministrador extends Conexion {
                 usu.replace("supervisor", ninguno);
                 listaSolicitudes.set(i, usu);
             }
+            Date fecha_solicitud = new Date(usu.get("fecha_solicitud").toString());
+            usu.replace("fecha_solicitud", fecha_solicitud.fechaImpresion());
+            listaSolicitudes.set(i, usu);
+
+            Date fecha_salida = new Date(usu.get("fecha_salida").toString());
+            usu.replace("fecha_salida", fecha_salida.fechaImpresion());
+            listaSolicitudes.set(i, usu);
+
+            Date fecha_retorno = new Date(usu.get("fecha_retorno").toString());
+            usu.replace("fecha_retorno", fecha_retorno.fechaImpresion());
+            listaSolicitudes.set(i, usu);
+
+            Date fecha_estado = new Date(usu.get("fecha_estado").toString());
+            usu.replace("fecha_estado", fecha_estado.fechaImpresion());
+            listaSolicitudes.set(i, usu);
         }
 
         return listaSolicitudes;
@@ -1061,7 +1089,7 @@ public class DAOAdministrador extends Conexion {
 
     public List<Map<String, Object>> listaSolicitudesPorEntidad(int entidad, int cargos, String tipo, String estado, Date desde, Date hasta) {
         List<Map<String, Object>> listaSolicitudes = null;
-        String sql = "SELECT e.nombre_entidad, f.nombre,f.apellido,ca.nombre_cargo,ca.codigo_cargo ,codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, s.tipo, s.estado, s.codigo_funcionario, s.supervisor "
+        String sql = "SELECT f.codigo_sai, e.nombre_entidad, f.nombre,f.apellido,ca.nombre_cargo,ca.codigo_cargo ,codigo_solicitud, fecha_solicitud, s.fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, s.tipo, s.fecha_estado, s.estado, s.codigo_funcionario, s.supervisor "
                 + "FROM public.solicitud_vacaciones s, public.funcionario f, public.cargo ca, public.entidad e "
                 + "where f.codigo_sai=s.codigo_funcionario and f.cargo=ca.codigo_cargo and e.codigo_entidad=f.entidad ";
         String condiciones = "";
@@ -1096,6 +1124,21 @@ public class DAOAdministrador extends Conexion {
                 usu.replace("supervisor", ninguno);
                 listaSolicitudes.set(i, usu);
             }
+            Date fecha_solicitud = new Date(usu.get("fecha_solicitud").toString());
+            usu.replace("fecha_solicitud", fecha_solicitud.fechaImpresion());
+            listaSolicitudes.set(i, usu);
+
+            Date fecha_salida = new Date(usu.get("fecha_salida").toString());
+            usu.replace("fecha_salida", fecha_salida.fechaImpresion());
+            listaSolicitudes.set(i, usu);
+
+            Date fecha_retorno = new Date(usu.get("fecha_retorno").toString());
+            usu.replace("fecha_retorno", fecha_retorno.fechaImpresion());
+            listaSolicitudes.set(i, usu);
+
+            Date fecha_estado = new Date(usu.get("fecha_estado").toString());
+            usu.replace("fecha_estado", fecha_estado.fechaImpresion());
+            listaSolicitudes.set(i, usu);
         }
 
         return listaSolicitudes;
