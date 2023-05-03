@@ -43,8 +43,8 @@ public class DAOUSUARIO extends Conexion {
         this.actualizarConsulta(sql);
     }
 
-    public JSONObject cargarDatos() throws JSONException {
-        return this.datosFuncionario();
+    public JSONObject cargarDatos(int sai) throws JSONException {
+        return this.datosFuncionario(sai);
     }
 
     private List<Map<String, Object>> cargarDatosUsuario() {
@@ -67,9 +67,9 @@ public class DAOUSUARIO extends Conexion {
         return funcionarioList.get(0);
     }
 
-    public List<Map<String, String>> gestiones() throws JSONException {
+    public List<Map<String, String>> gestiones(int sai) throws JSONException {
         List<Map<String, String>> funcionarioList = new LinkedList<>();
-        JSONObject usuario = cargarDatos();
+        JSONObject usuario = cargarDatos(sai);
         Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
         int antiguedad = ingreso.antiguedad();
         int gestion = ingreso.getGestion();
@@ -422,12 +422,13 @@ public class DAOUSUARIO extends Conexion {
         return nombreUsuario;
     }
 
-    public JSONObject enviarSolicitud(String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String tipo, String detalle, String dias, String duodesimas, String aceptar) throws JSONException {
+    public JSONObject enviarSolicitud(String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String tipo, String detalle, String dias, String duodesimas, String aceptar,String estado) throws JSONException {
         JSONObject json = new JSONObject();
         double diasSolicitados = dias.equals("") ? 0 : Double.parseDouble(dias);
         boolean solicitud = false;
         boolean tieneDuodesimas = false;
-        double vacaciones = vacaciones();
+        int sai = codigo_say;
+        double vacaciones = vacaciones(sai);
         int saldoDuodesimas = duodesimas();
         try {
             String mensaje = "";
@@ -441,7 +442,7 @@ public class DAOUSUARIO extends Conexion {
                                         if (saldoDuodesimas >= diasSolicitados) {
                                             if (duodesimas.equals("SI") && aceptar.equals("ACEPTAR")) {
                                                 solicitud = true;
-                                                insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, "DUODESIMA", detalle, dias);
+                                                insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, "DUODESIMA", detalle, dias, sai,estado);
                                                 mensaje = "la solicitud no fue insertada";
                                             } else {
                                                 tieneDuodesimas = true;
@@ -455,10 +456,10 @@ public class DAOUSUARIO extends Conexion {
                                         mensaje = "Usted no cuenta con duodesimas";
                                     }
                                 } else {
-                                    if (diasSolicitados <= vacaciones()) {
+                                    if (diasSolicitados <= vacaciones) {
                                         solicitud = true;
                                         if (aceptar.equals("ACEPTAR")) {
-                                            insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias);
+                                            insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, sai,estado);
                                         } else {
                                             mensaje = "la solicitud no fue insertada";
                                         }
@@ -467,7 +468,7 @@ public class DAOUSUARIO extends Conexion {
                                             case "COMPENSACION":
                                                 solicitud = true;
                                                 if (aceptar.equals("ACEPTAR")) {
-                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias);
+                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, sai,estado);
                                                 } else {
                                                     mensaje = "la solicitud no fue insertada";
                                                 }
@@ -475,7 +476,7 @@ public class DAOUSUARIO extends Conexion {
                                             case "ASUETO":
                                                 solicitud = true;
                                                 if (aceptar.equals("ACEPTAR")) {
-                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias);
+                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, sai,estado);
                                                 } else {
                                                     mensaje = "la solicitud no fue insertada";
                                                 }
@@ -483,7 +484,7 @@ public class DAOUSUARIO extends Conexion {
                                             case "LICENCIA":
                                                 solicitud = true;
                                                 if (aceptar.equals("ACEPTAR")) {
-                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias);
+                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, sai,estado);
                                                 } else {
                                                     mensaje = "la solicitud no fue insertada";
                                                 }
@@ -528,15 +529,15 @@ public class DAOUSUARIO extends Conexion {
         return json;
     }
 
-    public double vacaciones() throws JSONException {
-        double totalVacaciones = totalVacaciones();
-        double vacacionesTomadas = vacacionesTomadas();
+    public double vacaciones(int codigo) throws JSONException {
+        double totalVacaciones = totalVacaciones(codigo);
+        double vacacionesTomadas = vacacionesTomadas(codigo);
 
         return totalVacaciones - vacacionesTomadas;
     }
 
-    public double totalVacaciones() throws JSONException {
-        List<Map<String, String>> gestiones = gestiones();
+    public double totalVacaciones(int sai) throws JSONException {
+        List<Map<String, String>> gestiones = gestiones(sai);
         double gestioTotal = 0;
         for (Map<String, String> g : gestiones) {
             gestioTotal += Double.parseDouble(g.get("saldo").toString());
@@ -544,13 +545,13 @@ public class DAOUSUARIO extends Conexion {
         return gestioTotal;
     }
 
-    public double vacacionesTomadas() {
+    public double vacacionesTomadas(int sai) {
         List<Map<String, Object>> funcionarioList;
         String funcionario = "select sum(dias) from solicitud_vacaciones s, funcionario f "
                 + "where s.codigo_funcionario=f.codigo_sai and "
                 + "s.estado = 'ACEPTADO' and "
                 + "(s.tipo = 'DUODESIMA' OR  s.tipo = 'VACACION') and "
-                + "s.codigo_funcionario= " + codigo_say;
+                + "s.codigo_funcionario= " + sai;
         try {
             funcionarioList = this.jdbcTemplate.queryForList(funcionario);
             double dias = Double.parseDouble(funcionarioList.get(0).get("sum").toString());
@@ -589,8 +590,8 @@ public class DAOUSUARIO extends Conexion {
         return duodesima;
     }
 
-    private void insertarSolicitud(String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String tipo, String detalle, String dias) {
-        String codigo = codigo(tipo);
+    private void insertarSolicitud(String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String tipo, String detalle, String dias, int sai, String estado) {
+        String codigo = codigo(tipo, sai);
         Date fecha = new Date().fechaActual();
         String fecha_solicitud = fecha.toString();
         String sql = "INSERT INTO public.solicitud_vacaciones("
@@ -604,8 +605,9 @@ public class DAOUSUARIO extends Conexion {
                 + " dias,"
                 + " tipo,"
                 + " detalle_compensacion,"
-                + " codigo_funcionario) "
-                + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                + " codigo_funcionario, "
+                + " estado) "
+                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         Date fecha_s = new Date(fecha_salida);
         this.jdbcTemplate.update(sql,
                 codigo,
@@ -618,7 +620,8 @@ public class DAOUSUARIO extends Conexion {
                 Double.parseDouble(dias),
                 tipo,
                 detalle,
-                codigo_say
+                sai,
+                estado
         );
     }
 
@@ -635,6 +638,78 @@ public class DAOUSUARIO extends Conexion {
             String m = e.getMessage();
             System.err.println(m);
         }
+    }
+
+    public JSONObject enviarSolicitudRRHH(String fecha_salida, String turno_salida, String fecha_retorno, String turno_retorno, String tipo, String detalle, String dias, String sai,String estado) {
+        JSONObject json = new JSONObject();
+        double diasSolicitados = dias.equals("") ? 0 : Double.parseDouble(dias);
+        int codigo = Integer.parseInt(sai);
+        double vacaciones = vacaciones(codigo);
+        boolean solicitud = false;
+        try {
+            String mensaje = "";
+            if (!fecha_retorno.equals("")) {
+                if (!fecha_salida.equals("")) {
+                    if (!turno_salida.equals("")) {
+                        if (!turno_retorno.equals("")) {
+                            if (!tipo.equals("")) {
+                                if (vacaciones == 0 && tipo.equals("VACACION")) {
+                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, "DUODESIMA", detalle, dias, codigo,estado);
+                                    mensaje = "la solicitud fue insertada";
+                                    solicitud = true;
+                                } else {
+                                    if (diasSolicitados <= vacaciones) {
+                                        insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, codigo,estado);
+                                        mensaje = "la solicitud no fue insertada";
+                                        solicitud = true;
+                                    } else {
+                                        switch (tipo) {
+                                            case "COMPENSACION":
+                                                insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, codigo,estado);
+                                                mensaje = "la solicitud  fue insertada";
+                                                solicitud = true;
+                                                break;
+                                            case "ASUETO":
+                                                insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, codigo, estado);
+                                                mensaje = "la solicitud  fue insertada";
+                                                solicitud = true;
+                                                break;
+                                            case "LICENCIA":
+                                                insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, codigo, estado);
+                                                mensaje = "la solicitud fue insertada";
+                                                solicitud = true;
+                                                break;
+                                            default:
+                                                mensaje = "Usted no puede exeder la cantidad de dias que tiene de vacacion";
+                                                solicitud = true;
+                                                break;
+                                        }
+                                    }
+                                }
+                            } else {
+                                mensaje = "Debe seleccionar un tipo de solicitud";
+                            }
+                        } else {
+                            mensaje = "Debe seleccionar un turno de retorno";
+                        }
+                    } else {
+                        mensaje = "Debe seleccionar un turno de salida";
+                    }
+                } else {
+                    mensaje = "Debe introducir una fecha de salida";
+                }
+            } else {
+                mensaje = "Debe introducir una fecha de retorno";
+            }
+            json.put("mensaje", mensaje);
+            json.put("solicitud", solicitud);
+
+        } catch (Exception e) {
+            json.put("mensaje", e.getMessage());
+            json.put("solicitud", solicitud);
+        }
+
+        return json;
     }
 
 }

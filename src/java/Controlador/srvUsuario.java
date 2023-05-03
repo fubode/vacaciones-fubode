@@ -75,6 +75,9 @@ public class srvUsuario extends HttpServlet {
                     case "actualizar":
                         actualizar(request, response, dao);
                         break;                    
+                    case "enviarSolicitudRRHH":
+                        enviarSolicitudRRHH(request, response, dao);
+                        break;                    
                     default:
                         response.sendRedirect("index.xhtml");
                         break;
@@ -217,7 +220,7 @@ public class srvUsuario extends HttpServlet {
             String acpetar = request.getParameter("ACEPTAR");
 
             out = null;
-            json = dao.enviarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, duodesimas, acpetar);
+            json = dao.enviarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, duodesimas, acpetar,"PENDIENTE");
             out = response.getWriter();
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo acceder a la base de datos" + e.getMessage());
@@ -229,7 +232,7 @@ public class srvUsuario extends HttpServlet {
     }
 
     private void cargarDatosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOUSUARIO dao) throws ServletException, IOException, JSONException {
-        JSONObject usuario = dao.cargarDatos();
+        JSONObject usuario = dao.cargarDatos(dao.getCodigo_say());
         Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));
@@ -252,13 +255,13 @@ public class srvUsuario extends HttpServlet {
 
     private void cargarDatosEspecificosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOUSUARIO dao) throws ServletException, IOException, JSONException {
         //List<Map<String, Object>> datos = dao.vacacionesTomadas();
-        double vacaciones = dao.vacacionesTomadas();
-        double vacacionesTomadas = dao.vacacionesTomadas();
+        double vacaciones = dao.vacacionesTomadas(dao.getCodigo_say());
+        double vacacionesTomadas = dao.vacacionesTomadas(dao.getCodigo_say());
         request.setAttribute("vacacionesTomadas", vacacionesTomadas);
-        double vacacionesTotal = dao.vacacionesTomadas();
+        double vacacionesTotal = dao.vacacionesTomadas(dao.getCodigo_say());
         double sinGoce = dao.sinGoce();
         double compensacion = dao.compensaciones();
-        List<Map<String, String>> gestiones = dao.gestiones();
+        List<Map<String, String>> gestiones = dao.gestiones(dao.getCodigo_say());
 
         double gestioTotal = 0;
         for (Map<String, String> g : gestiones) {
@@ -304,7 +307,7 @@ public class srvUsuario extends HttpServlet {
         request.setAttribute("sinGoce", sinGoce);
         request.setAttribute("acumulado", saldoTotalCumulado);
         request.setAttribute("compensacion", compensacion);
-        request.setAttribute("vacaciones", dao.vacacionesTomadas());
+        request.setAttribute("vacaciones", dao.vacacionesTomadas(dao.getCodigo_say()));
     }
 
     private boolean hayExcedentes(int antiguedad, double saldoTotalCumulado) {
@@ -422,6 +425,32 @@ public class srvUsuario extends HttpServlet {
             response.sendRedirect("srvUsuario?accion=inicio");
         } catch (Exception e) {
 
+        }
+    }
+
+    private void enviarSolicitudRRHH(HttpServletRequest request, HttpServletResponse response, DAOUSUARIO dao) {
+        JSONObject json = null;
+        PrintWriter out = null;
+        try {
+            String fecha_salida = request.getParameter("fecha_salida");
+            String turno_salida = request.getParameter("turno_salida");
+            String fecha_retorno = request.getParameter("fecha_retorno");
+            String turno_retorno = request.getParameter("turno_retorno");
+            String tipo = request.getParameter("tipo");
+            String detalle = request.getParameter("detalle");
+            String dias = request.getParameter("dias");
+            String sai = request.getParameter("e_sai");
+
+            out = null;
+            json = dao.enviarSolicitudRRHH(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias,sai,"ACEPTADO");
+            out = response.getWriter();
+        } catch (Exception e) {
+            json.put("mensaje", e.getMessage());
+            out.print(json);
+            out.close();
+        } finally {
+            out.print(json);
+            out.close();
         }
     }
 }

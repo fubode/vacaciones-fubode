@@ -72,6 +72,8 @@
     <div class="linea2"></div>
 
     <h1 class="text-center">SOLICITUDES DE VACACIONES DE FUNCIONARIOS</h1>
+
+    <button class="btn fubode-azul m-2" onclick="formSolicitud()">Agregar solicitud</button>
     <div class="letras">
         <table id="tablaFubode" class="table container table-hover table-striped table-bordered">
             <thead>
@@ -93,7 +95,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 <c:forEach var="dato" items="${lista}">
                     <tr>
                         <td>${dato.codigo_solicitud}</td>
@@ -422,8 +423,7 @@
         </div>
     </div>
 </div>
-<div>
-</div>
+
 
 <!--Modal compensacion -->
 <div class="modal fade" id="compensacion_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -465,6 +465,71 @@
     </div>
 </div>
 
+<!-- Modal enviar Solicitud-->
+<div class="modal fade" id="enviarSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header fubode-azul">
+                <h5 class="modal-title" id="exampleModalLongTitle"> ENVIAR SOLICITUD</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container card-body">
+                <div class="card">
+                    <div class="container">
+                        <label class="m-2"><strong>CODIGO SAI </strong></label>
+                        <input type="number" name="dias" id="e_sai" class="form-control">                    
+                    </div>
+                    <div class="container mt-3">
+                        <label ><strong>FECHA DE SALIDA </strong></label>
+                        <input type="date" name = "fecha_salida"  id="e_fecha_salida" class="form-control"/>
+                        <label ><strong>TURNO DE SALIDA </strong>
+                            <select name="turno_salida" id="e_turno_salida" class="form-control">
+                                <option value="MAÑANA">MAÑANA</option>
+                                <option value="TARDE" selected>TARDE</option>
+                            </select>
+                    </div>
+                    <div class="container-fluid">
+                        <label ><strong>FECHA DE RETORNO </strong></label>
+                        <input type="date" name = "fecha_retorno" id="e_fecha_retorno" class="form-control"/>
+                        <label ><strong>TURNO DE RETORNO </strong>
+                            <select name="turno_retorno" id="e_turno_retorno" class="form-control">
+                                <option value="MAÑANA">MAÑANA</option>
+                                <option value="TARDE" selected>TARDE</option>
+                            </select>
+                    </div>
+                    <div class="container">
+                        <label class="m-2"><strong>DIAS DE VACACION: </strong></label>
+                        <input type="number" name="dias" id="e_dias" class="form-control" disabled>                    
+                    </div>
+                    <div class="container">
+                        <p><strong>TIPO DE SOLICITUD</strong></p>
+                        <input type="radio" id="VACACION" name="tipo" value="VACACION">
+                        <label >VACACION</label><br>
+                        <input type="radio" id="LICENCIA" name="tipo" value="LICENCIA"">
+                        <label>LICENCIA SIN GOCE DE HABER</label><br>
+                        <input type="radio" id="COMPENSACION" name="tipo" value="COMPENSACION"">
+                        <label>COMPENSACION</label><br>
+                        <input type="radio" id="ASUETO" name="tipo" value="ASUETO">
+                        <label>ASUETO</label><br>
+                    </div>
+                    <div class="container mt-3">
+                        <label ><strong>DETALLE DE SOLICITUD </strong></label><br>
+                        
+                        <textarea class="form-control mb-2" id="e_detalle" name="e_detalle" rows="5" cols="10"></textarea>
+                    </div>
+                </div>        
+            </div>   
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">CERRAR</button>
+                <button type="button" id="enviar_solicitud" class="btn btn-warning m-2" onclick="enviarSolicitud()">ENVIAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="recursos/js/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="recursos/js/popper.min.js" type="text/javascript"></script>
 <script src="recursos/js/bootstrap.min.js" type="text/javascript"></script>  
@@ -474,5 +539,7 @@
 <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="js/administrador/rrhhSolicitudes.js" type="text/javascript"></script>
 <script src="js/administrador/fechas_rrhh.js" type="text/javascript"></script>
+<script src="js/administrador/solicitud.js" type="text/javascript"></script>
+<script src="js/administrador/fechas.js" type="text/javascript"></script>
 </body>
 </html>

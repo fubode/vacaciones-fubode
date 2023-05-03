@@ -192,7 +192,7 @@ public class srvAdministrador extends HttpServlet {
     }// </editor-fold>   
 
     private void cargarDatosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOAdministrador dao) throws ServletException, IOException, JSONException {
-        JSONObject usuario = dao.datosFuncionario();
+        JSONObject usuario = dao.datosFuncionario(dao.getCodigo_say());
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));
         request.setAttribute("nombre_entidad", usuario.get("nombre_entidad"));

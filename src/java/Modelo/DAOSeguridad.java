@@ -49,8 +49,8 @@ public class DAOSeguridad extends Conexion {
         this.actualizarConsulta(sql1);
     }
 
-    public JSONObject cargarDatos() throws JSONException {
-        return this.datosFuncionario();
+    public JSONObject cargarDatos(int sai) throws JSONException {
+        return this.datosFuncionario(sai);
     }
 
     public List<Map<String, Object>> listaRoles() {

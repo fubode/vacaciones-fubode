@@ -145,7 +145,7 @@ public class srvSeguridad extends HttpServlet {
     }
 
     private void cargarDatosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOSeguridad dao) {
-        JSONObject usuario = dao.cargarDatos();
+        JSONObject usuario = dao.cargarDatos(dao.getCodigo_say());
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));
         request.setAttribute("nombre_entidad", usuario.get("nombre_entidad"));

@@ -114,7 +114,7 @@ public class svrSupervisor extends HttpServlet {
     }// </editor-fold>   
    
     private void cargarDatosFuncionario(HttpServletRequest request, HttpServletResponse response, DAOSupervisor dao) throws ServletException, IOException, JSONException {
-        JSONObject usuario = dao.datosFuncionario();
+        JSONObject usuario = dao.datosFuncionario(dao.getCodigo_say());
         Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
         request.setAttribute("nombreFuncionario", usuario.get("nombreFuncionario"));
         request.setAttribute("nombre_cargo", usuario.get("nombre_cargo"));

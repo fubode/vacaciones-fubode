@@ -20,8 +20,9 @@ $(document).ready(function () {
         var fecha_retorno = document.getElementById('fecha_retorno').value;
         var turno_retorno = document.getElementById('turno_retorno').value;
         var turno_salida = document.getElementById('turno_salida').value;
+        var dif = 86400000;
         var fecha_actual = new Date().toISOString().split('T')[0];
-        var actual = new Date(fecha_actual).getTime();
+        var actual = new Date(fecha_actual).getTime()-dif;
         var salida = new Date(fecha_salida).getTime();
         var retorno = new Date(fecha_retorno).getTime();
         
@@ -60,7 +61,7 @@ $(document).ready(function () {
                                 swal(data.mensaje);
                                 document.querySelector('#fecha_retorno').value = aux_retorno;
                             } else {
-                                swal(data.mensaje);
+                                //swal(data.mensaje);
                                 document.getElementById('dias').value = data.dias;
                             }
                         },

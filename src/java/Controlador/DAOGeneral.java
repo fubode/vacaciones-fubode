@@ -53,15 +53,15 @@ public class DAOGeneral extends Conexion {
         return json;
     }
 
-    public double vacaciones() throws JSONException {
-        double totalVacaciones = totalVacaciones();
-        double vacacionesTomadas = vacacionesTomadas();
+    public double vacaciones(int sai) throws JSONException {
+        double totalVacaciones = totalVacaciones(sai);
+        double vacacionesTomadas = vacacionesTomadas(sai);
 
         return totalVacaciones - vacacionesTomadas;
     }
 
-    public double totalVacaciones() throws JSONException {
-        List<Map<String, String>> gestiones = gestiones();
+    public double totalVacaciones(int sai) throws JSONException {
+        List<Map<String, String>> gestiones = gestiones(sai);
         double gestioTotal = 0;
         for (Map<String, String> g : gestiones) {
             gestioTotal += Double.parseDouble(g.get("saldo").toString());
@@ -69,12 +69,12 @@ public class DAOGeneral extends Conexion {
         return gestioTotal;
     }
 
-    public double vacacionesTomadas() {
+    public double vacacionesTomadas(int sai) {
         List<Map<String, Object>> funcionarioList;
         String funcionario = "select sum(dias)from solicitud_vacaciones s, funcionario f "
                 + "where s.codigo_funcionario=f.codigo_sai and "
                 + "s.estado = 'ACEPTADO' and "
-                + "s.codigo_funcionario=" + codigo_say;
+                + "s.codigo_funcionario=" + sai;
         try {
             funcionarioList = this.jdbcTemplate.queryForList(funcionario);
             return Integer.parseInt(funcionarioList.get(0).get("sum").toString());
@@ -83,9 +83,9 @@ public class DAOGeneral extends Conexion {
         }
     }
 
-    public List<Map<String, String>> gestiones() throws JSONException {
+    public List<Map<String, String>> gestiones(int sai) throws JSONException {
         List<Map<String, String>> funcionarioList = new LinkedList<>();
-        JSONObject usuario = this.datosFuncionario();
+        JSONObject usuario = this.datosFuncionario(sai);
         Date ingreso = new Date(usuario.get("fecha_ingreso").toString());
         int antiguedad = ingreso.antiguedad();
         int gestion = ingreso.getGestion();

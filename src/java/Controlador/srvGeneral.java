@@ -116,7 +116,7 @@ public class srvGeneral extends HttpServlet {
         PrintWriter out = null;
         JSONObject json = new JSONObject();
         try {
-            vacaciones = dao.vacaciones();
+            vacaciones = dao.vacaciones(dao.getCodigo_say());
             out = response.getWriter();
             json.put("vacaciones",vacaciones);
         } catch (Exception e) {

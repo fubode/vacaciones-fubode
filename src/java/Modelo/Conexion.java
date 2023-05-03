@@ -42,6 +42,10 @@ public class Conexion {
         this.codigo_say = usuario.getCodigo_say();
         this.usuario = usuario;
     }
+
+    public int getCodigo_say() {
+        return codigo_say;
+    }
     
     public Usuario getUsuario(){
         return usuario;
@@ -101,9 +105,9 @@ public class Conexion {
         return rs;
     }
 
-    protected String codigo(String s) {
+    protected String codigo(String s, int sai) {
         String codigo = "";
-        String sql = "select * from solicitud_vacaciones s where s.codigo_funcionario=" + codigo_say + " ORDER by id_vacaciones asc";
+        String sql = "select * from solicitud_vacaciones s where s.codigo_funcionario=" + sai + " ORDER by id_vacaciones asc";
         List<Map<String, Object>> datos = this.jdbcTemplate.queryForList(sql);
         String caso = s;
         String tipo = "";
@@ -124,7 +128,7 @@ public class Conexion {
                 tipo = "SD";
                 break;
         }
-        codigo = tipo + "-" + codigo_say + "-" + fecha.fechaParaCodigo();
+        codigo = tipo + "-" + sai + "-" + fecha.fechaParaCodigo();
         if (datos == null || datos.size() == 0) {
             codigo = codigo + "-1";
         } else {
@@ -155,9 +159,9 @@ public class Conexion {
         return nombreUsuario;
     }
 
-    public JSONObject datosFuncionario() throws JSONException {
+    public JSONObject datosFuncionario(int sai) throws JSONException {
         JSONObject json = new JSONObject();
-        List<Map<String, Object>> usuario = funcionario(codigo_say);
+        List<Map<String, Object>> usuario = funcionario(sai);
 
         json.put("nombreFuncionario", usuario.get(0).get("nombre") + " " + usuario.get(0).get("apellido"));
 
