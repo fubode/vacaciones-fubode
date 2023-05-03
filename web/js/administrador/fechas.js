@@ -21,7 +21,7 @@ $(document).ready(function () {
         var turno_retorno = document.getElementById('e_turno_retorno').value;
         var turno_salida = document.getElementById('e_turno_salida').value;
         var fecha_actual = new Date().toISOString().split('T')[0];
-        var actual = new Date(fecha_actual).getTime();
+        var actual = new Date(fecha_actual).getTime()-86400000;
         var salida = new Date(fecha_salida).getTime();
         var retorno = new Date(fecha_retorno).getTime();
         
