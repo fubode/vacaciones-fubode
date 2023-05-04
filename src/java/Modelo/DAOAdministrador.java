@@ -201,6 +201,7 @@ public class DAOAdministrador extends Conexion {
                 listaFuncionaios.get(i).put("cumplidas", usuario.vacacionesCumplidas());
                 listaFuncionaios.get(i).put("hayExcedentes", usuario.hayExcedentes());
                 listaFuncionaios.get(i).put("saldo", usuario.saldoVacaciones());
+                listaFuncionaios.get(i).put("error", usuario.saldoError());
 
                 data = cd + " - " + usuario.antiguedad() + " - " + usuario.nombreSupervisor() + " - " + usuario.vacacionesTomadas() + " - " + usuario.vacacionesCumplidas() + " - " + usuario.hayExcedentes() + " - " + usuario.saldoVacaciones();
                 System.out.println(data);

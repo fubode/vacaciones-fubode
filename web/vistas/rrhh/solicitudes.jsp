@@ -385,7 +385,7 @@
                     </div>
                     <div class="container">
                         <label class="m-2"><strong>DIAS DE VACACION: </strong></label>
-                        <input type="number" name="dias" id="dias" class="form-control" disabled value='${diasNoLaborables}'>                    
+                        <input type="number" name="dias" id="dias" class="form-control"  value='${diasNoLaborables}'>                    
                     </div>
                     <div class="container">
                         <p><strong>TIPO DE SOLICITUD</strong></p>
@@ -501,7 +501,7 @@
                     </div>
                     <div class="container">
                         <label class="m-2"><strong>DIAS DE VACACION: </strong></label>
-                        <input type="number" name="dias" id="e_dias" class="form-control" disabled>                    
+                        <input type="number" name="dias" id="e_dias" class="form-control" >                    
                     </div>
                     <div class="container">
                         <p><strong>TIPO DE SOLICITUD</strong></p>

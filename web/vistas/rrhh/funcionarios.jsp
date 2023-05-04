@@ -120,7 +120,13 @@
                         <td class="text-center">${dato.cumplidas}</td>
                         <td class="text-center">${dato.tomadas}</td>
                         <c:choose>
+                            <c:when  test="${dato.saldo<0}">
+                                <td class="m-4 text-danger">${dato.saldo}</td>
+                            </c:when>
                             <c:when  test="${!dato.hayExcedentes}">
+                                <td class="m-4 text-success">${dato.saldo}</td>
+                            </c:when>
+                            <c:when  test="${dato.saldo==0}">
                                 <td class="m-4 text-success">${dato.saldo}</td>
                             </c:when>
                             <c:otherwise>

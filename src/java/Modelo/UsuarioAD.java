@@ -104,4 +104,17 @@ class UsuarioAD {
         }
         return funcionarioList;
     }
+
+    public  boolean saldoError() {
+        boolean saldoError = false;
+        double saldo = saldoVacaciones();
+        if(saldo>=0){
+            saldoError = true;
+        }else{
+            if(saldo<0){
+                saldoError = false;
+            }
+        }
+        return saldoError;
+    }
 }
