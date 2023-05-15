@@ -36,6 +36,8 @@ public class Usuario {
     private String entidad;
     private String nombreCompleto;
     private String estado;
+    private String correoSupervisor;
+    private String constructor;
 
     public boolean isIsSupervisor() {
         return isSupervisor;
@@ -132,8 +134,8 @@ public class Usuario {
     public void addRol(String rol) {
         this.roles.add(rol);
     }
-
-    public Usuario(String usuario, String password, int codigo_say) {
+    
+    public Usuario(String usuario, String password, int codigo_say,String correo, int supervisor, String correoSupervisor, String nombreCompleto) {
         this.usuario = usuario;
         this.password = password;
         this.codigo_say = codigo_say;
@@ -141,6 +143,19 @@ public class Usuario {
         this.roles = new ArrayList<String>();
         this.conexion = new Conexion();
         this.estado = "DESBLOQUEADO";
+        this.correo = correo;
+        this.supervisor = supervisor;
+        this.correoSupervisor = correoSupervisor;
+        this.nombreCompleto = nombreCompleto;
+        this.constructor = "constructor 1";
+    }
+
+    public String getCorreoSupervisor() {
+        return correoSupervisor;
+    }
+
+    public void setCorreoSupervisor(String correoSupervisor) {
+        this.correoSupervisor = correoSupervisor;
     }
 
     public Usuario(int codigoSay) {
@@ -162,6 +177,7 @@ public class Usuario {
         this.password = usuario.get(0).get("pass").toString();
         this.supervisor = Integer.parseInt(usuario.get(0).get("supervisor").toString());
         this.estado = "DESBLOQUEADO";
+        this.constructor = "constructor 2";
     }
 
     public int getCodigoEntidad() {

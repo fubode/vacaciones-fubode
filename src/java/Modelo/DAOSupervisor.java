@@ -6,6 +6,7 @@
 package Modelo;
 
 import Helper.Date;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -119,11 +120,21 @@ public class DAOSupervisor extends Conexion {
         return listaSolicitudes;
     }
 
-    public void modificarSolicitud(String codigo, String estado, String detalle) {
+    public void modificarSolicitud(String codigo, String estado, String detalle) throws IOException {
         String sql = "UPDATE public.solicitud_vacaciones "
                 + "SET descripcion_estado='" + detalle + "', estado='" + estado + "', fecha_estado=(select current_date),supervisor=" + codigo_say + " "
                 + "WHERE codigo_solicitud='" + codigo + "'";
+                
+        int codigoFuncionario = Integer.parseInt(codigo.split("-")[1]);
+        List<Map<String, Object>> funcionario = funcionario(codigoFuncionario);
+        
+        String detallePersonalizado = "Estimado/a " +funcionario.get(0).get("nombre")+" "+funcionario.get(0).get("apellido")+"<br>"+
+                "Su solicitud con codigo "+codigo+" fue "+ estado + 
+                " por el funcionario/a "+ usuario.getNombreCompleto()+
+                " bajo el siguiente detalle: "+ detalle;
+        
         this.actualizarConsulta(sql);
+        enviarCorreo(funcionario.get(0).get("correo").toString(), ("SOLICITUD DE VACACION "+estado), detallePersonalizado);
     }
 
     public List<Map<String, Object>> cargarDatos() {

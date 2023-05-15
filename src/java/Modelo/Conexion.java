@@ -2,7 +2,6 @@ package Modelo;
 
 import Helper.Date;
 import Helper.EncriptadorAES;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -10,34 +9,37 @@ import java.util.List;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 public class Conexion {
-    
-    private final String DRIVEMANAGER = "org.postgresql.Drive";
-    private final String URL = "jdbc:postgresql://localhost:5432/vacaciones";
-    private final String USER = "postgres";
-    private final String PAS = "root";
+
     protected JdbcTemplate jdbcTemplate;
     private Connection conexion;
     private boolean transaccionIniciada;
     protected int codigo_say;
     protected Usuario usuario;
-    //* javir arispe*/ protected int codigo_say = 3036;
-    //* david luis */ protected int codigo_say = 3967;
-    //* dayne */ protected int codigo_say = 3834;
-    //* omar */ protected int codigo_say = 3042;
-    //* IRIS */ protected int codigo_say = 3768;
+    private final String EMISOR = "fub.agencias@gmail.com";
+    private final String CONTRASENA = "zvycfnysxusirxck";
+    private final String ENDPOINTCORREO = "http://localhost:8096/correo";
 
     public Conexion() {
-        DriverManagerDataSource dataSource = new DriveManager();           
+        DriverManagerDataSource dataSource = new DriveManager();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public Conexion(Usuario usuario) {
-        DriverManagerDataSource dataSource = new DriveManager();   
+        DriverManagerDataSource dataSource = new DriveManager();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.codigo_say = usuario.getCodigo_say();
         this.usuario = usuario;
@@ -46,10 +48,11 @@ public class Conexion {
     public int getCodigo_say() {
         return codigo_say;
     }
-    
-    public Usuario getUsuario(){
+
+    public Usuario getUsuario() {
         return usuario;
     }
+
     public Connection getConexion() {
         return conexion;
     }
@@ -215,9 +218,9 @@ public class Conexion {
         EncriptadorAES encriptadorAES = new EncriptadorAES();
         Usuario usuario = null;
         try {
-            String sqlUsuario = "SELECT id_cuenta, usuario, pass, estado, codigo_funcionario "
-                    + "FROM public.cuenta "
-                    + "where usuario= '" + user + "'";
+            String sqlUsuario = "SELECT id_cuenta, usuario, pass, cu.estado, codigo_funcionario, correo, supervisor, nombre, apellido  "
+                    + "FROM public.cuenta cu, funcionario f "
+                    + "where codigo_funcionario=codigo_sai and cu.usuario = '" + user + "'";
             List<Map<String, Object>> users = this.jdbcTemplate.queryForList(sqlUsuario);
             if (users.size() != 0) {
                 int intentos = 0;
@@ -233,9 +236,15 @@ public class Conexion {
                     String pass = users.get(0).get("pass").toString();
                     String desEncriptado = encriptadorAES.desencriptar(pass, claveEncriptacion);
                     if (password.equals(desEncriptado)) {
+                        int supervisor = Integer.parseInt(users.get(0).get("supervisor").toString());
+                        List<Map<String, Object>> funcionario = funcionario(supervisor);
                         usuario = new Usuario(users.get(0).get("usuario").toString(),
                                 users.get(0).get("pass").toString(),
-                                Integer.parseInt(users.get(0).get("codigo_funcionario").toString()));
+                                Integer.parseInt(users.get(0).get("codigo_funcionario").toString()),
+                                users.get(0).get("correo").toString(),
+                                supervisor, funcionario.get(0).get("correo").toString(),
+                                users.get(0).get("apellido")+" " +users.get(0).get("nombre")
+                        );
                         String sqlSupervisor = "select * from funcionario where supervisor =" + usuario.getCodigo_say();
                         List<Map<String, Object>> supervisores = this.jdbcTemplate.queryForList(sqlSupervisor);
                         if (supervisores.size() != 0) {
@@ -260,9 +269,15 @@ public class Conexion {
                         usuario = null;
                     }
                 } else {
+                    int supervisor = Integer.parseInt(users.get(0).get("supervisor").toString());
+                    List<Map<String, Object>> funcionario = funcionario(supervisor);
                     usuario = new Usuario(users.get(0).get("usuario").toString(),
                             users.get(0).get("pass").toString(),
-                            Integer.parseInt(users.get(0).get("codigo_funcionario").toString()));
+                            Integer.parseInt(users.get(0).get("codigo_funcionario").toString()),
+                            users.get(0).get("correo").toString(),
+                            supervisor, funcionario.get(0).get("correo").toString(),
+                            users.get(0).get("apellido")+" " +users.get(0).get("nombre")
+                    );
                     usuario.setEstado("BLOQUEADO");
                     String sql = "UPDATE public.cuenta "
                             + "SET  estado='BLOQUEADO' "
@@ -279,5 +294,40 @@ public class Conexion {
         String sqlRoles = "select r.nombre_rol from rol r, funcionario f where r.cod_sai=f.codigo_sai and f.codigo_sai=" + codigo;
         List<Map<String, Object>> roles = this.jdbcTemplate.queryForList(sqlRoles);
         return roles;
+    }
+
+    public String enviarCorreo(String remitente, String asunto, String detalle) throws IOException {
+
+        String json = "{\"emisor\": \"" + EMISOR + "\","
+                + " \"contrasenaEmisor\": \"" + CONTRASENA + "\","
+                + " \"remitente\": \"" + remitente + "\","
+                + " \"asunto\": \"" + asunto + "\","
+                + " \"detalle\": \"" + detalle + "\"}";
+        String mensaje = "";
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(ENDPOINTCORREO);
+
+        // Configura la entidad del JSON
+        StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
+        //StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
+        httpPost.setEntity(entity);
+
+        // Envía la solicitud HTTP POST
+        CloseableHttpResponse response = httpClient.execute(httpPost);
+        try {
+
+            // Procesa la respuesta
+            HttpEntity responseEntity = response.getEntity();
+            String responseBody = EntityUtils.toString(responseEntity);
+            // Haz algo con la respuesta del servidor
+            mensaje = "Correo enviado";
+        } catch (Exception e) {
+            mensaje = "Correo no enviado, </br>" + e.getMessage();
+        } finally {
+            // Cierra la respuesta y el cliente HTTP
+            response.close();
+            httpClient.close();
+        }
+        return mensaje;
     }
 }
