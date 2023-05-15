@@ -11,6 +11,7 @@ $(document).ready(function () {
         var LICENCIA = document.getElementById('LICENCIA');
         var COMPENSACION = document.getElementById('COMPENSACION');
         var ASUELTO = document.getElementById('ASUELTO');
+        var VIF = document.getElementById('VIF');
         if (COMPENSACION.checked) {
             $("#modalCompensacion").modal("show");
         } else {
@@ -24,7 +25,11 @@ $(document).ready(function () {
                         registrarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, 'LICENCIA', 'NINGUNO');
                     }
                 } else {
-                    swal('DEBE SELECIONAR UN TIPO DE SOLICITUD');
+                    if(VIF.checked){
+                        registrarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, 'VIF', 'DIA DEL BIENESTAR');
+                    }else{
+                        swal('DEBE SELECIONAR UN TIPO DE SOLICITUD');
+                    }
                 }
             }
         }

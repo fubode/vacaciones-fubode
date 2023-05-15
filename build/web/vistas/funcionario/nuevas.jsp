@@ -108,6 +108,8 @@
                     <label>COMPENSACION</label><br>
                     <input type="radio" id="ASUELTO" name="tipo" value="ASUELTO">
                     <label>ASUETO</label><br>
+                    <input type="radio" id="VFI" name="tipo" value="VFI">
+                    <label>DIA DEL BIENESTAR</label><br>
                 </div>
             </div>        
         </div>   

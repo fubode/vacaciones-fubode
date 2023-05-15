@@ -130,6 +130,9 @@ public class Conexion {
             case "DUODESIMA":
                 tipo = "SD";
                 break;
+            case "VFI":
+                tipo = "SVFI";
+                break;
         }
         codigo = tipo + "-" + sai + "-" + fecha.fechaParaCodigo();
         if (datos == null || datos.size() == 0) {
@@ -243,7 +246,7 @@ public class Conexion {
                                 Integer.parseInt(users.get(0).get("codigo_funcionario").toString()),
                                 users.get(0).get("correo").toString(),
                                 supervisor, funcionario.get(0).get("correo").toString(),
-                                users.get(0).get("apellido")+" " +users.get(0).get("nombre")
+                                users.get(0).get("apellido") + " " + users.get(0).get("nombre")
                         );
                         String sqlSupervisor = "select * from funcionario where supervisor =" + usuario.getCodigo_say();
                         List<Map<String, Object>> supervisores = this.jdbcTemplate.queryForList(sqlSupervisor);
@@ -276,7 +279,7 @@ public class Conexion {
                             Integer.parseInt(users.get(0).get("codigo_funcionario").toString()),
                             users.get(0).get("correo").toString(),
                             supervisor, funcionario.get(0).get("correo").toString(),
-                            users.get(0).get("apellido")+" " +users.get(0).get("nombre")
+                            users.get(0).get("apellido") + " " + users.get(0).get("nombre")
                     );
                     usuario.setEstado("BLOQUEADO");
                     String sql = "UPDATE public.cuenta "

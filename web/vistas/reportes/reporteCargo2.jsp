@@ -44,7 +44,7 @@
 
     <div id="areaImpresion">
         <div id="reporte">
-            <h3 class="text-center ">REPORTE FUNCIONARIO</h3>
+            <h3 class="text-center ">REPORTE CARGOS</h3>
             <h4 class="text-center ">(${intervalo})</h4>
         </div>
         <div class="container">
