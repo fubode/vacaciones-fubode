@@ -626,10 +626,13 @@ public class DAOUSUARIO extends Conexion {
                     estado
             );
             String detallePesonalizado = "Estimado/a "+usuario.nombreSupervisor()
-                    + ". <br>Me dirijo a usted con el fin de solicitar permiso para tomar vacaciones del tipo "
-                    +tipo+" por un período de "+
-                    dias+" días, desde el "+fecha_salida+" hasta el "+fecha_retorno+"."
-                    + " La solicitud fue enviada mediante la pagina oficial http://192.168.10.8:8080/vacaciones/,"+" Esperando conformidad y aceptacion en dicha pagina";
+                    +"<br>Segun la solicitud con el codigo: "+ codigo
+                    + ". <br>Me dirijo a usted con el fin de solicitar permiso para tomar vacaciones del tipo "+tipo
+                    +" por un período de "+dias
+                    +" días, saliendo en fecha "+fecha_salida+" por la "+turno_salida+" y retornando a mis funciones en fecha "+fecha_retorno+" por la "+turno_retorno+"."
+                    + " La solicitud fue enviada mediante la pagina oficial http://192.168.10.8:8080/vacaciones/,"+
+                    " Esperando conformidad y aceptacion en dicha pagina."
+                    +"<br> ATTE: "+usuario.getNombreCompleto();
             super.enviarCorreo(usuario.getCorreoSupervisor(), ("SOLICITUD DE " + tipo), detallePesonalizado);
             mensaje = "la solicitud no fue insertada";
         } catch (Exception e) {

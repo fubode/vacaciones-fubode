@@ -29,9 +29,9 @@ public class Conexion {
     private boolean transaccionIniciada;
     protected int codigo_say;
     protected Usuario usuario;
-    private final String EMISOR = "fub.agencias@gmail.com";
-    private final String CONTRASENA = "zvycfnysxusirxck";
-    private final String ENDPOINTCORREO = "http://localhost:8096/correo";
+    private final String EMISOR = "fubode.vacaciones@gmail.com";
+    private final String CONTRASENA = "fpooxdsoatymykzn";
+    private final String ENDPOINTCORREO = "http://181.115.207.107:8096/correo";
 
     public Conexion() {
         DriverManagerDataSource dataSource = new DriveManager();
@@ -127,6 +127,7 @@ public class Conexion {
                 break;
             case "ASUETO":
                 tipo = "ST";
+                break;
             case "DUODESIMA":
                 tipo = "SD";
                 break;

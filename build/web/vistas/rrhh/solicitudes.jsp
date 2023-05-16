@@ -397,6 +397,8 @@
                         <label>COMPENSACION</label><br>
                         <input type="radio" id="ASUETO" name="tipo" value="ASUETO" onclick="cambioAsueto()">
                         <label>ASUETO</label><br>
+                        <input type="radio" id="VFI" name="tipo" value="VFI" onclick="cambioVFI()">
+                        <label>VFI</label><br>
                     </div>
                     <div class="container crear mb-2" id="crear">
                         <label ><strong>ESTADO DE SOLICITUD</strong></label><br>
@@ -513,6 +515,8 @@
                         <label>COMPENSACION</label><br>
                         <input type="radio" id="ASUETO" name="tipo" value="ASUETO">
                         <label>ASUETO</label><br>
+                        <input type="radio" id="VFI" name="tipo" value="VFI">
+                        <label>VFI</label><br>
                     </div>
                     <div class="container mt-3">
                         <label ><strong>DETALLE DE SOLICITUD </strong></label><br>

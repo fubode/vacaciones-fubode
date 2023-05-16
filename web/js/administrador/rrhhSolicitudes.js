@@ -1,16 +1,19 @@
 var codigo = '';
-function cambioCompensacion(){
+function cambioCompensacion() {
     document.getElementById('descripcion_estado').style.display = "block"; // hide
 }
-function cambioVacacion(){
+function cambioVacacion() {
     document.getElementById('descripcion_estado').style.display = "none"; // hide
-    
+
 }
-function cambioLicencia(){
+function cambioLicencia() {
     document.getElementById('descripcion_estado').style.display = "none"; // hide
-    
+
 }
-function cambioAsueto(){
+function cambioAsueto() {
+    document.getElementById('descripcion_estado').style.display = "block"; // hide
+}
+function cambioVFI() {
     document.getElementById('descripcion_estado').style.display = "block"; // hide
 }
 function editarSolicitud(btn) {
@@ -61,6 +64,12 @@ function editarSolicitud(btn) {
                     document.getElementById('asueto_m').style.display = "none"; // show
                     document.getElementById('r_compensacion').value = data.detalle_compensacion;
                     document.getElementById('descripcion_estado').value = data.detalle_compensacion;
+                    break;
+                case "VFI":
+                     document.querySelector('#VFI').checked = true;
+                    document.getElementById('compesacion_m').style.display = "none"; // hide
+                    document.getElementById('asueto_m').style.display = "none"; // hide
+                    document.getElementById('descripcion_estado').style.display = "none"; // hide                    break;
                     break;
             }
             switch (data.estado) {
@@ -223,7 +232,7 @@ function editar() {
     },
             function (isConfirm) {
                 if (isConfirm) {
-                    modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado,descripcion_estado);
+                    modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado, descripcion_estado);
                     swal("AGREGADO!", "EL REGISTRO FUE AGREGADO", "success");
                     setTimeout(function () {
                         parent.location.href = "srvAdministrador?accion=solicitudes";
@@ -235,7 +244,7 @@ function editar() {
 
 }
 
-function modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado,descripcion_estado) {
+function modificarSolicitud(fecha_solicitud, fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle_compensacion, detalle_estado, estado, descripcion_estado) {
     var url = "srvAdministrador?accion=modificarSolicitud&"
             + "cod=" + codigo
             + "&fecha_solicitud=" + fecha_solicitud

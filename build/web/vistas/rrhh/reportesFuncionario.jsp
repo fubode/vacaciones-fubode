@@ -103,6 +103,7 @@
                     <option value="LICENCIA">SIN GOCE DE HABER</option>
                     <option value="ASUETO">ASUETO</option>
                     <option value="DUODESIMA">DUODESIMA</option>
+                    <option value="VFI">VFI</option>
                 </select>
             </div>
             <div class="col-2">
