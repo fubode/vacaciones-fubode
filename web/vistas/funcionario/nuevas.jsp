@@ -5,6 +5,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
         <link href="recursos/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/estilos.css" rel="stylesheet" type="text/css"/>
@@ -119,7 +122,7 @@
                     ENVIAR SOLICITUD</button></a>
         </div>
     </div>
-                
+
     <!-- Modal datos usuario -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -187,6 +190,45 @@
                 </div>
                 <div class="modal-footer">
                     <button id = "enviarAsuelto" type="button" class="btn fubode-azul" data-dismiss="modal">ENVIAR SOLICITUD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal confirmacion-->
+    <div class="modal" id="modal-confirmacion"tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmacion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>ESTA SEGURO DE ENVIAR ESTA SOLICITUD </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                    <button type="button" class="btn btn-primary" onclick="enviarSolicitudVacacion()">SI, ENVIAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Loading -->
+    <div class="modal" id="loadingModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cargando...</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Enviando Solicitud...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

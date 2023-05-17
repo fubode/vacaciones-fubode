@@ -1,4 +1,5 @@
 //enviar solicitud de vacacion
+var url = "";
 $(document).ready(function () {
     $("#enviarSolicitud").click(function (e) {
         e.preventDefault();
@@ -25,9 +26,9 @@ $(document).ready(function () {
                         registrarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, 'LICENCIA', 'NINGUNO');
                     }
                 } else {
-                    if(VFI.checked){
+                    if (VFI.checked) {
                         registrarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, 'VFI', 'DIA DEL BIENESTAR');
-                    }else{
+                    } else {
                         swal('DEBE SELECIONAR UN TIPO DE SOLICITUD');
                     }
                 }
@@ -75,8 +76,10 @@ $(document).ready(function () {
         ).fail(function (data) {
         });
     }
+
+
     function  confirmacionSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle, duodesimas, aceptar) {
-        var url = "srvUsuario?accion=enviarSolicitud&"
+        url = "srvUsuario?accion=enviarSolicitud&"
                 + "fecha_salida=" + fecha_salida
                 + "&turno_salida=" + turno_salida
                 + "&fecha_retorno=" + fecha_retorno
@@ -86,44 +89,77 @@ $(document).ready(function () {
                 + "&detalle=" + detalle
                 + "&duodesimas=" + duodesimas
                 + "&ACEPTAR=" + aceptar;
-        swal({
-            title: "ESTA SEGURO DE ENVIAR ESTA SOLICITUD?",
-            text: "",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "SI, ENVIAR!",
-            cancelButtonText: "NO, CANCELAR!",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        console.log('funcionario');
-                        $.ajax({
-                            url: url,
-                            type: 'GET',
-                            dataType: 'JSON',
-                            success: function (data) {
-                                console.log(data);
-                                if (data.solicitud == true) {
-                                    swal("Solicitud enviada correctamente");
-                                    setTimeout(function () {
-                                        parent.location.href = "srvUsuario?accion=pendientes"
-                                    }, 1800);
-                                } else {
-                                    swal(data.mensaje);
-                                }
-                            },
-                        }).done(function (data) {
-                            console.log('data echo');
-                        }
-                        ).fail(function (data) {
-                            console.log('data fail' + data.mensaje);
-                        });
-                    } else {
-                        swal("CANCELADO", "CANCELASTE LA SOLICITUD", "error");
-                    }
-                });
+        $("#modal-confirmacion").modal("show");
+        /*
+         swal({
+         title: "ESTA SEGURO DE ENVIAR ESTA SOLICITUD?",
+         text: "",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonClass: "btn-danger",
+         confirmButtonText: "SI, ENVIAR!",
+         cancelButtonText: "NO, CANCELAR!",
+         closeOnConfirm: false,
+         closeOnCancel: false
+         },
+         function (isConfirm) {
+         if (isConfirm) {
+         console.log('funcionario');
+         $.ajax({
+         url: url,
+         type: 'GET',
+         dataType: 'JSON',
+         success: function (data) {
+         console.log(data);
+         if (data.solicitud == true) {
+         swal("Solicitud enviada correctamente");
+         setTimeout(function () {
+         parent.location.href = "srvUsuario?accion=pendientes"
+         }, 1800);
+         } else {
+         swal(data.mensaje);
+         }
+         },
+         }).done(function (data) {
+         console.log('data echo');
+         }
+         ).fail(function (data) {
+         console.log('data fail' + data.mensaje);
+         });
+         } else {
+         swal("CANCELADO", "CANCELASTE LA SOLICITUD", "error");
+         }
+         });
+         */
     }
 });
+
+function enviarSolicitudVacacion() {
+    $("#modal-confirmacion").modal("hide");
+    $("#loadingModal").modal("show");
+    console.log(url);
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'JSON',
+        success: function (data) {
+            console.log(data);
+            $("#loadingModal").modal("hide");
+            if (data.solicitud == true) {
+                swal("Solicitud enviada correctamente");
+                setTimeout(function () {
+                    parent.location.href = "srvUsuario?accion=pendientes"
+                }, 1000);
+            } else {
+                swal(data.mensaje);
+            }
+        },
+    }).done(function (data) {
+        $("#loadingModal").modal("hide");
+        console.log('data echo');
+    }
+    ).fail(function (data) {
+        $("#loadingModal").modal("hide");
+        console.log('data fail' + data.mensaje);
+    });
+}

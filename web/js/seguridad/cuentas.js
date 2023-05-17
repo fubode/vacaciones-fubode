@@ -48,7 +48,7 @@ function desbloquear(codigo){
 
 function reestablecer(codigo){
     swal({
-            title: "ESTA SEGURO DE DESBLOQUEAR LA CUENTA?",
+            title: "ESTA SEGURO DE REESTABLESER LA CONTRSEÑA?",
             text: "",
             type: "warning",
             showCancelButton: true,

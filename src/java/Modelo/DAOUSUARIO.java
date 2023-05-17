@@ -465,6 +465,14 @@ public class DAOUSUARIO extends Conexion {
                                         }
                                     } else {
                                         switch (tipo) {
+                                            case "VFI":
+                                                solicitud = true;
+                                                if (aceptar.equals("ACEPTAR")) {
+                                                    insertarSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, tipo, detalle, dias, sai, estado);
+                                                } else {
+                                                    mensaje = "la solicitud no fue insertada";
+                                                }
+                                                break;
                                             case "COMPENSACION":
                                                 solicitud = true;
                                                 if (aceptar.equals("ACEPTAR")) {
