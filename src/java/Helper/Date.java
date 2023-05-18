@@ -144,4 +144,14 @@ public class Date extends GregorianCalendar {
             return gestion + "-" + mesCadena + "-" + diaCadena;
         }
     }
+
+    public void menosUnDia() {
+        Calendario calendario = new Calendario();
+        if(dia==1){
+            this.mes--;
+            this.dia = calendario.diasMes(mes);
+        }else{
+            this.dia--;
+        }
+    }
 }

@@ -59,7 +59,7 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'JSON',
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 if (data.solicitud == true) {
                     confirmacionSolicitud(fecha_salida, turno_salida, fecha_retorno, turno_retorno, dias, tipo, detalle, 'NO', 'ACEPTAR');
                 } else {

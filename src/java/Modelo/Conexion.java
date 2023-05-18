@@ -32,6 +32,7 @@ public class Conexion {
     private final String EMISOR = "fubode.vacaciones@gmail.com";
     private final String CONTRASENA = "fpooxdsoatymykzn";
     private final String ENDPOINTCORREO = "http://181.115.207.107:8096/correo";
+    
 
     public Conexion() {
         DriverManagerDataSource dataSource = new DriveManager();

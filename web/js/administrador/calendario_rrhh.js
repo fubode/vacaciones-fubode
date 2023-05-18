@@ -89,7 +89,9 @@ function  registrarFecha() {
                         success: function (r) {
                             if (r.mensaje == 'EXITO') {
                                 swal('Se registro correctamente la fecha');
-                                parent.location.href = "srvAdministrador?accion=calendario";
+                                setTimeout(function () {
+                                    parent.location.href = "srvAdministrador?accion=calendario";
+                                 }, 1000);
                             } else {
                                 swal(r.mensaje);
                             }
@@ -100,76 +102,76 @@ function  registrarFecha() {
                     swal("CANCELADO", "CANCELASTE EL REGISTRO", "error");
                 }
             });
-}
+        }
 
-function eliminarFecha() {
-    swal({
-        title: "ESTAS SEGURO DE ELIMINAR ESTA FECHA?",
-        text: "",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "SI, ELIMINAR!",
-        cancelButtonText: "NO, CANCELAR!",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    },
-            function (isConfirm) {
-                if (isConfirm) {
-                    console.log("envio");
-                    var url = "srvAdministrador?accion=eliminarFecha&"
-                            + "fecha=" + id_fechas;
+        function eliminarFecha() {
+            swal({
+                title: "ESTAS SEGURO DE ELIMINAR ESTA FECHA?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "SI, ELIMINAR!",
+                cancelButtonText: "NO, CANCELAR!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            console.log("envio");
+                            var url = "srvAdministrador?accion=eliminarFecha&"
+                                    + "fecha=" + id_fechas;
 
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        async: true,
-                        success: function (r) {
-                            swal('Se elimino la fecha correctamente');
-                            $("#modalDetalle").modal("hide");
-                            parent.location.href = "srvAdministrador?accion=calendario";
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                async: true,
+                                success: function (r) {
+                                    swal('Se elimino la fecha correctamente');
+                                    $("#modalDetalle").modal("hide");
+                                    parent.location.href = "srvAdministrador?accion=calendario";
+                                }
+                            });
+                            swal("ELIMINADO!", "EL REGISTRO FUE ELIMINADO", "success");
+                        } else {
+                            swal("CANCELADO", "CANCELASTE LA ACCION", "error");
                         }
                     });
-                    swal("ELIMINADO!", "EL REGISTRO FUE ELIMINADO", "success");
-                } else {
-                    swal("CANCELADO", "CANCELASTE LA ACCION", "error");
-                }
-            });
-}
+        }
 
-function editarFecha() {
-    var detalle = document.getElementById("detalle_modificar").value;
-    swal({
-        title: "ESTAS SEGURO DE MODIFICAR ESTA FECHA?",
-        text: "",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger",
-        confirmButtonText: "SI, MODIFICAR!",
-        cancelButtonText: "NO, CANCELAR!",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    },
-            function (isConfirm) {
-                if (isConfirm) {
-                    var url = "srvAdministrador?accion=editarFecha&"
-                            + "fecha=" + id_fechas
-                            + "&detalle=" + detalle;
+        function editarFecha() {
+            var detalle = document.getElementById("detalle_modificar").value;
+            swal({
+                title: "ESTAS SEGURO DE MODIFICAR ESTA FECHA?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "SI, MODIFICAR!",
+                cancelButtonText: "NO, CANCELAR!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            var url = "srvAdministrador?accion=editarFecha&"
+                                    + "fecha=" + id_fechas
+                                    + "&detalle=" + detalle;
 
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        async: true,
-                        success: function (r) {
-                            swal('Se modifico la fecha correctamente');
-                            $("#modalDetalle").modal("hide");
-                            parent.location.href = "srvAdministrador?accion=calendario";
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                async: true,
+                                success: function (r) {
+                                    swal('Se modifico la fecha correctamente');
+                                    $("#modalDetalle").modal("hide");
+                                    parent.location.href = "srvAdministrador?accion=calendario";
+                                }
+                            });
+                            swal("ELIMINADO!", "EL REGISTRO FUE MODIFICADO", "success");
+                        } else {
+                            swal("CANCELADO", "CANCELASTE LA ACCION", "error");
                         }
                     });
-                    swal("ELIMINADO!", "EL REGISTRO FUE MODIFICADO", "success");
-                } else {
-                    swal("CANCELADO", "CANCELASTE LA ACCION", "error");
-                }
-            });
-}
+        }
 

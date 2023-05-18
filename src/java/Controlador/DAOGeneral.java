@@ -147,6 +147,7 @@ public class DAOGeneral extends Conexion {
     }
     private double descuentoDias(Date salida, Date retorno, int codigo) throws ParseException {
         double descuentoDias = 0;
+        retorno.menosUnDia();
         String listaEntidades = "select fecha,tipo,entidad from fechas where entidad = 0 and fecha>= '" + salida.toString() + "'  and fecha<= '" + retorno.toString() + "' order by fecha";
         String listaEntidad = "select fecha,tipo,e.nombre_entidad from fechas f, entidad e, funcionario fun where "
                 + "fecha>= '" + salida.toString() + "'  and fecha<= '" + retorno.toString() + "' "
