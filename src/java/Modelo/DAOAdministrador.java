@@ -994,7 +994,7 @@ public class DAOAdministrador extends Conexion {
                 condiciones = condiciones + " and tipo = '" + tipo + "'";
             }
             if (!estado.equals("TODOS")) {
-                condiciones = condiciones + " and estado = '" + estado + "'";
+                condiciones = condiciones + " and s.estado = '" + estado + "'";
             }
 
             sql = sql + condiciones + condicionesFechas;

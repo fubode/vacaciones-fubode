@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Mis%20Documentos/NetBeansProjects/vacaciones/web/vistas/funcionario/nuevas.jsp</file>
-            <file>file:/D:/Mis%20Documentos/NetBeansProjects/vacaciones/src/java/Controlador/srvUsuario.java</file>
-            <file>file:/D:/Mis%20Documentos/NetBeansProjects/vacaciones/web/vistas/seguridad/cuentas.jsp</file>
-            <file>file:/D:/Mis%20Documentos/NetBeansProjects/vacaciones/src/java/Modelo/DAOUSUARIO.java</file>
-            <file>file:/D:/Mis%20Documentos/NetBeansProjects/vacaciones/web/js/seguridad/cuentas.js</file>
-            <file>file:/D:/Mis%20Documentos/NetBeansProjects/vacaciones/web/js/funcionesUsuario.js</file>
+            <file>file:/D:/FUBODE%20DEV/vacaciones/vacaciones-fubode/src/java/Controlador/srvReportes.java</file>
+            <file>file:/D:/FUBODE%20DEV/vacaciones/vacaciones-fubode/src/java/Modelo/DAOAdministrador.java</file>
+            <file>file:/D:/FUBODE%20DEV/vacaciones/vacaciones-fubode/web/vistas/rrhh/reportesFuncionario.jsp</file>
         </group>
     </open-files>
 </project-private>
