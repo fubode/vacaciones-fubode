@@ -267,5 +267,6 @@
     <script src="recursos/js/dataTable.js" type="text/javascript"></script>
     <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="js/funcionario/calendario.js" type="text/javascript"></script>
+    <script src="js/temporizador.js" type="text/javascript"></script>
 </body>
 </html>

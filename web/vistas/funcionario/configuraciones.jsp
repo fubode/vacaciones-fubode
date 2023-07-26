@@ -136,6 +136,7 @@
     <script src="recursos/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="swetalert/sweetalert.js" type="text/javascript"></script>
     <script src="js/funcionario/actualizar.js" type="text/javascript"></script>
+    <script src="js/temporizador.js" type="text/javascript"></script>
 </body>
 </html>
 

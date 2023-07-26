@@ -6,6 +6,14 @@
         <link href="recursos/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="recursos/css/estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="recursos/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Font Awesome -->
+        <link href="recursos/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Ionicons -->
+        <link href="recursos/Ionicons/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Theme style -->
+        <!-- iCheck -->
+        <link href="recursos/iCheck/square/blue.css" rel="stylesheet" type="text/css"/>
         <title>SGV-FUBODE</title>
     </head>
 
@@ -21,16 +29,27 @@
                         <div class="form-group">
                             <input type="password" class="form-control form-control-sm" id="password" aria-describedby="PASSWORD" placeholder = "PASSWORD"></input>
                         </div>
+                        <div>
+                            <label for="captcha-input">Enter Captcha</label>
+                            <canvas id="captchaCanvas" width="300" height="100"></canvas>
+                            <div class="captcha-form">
+                                <input type="text" id="captchaInput" placeholder="Ingresa el texto del Captcha"></input>
+                                    <button class="captcha-refresh" onclick="generateAndDrawCaptcha()">
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                            </div>
+                        </div>
                         <button type="button" class="btn btn-primary btn-block" title="INICIAR SESION" id="sesion">
                             Sing in
-                        </button>
+                        </button>                        
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script src="js/captcha.js" type="text/javascript"></script>
     <script src="recursos/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="recursos/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/sesiones.js" type="text/javascript"></script>
+    <script src="js/sesiones.js" type="text/javascript"></script>    
 </html>
 

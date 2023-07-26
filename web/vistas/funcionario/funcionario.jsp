@@ -146,6 +146,7 @@
     <script src="recursos/js/popper.min.js" type="text/javascript"></script>
     <script src="recursos/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/funcionario/gestiones.js" type="text/javascript"></script>
+    <script src="js/temporizador.js" type="text/javascript"></script>
 </body>
 </html>
 

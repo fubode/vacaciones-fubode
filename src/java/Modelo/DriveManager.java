@@ -15,17 +15,8 @@ public class DriveManager extends DriverManagerDataSource{
     public DriveManager(){
         
         this.setDriverClassName("org.postgresql.Driver");
-        this.setUrl("jdbc:postgresql://localhost:5432/vacaciones-fubode");
+        this.setUrl("jdbc:postgresql://localhost:5433/vacaciones-fubode");
         this.setUsername("postgres");
-        this.setPassword("root");
-        
-        
-    }
-    /*
-    public DriveManager(){
-        this.setDriverClassName("org.postgresql.Driver");
-        this.setUrl("jdbc:postgresql://localhost:5432/vacaciones");
-        this.setUsername("postgres");
-        this.setPassword("root");
-    }*/
+        this.setPassword("root");        
+    }   
 }

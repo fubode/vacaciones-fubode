@@ -545,5 +545,6 @@
 <script src="js/administrador/fechas_rrhh.js" type="text/javascript"></script>
 <script src="js/administrador/solicitud.js" type="text/javascript"></script>
 <script src="js/administrador/fechas.js" type="text/javascript"></script>
+<script src="js/temporizador.js" type="text/javascript"></script>
 </body>
 </html>

@@ -65,6 +65,8 @@
                 <th>TURNO SALIDA</th>
                 <th>FECHA RETORNO</th>
                 <th>TURNO RETORNO</th>
+                <th>DIAS</th>
+                <th>NOMBRE FUNCIONARIO</th>
                 <th>FECHA DE APROBACION</th>
                 <th>RESPONSABLE</th>
             </tr>
@@ -79,6 +81,8 @@
                     <td>${dato.turno_salida}</td>
                     <td>${dato.fecha_retorno}</td>
                     <td>${dato.turno_retorno}</td>
+                    <td>${dato.dias}</td>
+                    <td>${dato.apellido} ${dato.nombre}</td>
                     <td>${dato.fecha_estado}</td>
                     <td>${dato.supervisor}</td>
                 </tr>
@@ -126,5 +130,6 @@
 <!-- scripts para table -->
 <script src="recursos/js/dataTable.js" type="text/javascript"></script>
 <script src="recursos/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="js/temporizador.js" type="text/javascript"></script>
 </body>
 </html>

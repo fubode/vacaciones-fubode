@@ -150,5 +150,6 @@
     <script src="js/administrador/reporteFuncioario.js" type="text/javascript"></script>
     <script src="html2pdf/html2pdf.bundle.min.js" type="text/javascript"></script>
     <script src="js/administrador/imprimir.js" type="text/javascript"></script>
+    <script src="js/temporizador.js" type="text/javascript"></script>
 </body>
 </html>
