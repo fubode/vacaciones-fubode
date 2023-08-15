@@ -18,7 +18,7 @@
     }
 
     // Variable que determina el tiempo de inactividad en milisegundos (por ejemplo, 5 minutos)
-    const tiempoInactividad = 10 * 60 * 1000; // 5 minutos en milisegundos
+    const tiempoInactividad = 5 * 60 * 1000; // 5 minutos en milisegundos
 
     let tiempoInactivo;
 

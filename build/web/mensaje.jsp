@@ -43,7 +43,7 @@
                 <div class="error-page">
 
                     <div class="error-content">
-                        <h3><i class="fa fa-warning text-red"></i>Oops! Estubo inactivo por 15 min</h3>
+                        <h3><i class="fa fa-warning text-red"></i>Oops! Estubo inactivo por 5 min</h3>
 
                         <p>
                           Porfavor vuelva a iniciar  <a href="srvSesion?accion=cerrar"> sesion </a>

@@ -13,10 +13,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 public class DriveManager extends DriverManagerDataSource{
     
     public DriveManager(){
-        
+        /*
         this.setDriverClassName("org.postgresql.Driver");
         this.setUrl("jdbc:postgresql://localhost:5433/vacaciones-fubode");
         this.setUsername("postgres");
         this.setPassword("root");        
+        */
+        this.setDriverClassName("org.postgresql.Driver");
+        this.setUrl("jdbc:postgresql://localhost:5432/vacaciones");
+        this.setUsername("postgres");
+        this.setPassword("/+Lfba49TXtomic");        
     }   
 }
